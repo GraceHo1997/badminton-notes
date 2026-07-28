@@ -141,14 +141,46 @@
   .loading-overlay.hide{display:none;}
   .spinner{width:28px;height:28px;border:3px solid var(--primary-light);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg);}}
+
+  .login-screen{
+    position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#065f46 0%,#059669 55%,#10b981 100%);z-index:90;padding:20px;
+  }
+  .login-card{
+    background:#fff;border-radius:20px;padding:40px 32px;max-width:360px;width:100%;
+    text-align:center;box-shadow:var(--shadow-lg);
+  }
+  .login-card h1{font-size:24px;margin:0 0 6px;font-weight:800;}
+  .login-card p{color:var(--muted);font-size:13.5px;margin:0 0 26px;}
+  .google-btn{
+    display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
+    background:#fff;color:#1f1f1f;border:1.5px solid var(--border);border-radius:10px;
+    padding:11px 16px;font-size:14px;font-weight:600;box-shadow:none;
+  }
+  .google-btn:hover{background:#f8fafc;box-shadow:none;transform:none;}
+  .user-chip{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);font-weight:600;}
+  .user-chip .avatar{width:22px;height:22px;border-radius:50%;background:var(--primary-light);color:var(--primary-dark);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;}
 </style>
 </head>
 <body>
 
 <div class="loading-overlay" id="loadingOverlay">
   <div class="spinner"></div>
-  <div>正在連接雲端資料庫...</div>
+  <div>載入中...</div>
 </div>
+
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <h1>🏸 羽球筆記本</h1>
+    <p>技巧筆記・練習日曆・對戰紀錄・能力總覽<br>登入後資料會綁定你的帳號，跨裝置同步。</p>
+    <button class="google-btn" onclick="signInWithGoogle()">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l5.7-5.7C34.6 6.5 29.6 4.5 24 4.5 12.7 4.5 3.5 13.7 3.5 25S12.7 45.5 24 45.5 44.5 36.3 44.5 25c0-1.5-.2-3-.5-4.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 13 24 13c3.1 0 5.8 1.1 8 3l5.7-5.7C34.6 6.5 29.6 4.5 24 4.5c-7.6 0-14.1 4.3-17.4 10.6z"/><path fill="#4CAF50" d="M24 45.5c5.5 0 10.4-1.9 14.2-5.1l-6.6-5.4C29.6 36.6 26.9 37.5 24 37.5c-5.3 0-9.7-3.3-11.3-8l-6.6 5.1C9.8 41 16.4 45.5 24 45.5z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.7l6.6 5.4C41.4 36.4 44.5 31.3 44.5 25c0-1.5-.2-3-.9-4.5z"/></svg>
+      使用 Google 帳號登入
+    </button>
+  </div>
+</div>
+
+<div id="appRoot" style="display:none;">
 
 <header>
   <div class="hcontent">
@@ -161,7 +193,9 @@
   <div class="toolbar">
     <small class="note">資料存在 Supabase 雲端資料庫，任何裝置開這個檔案都會自動同步 — <span id="syncStatus">連接中...</span></small>
     <div class="row" style="gap:8px;">
+      <span class="user-chip"><span class="avatar" id="userAvatar">?</span><span id="userEmail"></span></span>
       <button class="secondary" onclick="exportData()">⬇ 額外備份一份</button>
+      <button class="secondary" onclick="signOut()">登出</button>
     </div>
   </div>
 
@@ -258,11 +292,22 @@
 
 </main>
 
+</div><!-- /appRoot -->
+
 <script>
 /* ---------------- Supabase setup ---------------- */
 const SUPABASE_URL = 'https://ivuanvdxduyvqymdofuj.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2dWFudmR4ZHV5dnF5bWRvZnVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyNTY1MjYsImV4cCI6MjEwMDgzMjUyNn0.3PHdRpihUuuc1Q-61X1d-vl6FpQdyRvDtrTNN2rak7Q';
+const SITE_URL = 'https://graceho1997.github.io/badminton-notes/';
 let sb = null;
+let currentUser = null;
+
+function signInWithGoogle(){
+  sb.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: SITE_URL } });
+}
+function signOut(){
+  sb.auth.signOut().then(()=>{ window.location.href = SITE_URL; });
+}
 
 function setSyncStatus(state, msg){
   const el = document.getElementById('syncStatus');
@@ -331,7 +376,30 @@ async function loadAll(){
 }
 
 /* ---------------- Init ---------------- */
-window.addEventListener('DOMContentLoaded', async function(){
+let appInitialized = false;
+
+function showLoadError(msg){
+  setSyncStatus('err','⚠ 連線失敗');
+  document.getElementById('loadingOverlay').classList.remove('hide');
+  document.getElementById('loadingOverlay').innerHTML = '<div style="max-width:360px;text-align:center;color:#e11d48;font-weight:600;">連接 Supabase 失敗<br><span style="font-weight:400;color:#64748b;font-size:12.5px;display:block;margin-top:8px;">'+msg+'</span></div>';
+}
+
+function onSignedOut(){
+  document.getElementById('loadingOverlay').classList.add('hide');
+  document.getElementById('appRoot').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+}
+
+async function onSignedIn(user){
+  if(appInitialized) return; // avoid double init on repeated auth events
+  appInitialized = true;
+  currentUser = user;
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appRoot').style.display = 'block';
+  const email = user.email || '';
+  document.getElementById('userEmail').innerText = email;
+  document.getElementById('userAvatar').innerText = (email[0]||'?').toUpperCase();
+
   const today = new Date();
   calYear = today.getFullYear();
   calMonth = today.getMonth();
@@ -348,11 +416,8 @@ window.addEventListener('DOMContentLoaded', async function(){
   });
 
   try{
+    document.getElementById('loadingOverlay').classList.remove('hide');
     setSyncStatus('pending','連接中...');
-    if(typeof supabase === 'undefined'){
-      throw new Error('Supabase JS SDK 沒有載入成功（CDN 讀不到，可能是網路問題），請檢查網路連線後重新整理頁面。');
-    }
-    sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     await loadAll();
     setSyncStatus('ok','☁ 已連接');
     renderTechniques();
@@ -362,8 +427,29 @@ window.addEventListener('DOMContentLoaded', async function(){
   }catch(err){
     console.error(err);
     const msg = (err && err.message) ? err.message : String(err);
-    setSyncStatus('err','⚠ 連線失敗');
-    document.getElementById('loadingOverlay').innerHTML = '<div style="max-width:360px;text-align:center;color:#e11d48;font-weight:600;">連接 Supabase 失敗<br><span style="font-weight:400;color:#64748b;font-size:12.5px;display:block;margin-top:8px;">'+msg+'</span></div>';
+    showLoadError(msg);
+    appInitialized = false;
+  }
+}
+
+window.addEventListener('DOMContentLoaded', async function(){
+  if(typeof supabase === 'undefined'){
+    showLoadError('Supabase JS SDK 沒有載入成功（CDN 讀不到，可能是網路問題），請檢查網路連線後重新整理頁面。');
+    return;
+  }
+  sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  sb.auth.onAuthStateChange((event, session) => {
+    if(session && session.user){ onSignedIn(session.user); }
+    else if(event === 'SIGNED_OUT'){ onSignedOut(); appInitialized = false; }
+  });
+
+  const { data, error } = await sb.auth.getSession();
+  if(error){ showLoadError(error.message); return; }
+  if(data && data.session && data.session.user){
+    onSignedIn(data.session.user);
+  } else {
+    onSignedOut();
   }
 });
 
