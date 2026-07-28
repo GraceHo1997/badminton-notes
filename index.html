@@ -344,7 +344,7 @@ async function loadAll(){
   let { data: techs, error: techErr } = await sb.from('techniques').select('*').order('sort_order', {ascending:true});
   if(techErr) throw techErr;
   if(!techs || techs.length===0){
-    const seed = defaultTechniques.map((t,i)=>({id:t.key, icon:t.icon, name:t.name, content:t.text, is_custom:false, sort_order:i}));
+    const seed = defaultTechniques.map((t,i)=>({id:t.key, icon:t.icon, name:t.name, content:t.text, is_custom:false, sort_order:i, user_id:currentUser.id}));
     const { error: seedErr } = await sb.from('techniques').insert(seed);
     if(seedErr) throw seedErr;
     techs = seed;
@@ -365,7 +365,7 @@ async function loadAll(){
   let { data: sk, error: skErr } = await sb.from('skill_ratings').select('*');
   if(skErr) throw skErr;
   if(!sk || sk.length===0){
-    const seedSkills = defaultSkillKeys.map(k=>({skill_key:k, value:3}));
+    const seedSkills = defaultSkillKeys.map(k=>({skill_key:k, value:3, user_id:currentUser.id}));
     const { error: seedSkErr } = await sb.from('skill_ratings').insert(seedSkills);
     if(seedSkErr) throw seedSkErr;
     sk = seedSkills;
@@ -478,7 +478,7 @@ async function addTechnique(){
   const name = nameInput.value.trim();
   if(!name) return;
   const key = 'custom_' + Date.now();
-  const row = {id:key, icon:'✨', name, content:'', is_custom:true, sort_order: appData.techniques.length};
+  const row = {id:key, icon:'✨', name, content:'', is_custom:true, sort_order: appData.techniques.length, user_id:currentUser.id};
   setSyncStatus('pending','儲存中...');
   const { error } = await sb.from('techniques').insert(row);
   if(error){ setSyncStatus('err','⚠ 新增失敗'); alert('新增失敗：'+error.message); return; }
@@ -571,7 +571,7 @@ function showDayDetail(dateStr){
 async function saveSession(dateStr){
   const note = document.getElementById('sessionNote').value;
   setSyncStatus('pending','儲存中...');
-  const { error } = await sb.from('sessions').upsert({date:dateStr, note}, {onConflict:'date'});
+  const { error } = await sb.from('sessions').upsert({date:dateStr, note, user_id:currentUser.id}, {onConflict:'date'});
   if(error){ setSyncStatus('err','⚠ 儲存失敗'); alert('儲存失敗：'+error.message); return; }
   const existing = appData.sessions.find(s=>s.date===dateStr);
   if(existing){ existing.note = note; }
@@ -614,7 +614,7 @@ async function addMatch(){
   btn.disabled = true;
   setSyncStatus('pending','儲存中...');
   const { data, error } = await sb.from('matches')
-    .insert({match_date:date, type, opponent, score, is_win:win, note})
+    .insert({match_date:date, type, opponent, score, is_win:win, note, user_id:currentUser.id})
     .select()
     .single();
   btn.disabled = false;
@@ -710,7 +710,7 @@ async function updateSkill(key, val){
   document.getElementById('val-'+key).innerText = val;
   renderDashboard();
   setSyncStatus('pending','儲存中...');
-  const { error } = await sb.from('skill_ratings').upsert({skill_key:key, value}, {onConflict:'skill_key'});
+  const { error } = await sb.from('skill_ratings').upsert({skill_key:key, value, user_id:currentUser.id}, {onConflict:'skill_key'});
   setSyncStatus(error?'err':'ok', error?'⚠ 儲存失敗':'☁ 已同步');
 }
 
