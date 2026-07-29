@@ -20,6 +20,7 @@
     --primary:#10b981; --primary-dark:#059669; --primary-light:#d1fae5;
     --accent:#f97316; --win:#059669; --lose:#e11d48;
     --bg:#f4f6f8; --card:#ffffff; --text:#0f172a; --muted:#64748b; --border:#e6eaf0;
+    --sidebar-w:236px;
     --shadow-sm:0 1px 2px rgba(15,23,42,.04), 0 1px 3px rgba(15,23,42,.04);
     --shadow-md:0 4px 14px rgba(15,23,42,.06), 0 1px 3px rgba(15,23,42,.04);
     --shadow-lg:0 10px 30px rgba(15,23,42,.10);
@@ -27,147 +28,175 @@
   }
   *{box-sizing:border-box;}
   body{margin:0;font-family:"Inter","PingFang TC","Microsoft JhengHei",-apple-system,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;}
+  a{color:inherit;}
 
-  header{
-    background:linear-gradient(135deg,#065f46 0%,#059669 55%,#10b981 100%);
-    color:#fff;padding:28px 28px 68px;position:relative;overflow:hidden;
-  }
-  header::before{
-    content:"";position:absolute;inset:0;
-    background:radial-gradient(circle at 85% 0%, rgba(255,255,255,.18), transparent 55%);
-    pointer-events:none;
-  }
-  header .hcontent{position:relative;max-width:1000px;margin:0 auto;}
-  header h1{margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:10px;}
-  header p{margin:6px 0 0;font-size:13.5px;opacity:.88;font-weight:500;}
+  /* ---- login ---- */
+  .login-screen{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(135deg,#065f46 0%,#059669 55%,#10b981 100%);z-index:90;padding:20px;}
+  .login-card{background:#fff;border-radius:20px;padding:40px 32px;max-width:360px;width:100%;text-align:center;box-shadow:var(--shadow-lg);}
+  .login-card h1{font-size:24px;margin:0 0 6px;font-weight:800;}
+  .login-card p{color:var(--muted);font-size:13.5px;margin:0 0 26px;}
+  .google-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:#fff;color:#1f1f1f;border:1.5px solid var(--border);border-radius:10px;padding:11px 16px;font-size:14px;font-weight:600;box-shadow:none;}
+  .google-btn:hover{background:#f8fafc;box-shadow:none;transform:none;}
 
-  .nav-wrap{max-width:1000px;margin:-42px auto 0;padding:0 20px;position:relative;z-index:2;}
-  .toolbar{
-    display:flex;gap:8px;justify-content:space-between;align-items:center;
-    background:var(--card);border-radius:14px;padding:10px 14px;box-shadow:var(--shadow-lg);
-    margin-bottom:16px;flex-wrap:wrap;
-  }
-  .toolbar small.note{color:var(--muted);font-size:12px;font-weight:500;}
-  #syncStatus{font-weight:700;}
-  #syncStatus.ok{color:var(--primary-dark);}
-  #syncStatus.err{color:var(--lose);}
-  #syncStatus.pending{color:var(--accent);}
-
-  .tabs{
-    display:flex;gap:4px;background:var(--card);border-radius:14px;padding:6px;
-    box-shadow:var(--shadow-md);flex-wrap:wrap;
-  }
-  .tab{
-    padding:10px 18px;color:var(--muted);cursor:pointer;font-size:13.5px;font-weight:600;
-    border-radius:10px;transition:all .18s ease;flex:1;text-align:center;white-space:nowrap;
-  }
-  .tab:hover{color:var(--primary-dark);background:#f1f5f4;}
-  .tab.active{color:#fff;background:linear-gradient(135deg,var(--primary-dark),var(--primary));box-shadow:0 4px 10px rgba(16,185,129,.35);}
-
-  main{max-width:1000px;margin:0 auto;padding:8px 20px 60px;}
-  .panel{display:none;animation:fadeIn .25s ease;}
-  .panel.active{display:block;}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
-
-  .card{
-    background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
-    padding:20px;margin-bottom:16px;box-shadow:var(--shadow-sm);transition:box-shadow .2s ease;
-  }
-  .card:hover{box-shadow:var(--shadow-md);}
-  .card h2{margin:0 0 14px;font-size:15.5px;font-weight:700;color:var(--text);letter-spacing:-.01em;}
-  .card h3{margin:0 0 8px;font-size:14px;font-weight:600;color:var(--text);}
-
-  textarea{width:100%;min-height:90px;border:1.5px solid var(--border);border-radius:10px;padding:11px 12px;font-size:14px;font-family:inherit;resize:vertical;transition:border-color .15s ease;background:#fbfcfd;}
-  textarea:focus,input:focus,select:focus{outline:none;border-color:var(--primary);background:#fff;}
-  input[type=text],input[type=date],input[type=number],select{
-    border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;font-family:inherit;background:#fbfcfd;transition:border-color .15s ease;
-  }
-  button{
-    background:linear-gradient(135deg,var(--primary-dark),var(--primary));color:#fff;border:none;
-    border-radius:10px;padding:9px 18px;font-size:13.5px;font-weight:600;cursor:pointer;
-    transition:transform .12s ease, box-shadow .12s ease;box-shadow:0 2px 6px rgba(16,185,129,.3);
-  }
-  button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(16,185,129,.4);}
-  button:active{transform:translateY(0);}
-  button:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-  button.secondary{background:#fff;color:var(--primary-dark);border:1.5px solid var(--primary-light);box-shadow:none;}
-  button.secondary:hover{background:var(--primary-light);box-shadow:none;}
-  button.danger{background:#fff;color:var(--lose);border:1.5px solid #fecdd3;box-shadow:none;}
-  button.danger:hover{background:#fff1f2;box-shadow:none;transform:none;}
-
-  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-  @media(max-width:700px){.grid2{grid-template-columns:1fr;} .tab{flex:1 1 40%;}}
-
-  table{width:100%;border-collapse:collapse;font-size:13.5px;}
-  th,td{padding:10px 8px;border-bottom:1px solid var(--border);text-align:left;}
-  th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.03em;}
-  tbody tr{transition:background .12s ease;}
-  tbody tr:hover{background:#f8fafc;}
-
-  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
-  .badge.win{background:#d1fae5;color:var(--win);}
-  .badge.lose{background:#ffe4e6;color:var(--lose);}
-
-  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-top:14px;}
-  .cal-head{text-align:center;font-size:12px;color:var(--muted);font-weight:600;padding-bottom:4px;}
-  .cal-day{
-    min-height:68px;border:1.5px solid var(--border);border-radius:12px;padding:8px;font-size:12px;
-    cursor:pointer;background:#fbfcfd;position:relative;transition:all .15s ease;
-  }
-  .cal-day.empty{background:transparent;border:none;cursor:default;}
-  .cal-day:not(.empty):hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:var(--shadow-md);}
-  .cal-day.today{border:2px solid var(--accent);background:#fff7ed;}
-  .cal-day .dnum{font-weight:700;color:var(--text);}
-  .dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:3px;}
-  .dot.session{background:var(--primary);}
-  .dot.win{background:var(--win);}
-  .dot.lose{background:var(--lose);}
-
-  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;}
-  .stat{
-    background:linear-gradient(160deg,#f0fdf9,#e6f7f0);border:1px solid var(--primary-light);
-    border-radius:14px;padding:16px 12px;text-align:center;
-  }
-  .stat .icon{font-size:18px;margin-bottom:2px;}
-  .stat .num{font-size:26px;font-weight:800;color:var(--primary-dark);letter-spacing:-.02em;}
-  .stat .lbl{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px;}
-
-  .skill-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
-  .skill-row label{width:110px;font-size:13px;font-weight:600;flex-shrink:0;}
-  .skill-row input[type=range]{flex:1;accent-color:var(--primary);height:6px;}
-  .skill-row .val{width:26px;height:26px;border-radius:8px;background:var(--primary-light);color:var(--primary-dark);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;}
-
-  .empty-hint{color:var(--muted);font-size:13px;padding:16px 0;text-align:center;}
-  .field{margin-bottom:12px;}
-  .field label{display:block;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:5px;}
-  .field input,.field select{width:100%;}
-  .chart-box{height:260px;position:relative;}
-  canvas{max-width:100%;}
-  small.note{color:var(--muted);}
   .loading-overlay{position:fixed;inset:0;background:#f4f6f8;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;z-index:100;font-size:14px;color:var(--muted);}
   .loading-overlay.hide{display:none;}
   .spinner{width:28px;height:28px;border:3px solid var(--primary-light);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg);}}
 
-  .login-screen{
-    position:fixed;inset:0;display:none;align-items:center;justify-content:center;
-    background:linear-gradient(135deg,#065f46 0%,#059669 55%,#10b981 100%);z-index:90;padding:20px;
+  /* ---- layout ---- */
+  #appRoot{display:flex;min-height:100vh;}
+  .sidebar{width:var(--sidebar-w);flex-shrink:0;background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;padding:18px 14px;position:fixed;top:0;bottom:0;left:0;overflow-y:auto;}
+  .brand{display:flex;align-items:center;gap:10px;padding:6px 8px 18px;}
+  .brand .logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--primary-dark),var(--primary));display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+  .brand .txt{font-size:14.5px;font-weight:800;line-height:1.2;}
+  .brand .txt small{display:block;font-size:10.5px;font-weight:600;color:var(--muted);letter-spacing:.03em;}
+  .navlist{display:flex;flex-direction:column;gap:2px;flex:1;}
+  .navitem{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:13.5px;font-weight:600;color:var(--muted);}
+  .navitem .ic{font-size:16px;width:20px;text-align:center;}
+  .navitem:hover{background:#f1f5f4;color:var(--text);}
+  .navitem.active{background:var(--primary-light);color:var(--primary-dark);}
+  .sidebar-foot{border-top:1px solid var(--border);padding-top:12px;margin-top:8px;display:flex;flex-direction:column;gap:8px;}
+  .user-chip{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-weight:600;padding:0 4px;}
+  .user-chip .avatar{width:24px;height:24px;border-radius:50%;background:var(--primary-light);color:var(--primary-dark);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+  .user-chip span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  #syncStatus{font-weight:700;font-size:11px;}
+  #syncStatus.ok{color:var(--primary-dark);}
+  #syncStatus.err{color:var(--lose);}
+  #syncStatus.pending{color:var(--accent);}
+  .content{margin-left:var(--sidebar-w);flex:1;padding:22px 26px 60px;max-width:1180px;}
+
+  @media(max-width:860px){
+    .sidebar{position:static;width:100%;flex-direction:row;align-items:center;padding:10px 12px;overflow-x:auto;}
+    .brand{padding:4px 10px;flex-shrink:0;}
+    .navlist{flex-direction:row;flex:none;}
+    .navitem{white-space:nowrap;}
+    .sidebar-foot{flex-direction:row;border-top:none;border-left:1px solid var(--border);margin-top:0;padding-top:0;padding-left:12px;margin-left:6px;}
+    .content{margin-left:0;padding:16px;}
   }
-  .login-card{
-    background:#fff;border-radius:20px;padding:40px 32px;max-width:360px;width:100%;
-    text-align:center;box-shadow:var(--shadow-lg);
-  }
-  .login-card h1{font-size:24px;margin:0 0 6px;font-weight:800;}
-  .login-card p{color:var(--muted);font-size:13.5px;margin:0 0 26px;}
-  .google-btn{
-    display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
-    background:#fff;color:#1f1f1f;border:1.5px solid var(--border);border-radius:10px;
-    padding:11px 16px;font-size:14px;font-weight:600;box-shadow:none;
-  }
-  .google-btn:hover{background:#f8fafc;box-shadow:none;transform:none;}
-  .user-chip{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);font-weight:600;}
-  .user-chip .avatar{width:22px;height:22px;border-radius:50%;background:var(--primary-light);color:var(--primary-dark);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;}
+
+  .panel{display:none;animation:fadeIn .2s ease;}
+  .panel.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+  .page-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:10px;flex-wrap:wrap;}
+  .page-head h1{font-size:19px;margin:0;font-weight:800;}
+  .page-head p{margin:2px 0 0;font-size:12.5px;color:var(--muted);}
+
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:var(--shadow-sm);}
+  .card h2{margin:0 0 12px;font-size:14.5px;font-weight:700;letter-spacing:-.01em;}
+  .card h3{margin:0 0 6px;font-size:13.5px;font-weight:600;}
+
+  textarea{width:100%;min-height:70px;border:1.5px solid var(--border);border-radius:10px;padding:10px 11px;font-size:13.5px;font-family:inherit;resize:vertical;background:#fbfcfd;}
+  textarea:focus,input:focus,select:focus{outline:none;border-color:var(--primary);background:#fff;}
+  input[type=text],input[type=date],input[type=number],select{border:1.5px solid var(--border);border-radius:10px;padding:8px 11px;font-size:13.5px;font-family:inherit;background:#fbfcfd;}
+  button{background:linear-gradient(135deg,var(--primary-dark),var(--primary));color:#fff;border:none;border-radius:10px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 2px 6px rgba(16,185,129,.3);}
+  button:hover{transform:translateY(-1px);}
+  button:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+  button.secondary{background:#fff;color:var(--primary-dark);border:1.5px solid var(--primary-light);box-shadow:none;}
+  button.secondary:hover{background:var(--primary-light);}
+  button.danger{background:#fff;color:var(--lose);border:1.5px solid #fecdd3;box-shadow:none;}
+  button.danger:hover{background:#fff1f2;}
+  button.ghost{background:transparent;color:var(--muted);box-shadow:none;padding:4px 8px;font-size:12px;}
+  button.ghost:hover{background:#f1f5f4;color:var(--text);}
+  button.icon-btn{padding:6px 9px;font-size:13px;line-height:1;}
+
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:700px){.grid2{grid-template-columns:1fr;}}
+
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th,td{padding:8px 6px;border-bottom:1px solid var(--border);text-align:left;}
+  th{color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;}
+
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;}
+  .badge.win{background:#d1fae5;color:var(--win);}
+  .badge.lose{background:#ffe4e6;color:var(--lose);}
+  .pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;background:#f1f5f4;color:var(--muted);}
+  .pill.active{background:var(--primary-light);color:var(--primary-dark);}
+  .pill .x{cursor:pointer;opacity:.6;}
+  .pill .x:hover{opacity:1;}
+
+  .empty-hint{color:var(--muted);font-size:12.5px;padding:14px 0;text-align:center;}
+  .field{margin-bottom:10px;}
+  .field label{display:block;font-size:11.5px;color:var(--muted);font-weight:600;margin-bottom:4px;}
+  .field input,.field select,.field textarea{width:100%;}
+  .chart-box{height:230px;position:relative;}
+  canvas{max-width:100%;}
+
+  /* ---- techniques ---- */
+  .tech-layout{display:grid;grid-template-columns:170px 230px 1fr;gap:14px;align-items:start;}
+  @media(max-width:900px){.tech-layout{grid-template-columns:1fr;}}
+  .cat-item{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-radius:9px;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:2px;}
+  .cat-item:hover{background:#f1f5f4;}
+  .cat-item.active{background:var(--primary-light);color:var(--primary-dark);}
+  .cat-item .cnt{font-size:11px;font-weight:700;opacity:.7;}
+  .tech-row{padding:10px;border-radius:10px;cursor:pointer;margin-bottom:4px;border:1px solid transparent;}
+  .tech-row:hover{background:#f8fafc;}
+  .tech-row.active{background:var(--primary-light);border-color:var(--primary-light);}
+  .tech-row .tname{font-size:13px;font-weight:600;margin-bottom:3px;}
+  .tech-row .ttags{display:flex;gap:3px;flex-wrap:wrap;}
+  .tech-row .ttags .pill{font-size:9.5px;padding:1px 6px;}
+  .crumb{font-size:11.5px;color:var(--muted);margin-bottom:4px;}
+  .editor-toolbar{display:flex;gap:4px;border:1px solid var(--border);border-bottom:none;border-radius:10px 10px 0 0;padding:6px;background:#fafcfb;}
+  .editor-toolbar button{background:#fff;color:var(--text);border:1px solid var(--border);box-shadow:none;padding:4px 9px;font-size:12px;border-radius:6px;}
+  .editor-toolbar button:hover{background:var(--primary-light);transform:none;}
+  .rich-editor{border:1px solid var(--border);border-top:none;border-radius:0 0 10px 10px;padding:12px;min-height:160px;font-size:13.5px;line-height:1.7;background:#fff;}
+  .rich-editor:focus{outline:none;}
+  .charcount{text-align:right;font-size:11px;color:var(--muted);margin-top:4px;}
+  .tag-input{border:1px dashed var(--border);border-radius:20px;padding:3px 10px;font-size:11px;width:90px;}
+
+  /* ---- calendar ---- */
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:12px;}
+  .cal-head{text-align:center;font-size:11px;color:var(--muted);font-weight:600;padding-bottom:4px;}
+  .cal-day{min-height:62px;border:1.5px solid var(--border);border-radius:11px;padding:7px;font-size:11.5px;cursor:pointer;background:#fbfcfd;position:relative;}
+  .cal-day.empty{background:transparent;border:none;cursor:default;}
+  .cal-day:not(.empty):hover{border-color:var(--primary);}
+  .cal-day.today{border:2px solid var(--accent);background:#fff7ed;}
+  .cal-day.selected{border-color:var(--primary-dark);box-shadow:0 0 0 2px var(--primary-light);}
+  .cal-day .dnum{font-weight:700;}
+  .dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:2px;}
+  .dot.session{background:var(--primary);}
+  .dot.win{background:var(--win);}
+  .dot.lose{background:var(--lose);}
+  .chip-toggle{display:inline-flex;align-items:center;padding:5px 11px;border-radius:20px;font-size:12px;font-weight:600;border:1.5px solid var(--border);cursor:pointer;color:var(--muted);margin:2px;}
+  .chip-toggle.active{background:var(--primary);border-color:var(--primary);color:#fff;}
+  .mood-row{display:flex;gap:6px;}
+  .mood-btn{font-size:20px;padding:5px 9px;border-radius:10px;border:1.5px solid var(--border);background:#fff;box-shadow:none;}
+  .mood-btn.active{border-color:var(--primary);background:var(--primary-light);}
+
+  /* ---- matches ---- */
+  .match-layout{display:grid;grid-template-columns:280px 1fr;gap:14px;}
+  @media(max-width:820px){.match-layout{grid-template-columns:1fr;}}
+  .match-row{padding:10px;border-radius:10px;cursor:pointer;margin-bottom:6px;border:1px solid var(--border);}
+  .match-row:hover{background:#f8fafc;}
+  .match-row.active{border-color:var(--primary);background:var(--primary-light);}
+  .match-row .mtop{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:3px;}
+  .match-row .mname{font-size:13px;font-weight:600;}
+
+  /* ---- dashboard ---- */
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;}
+  .stat{background:linear-gradient(160deg,#f0fdf9,#e6f7f0);border:1px solid var(--primary-light);border-radius:14px;padding:14px 10px;text-align:center;}
+  .stat .icon{font-size:16px;}
+  .stat .num{font-size:22px;font-weight:800;color:var(--primary-dark);}
+  .stat .lbl{font-size:11px;color:var(--muted);font-weight:600;}
+  .bigscore{text-align:center;padding:6px 0 14px;}
+  .bigscore .num{font-size:38px;font-weight:800;color:var(--primary-dark);}
+  .bigscore .lbl{font-size:12px;color:var(--muted);font-weight:600;}
+  .skill-row{margin-bottom:11px;}
+  .skill-row .toprow{display:flex;justify-content:space-between;font-size:12.5px;font-weight:600;margin-bottom:4px;}
+  .skill-row .bar-bg{height:7px;border-radius:4px;background:#eef2f0;overflow:hidden;margin-bottom:4px;}
+  .skill-row .bar-fill{height:100%;background:var(--primary);border-radius:4px;}
+  .skill-row input[type=range]{width:100%;accent-color:var(--primary);height:4px;}
+  .top5-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12.5px;}
+  .top5-row .nm{width:70px;flex-shrink:0;font-weight:600;}
+  .top5-row .bar-bg{flex:1;height:8px;border-radius:4px;background:#eef2f0;overflow:hidden;}
+  .top5-row .bar-fill{height:100%;background:var(--accent);}
+  .top5-row .ct{width:26px;text-align:right;color:var(--muted);font-size:11px;}
+  .tip-item{display:flex;gap:8px;padding:9px 0;border-bottom:1px solid var(--border);font-size:12.5px;line-height:1.6;}
+  .tip-item:last-child{border-bottom:none;}
+  .equip-card{border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:8px;}
+  .equip-card .etop{display:flex;justify-content:space-between;align-items:center;}
+  .equip-card .ename{font-size:13.5px;font-weight:700;}
+  .equip-card .emeta{font-size:12px;color:var(--muted);margin-top:2px;}
 </style>
 </head>
 <body>
@@ -189,187 +218,230 @@
 </div>
 
 <div id="appRoot" style="display:none;">
-
-<header>
-  <div class="hcontent">
-    <h1>🏸 羽球筆記本</h1>
-    <p>技巧筆記・練習日曆・對戰紀錄・能力總覽</p>
-  </div>
-</header>
-
-<div class="nav-wrap">
-  <div class="toolbar">
-    <small class="note">資料存在 Supabase 雲端資料庫，任何裝置開這個檔案都會自動同步 — <span id="syncStatus">連接中...</span></small>
-    <div class="row" style="gap:8px;">
-      <span class="user-chip"><span class="avatar" id="userAvatar">?</span><span id="userEmail"></span></span>
-      <button class="secondary" onclick="exportData()">⬇ 額外備份一份</button>
-      <button class="secondary" onclick="signOut()">登出</button>
+  <div class="sidebar">
+    <div class="brand">
+      <div class="logo">🏸</div>
+      <div class="txt">羽球筆記本<small>Badminton Notes</small></div>
+    </div>
+    <div class="navlist">
+      <div class="navitem active" data-tab="notes"><span class="ic">📖</span>技巧整理</div>
+      <div class="navitem" data-tab="calendar"><span class="ic">📅</span>打球日曆</div>
+      <div class="navitem" data-tab="matches"><span class="ic">🏆</span>對戰記錄</div>
+      <div class="navitem" data-tab="dashboard"><span class="ic">📊</span>能力總覽</div>
+    </div>
+    <div class="sidebar-foot">
+      <div class="user-chip"><span class="avatar" id="userAvatar">?</span><span id="userEmail"></span></div>
+      <div class="row" style="gap:6px;">
+        <span id="syncStatus">連接中...</span>
+      </div>
+      <button class="secondary" onclick="exportData()" style="font-size:11.5px;padding:6px 10px;">⬇ 額外備份</button>
+      <button class="secondary" onclick="signOut()" style="font-size:11.5px;padding:6px 10px;">登出</button>
     </div>
   </div>
 
-  <div class="tabs">
-    <div class="tab active" data-tab="notes">📖 技巧筆記</div>
-    <div class="tab" data-tab="calendar">📅 練習日曆</div>
-    <div class="tab" data-tab="matches">🏆 對戰紀錄</div>
-    <div class="tab" data-tab="dashboard">📊 能力總覽</div>
+  <div class="content">
+
+    <!-- ===== 技巧整理 ===== -->
+    <div class="panel active" id="panel-notes">
+      <div class="page-head">
+        <div><h1>技巧整理</h1><p>分類整理羽球技巧筆記，隨時新增與更新</p></div>
+      </div>
+      <div class="tech-layout">
+        <div class="card" style="padding:12px;">
+          <input type="text" id="techSearch" placeholder="搜尋招式、標籤..." style="width:100%;margin-bottom:8px;" oninput="onTechSearch(this.value)">
+          <div id="categoryList"></div>
+        </div>
+        <div class="card" style="padding:12px;">
+          <div class="row" style="justify-content:space-between;margin-bottom:8px;">
+            <h3 style="margin:0;" id="techListTitle">招式</h3>
+          </div>
+          <div id="techListPanel"></div>
+          <div class="row" style="margin-top:8px;">
+            <input type="text" id="newTechName" placeholder="新增招式名稱..." style="flex:1;min-width:100px;">
+            <button onclick="addTechnique()">+ 新增</button>
+          </div>
+        </div>
+        <div class="card" id="techDetailPanel"></div>
+      </div>
+    </div>
+
+    <!-- ===== 打球日曆 ===== -->
+    <div class="panel" id="panel-calendar">
+      <div class="page-head">
+        <div><h1>打球日曆</h1><p>記錄每次打球的內容，累積你的進步軌跡</p></div>
+        <button onclick="jumpToToday()">+ 新增打球記錄</button>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <div class="row" style="justify-content:space-between;">
+            <button class="secondary icon-btn" onclick="changeMonth(-1)">‹</button>
+            <h2 id="calTitle" style="margin:0;"></h2>
+            <button class="secondary icon-btn" onclick="changeMonth(1)">›</button>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+          <div class="row" style="margin-top:10px;font-size:11.5px;color:var(--muted);">
+            <span><span class="dot session"></span>有練習</span>
+            <span><span class="dot win"></span>有勝場</span>
+            <span><span class="dot lose"></span>有負場</span>
+          </div>
+        </div>
+        <div class="card" id="dayDetail"></div>
+      </div>
+    </div>
+
+    <!-- ===== 對戰記錄 ===== -->
+    <div class="panel" id="panel-matches">
+      <div class="page-head">
+        <div><h1>對戰記錄</h1><p>記錄每場比賽，分析表現與成長</p></div>
+      </div>
+      <div class="card">
+        <h2>新增對戰紀錄</h2>
+        <div class="grid2">
+          <div class="field"><label>日期</label><input type="date" id="mDate"></div>
+          <div class="field"><label>類型</label><select id="mType"><option value="單打">單打</option><option value="雙打">雙打</option></select></div>
+          <div class="field"><label>對手</label><input type="text" id="mOpponent" placeholder="對手姓名"></div>
+          <div class="field"><label>局數比分（例如 21-15,19-21,21-18）</label><input type="text" id="mScore" placeholder="21-15,21-18"></div>
+        </div>
+        <div class="field"><label>備註</label><input type="text" id="mNote" placeholder="快速記一下..." style="width:100%;"></div>
+        <button id="addMatchBtn" onclick="addMatch()">新增對戰</button>
+      </div>
+      <div class="match-layout">
+        <div class="card" style="padding:12px;">
+          <div id="matchListPanel"></div>
+          <div id="matchEmptyHint" class="empty-hint">尚無對戰紀錄</div>
+        </div>
+        <div class="card" id="matchDetailPanel">
+          <div class="empty-hint">點選左側對戰紀錄查看／編輯詳細分析</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 能力總覽 ===== -->
+    <div class="panel" id="panel-dashboard">
+      <div class="page-head">
+        <div><h1>能力總覽</h1><p>根據你的打球與對戰紀錄，分析能力與成長趨勢</p></div>
+        <select id="periodSelect" onchange="renderDashboard()" style="width:auto;">
+          <option value="7">最近 7 天</option>
+          <option value="30" selected>最近 30 天</option>
+          <option value="all">全部</option>
+        </select>
+      </div>
+      <div class="card">
+        <h2>期間數據</h2>
+        <div class="stat-grid" id="statGrid"></div>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <h2>綜合能力評分</h2>
+          <div class="bigscore"><div class="num" id="overallScore">0</div><div class="lbl">滿分 100</div></div>
+          <div class="chart-box"><canvas id="radarChart"></canvas></div>
+        </div>
+        <div class="card">
+          <h2>能力分數明細（可拖曳調整自評）</h2>
+          <div id="skillBars"></div>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <h2>練習分析</h2>
+          <div class="chart-box"><canvas id="practiceChart"></canvas></div>
+        </div>
+        <div class="card">
+          <h2>近期常練項目 TOP 5</h2>
+          <div id="top5Box"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>訓練建議<small style="font-weight:400;color:var(--muted);font-size:11px;"> — 根據你的資料規則推算，非即時 AI</small></h2>
+        <div id="tipsBox"></div>
+      </div>
+      <div class="card">
+        <h2>我的球拍</h2>
+        <div id="equipList"></div>
+        <div class="grid2" style="margin-top:8px;">
+          <div class="field"><label>球拍名稱</label><input type="text" id="eqName" placeholder="例如：Astrox 100ZZ"></div>
+          <div class="field"><label>品牌／型號</label><input type="text" id="eqBrand" placeholder="Yonex..."></div>
+          <div class="field"><label>磅數</label><input type="text" id="eqTension" placeholder="例如 24-26 磅"></div>
+          <div class="field"><label>購入日期</label><input type="date" id="eqDate"></div>
+        </div>
+        <div class="field"><label>備註</label><input type="text" id="eqNote" style="width:100%;" placeholder="使用心得..."></div>
+        <button onclick="addEquipment()">+ 新增球拍</button>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<main>
-
-  <!-- ===== 技巧筆記 ===== -->
-  <div class="panel active" id="panel-notes">
-    <div class="card">
-      <h2>技巧分類筆記</h2>
-      <small class="note">編輯後會自動存到雲端資料庫。</small>
-    </div>
-    <div id="techniqueList"></div>
-    <div class="card">
-      <h2>新增自訂項目</h2>
-      <div class="row">
-        <input type="text" id="newTechName" placeholder="例如：假動作、雙打站位..." style="flex:1;min-width:180px;">
-        <button onclick="addTechnique()">新增</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== 練習日曆 ===== -->
-  <div class="panel" id="panel-calendar">
-    <div class="card">
-      <div class="row" style="justify-content:space-between;">
-        <button class="secondary" onclick="changeMonth(-1)">‹ 上個月</button>
-        <h2 id="calTitle" style="margin:0;"></h2>
-        <button class="secondary" onclick="changeMonth(1)">下個月 ›</button>
-      </div>
-      <div class="cal-grid" id="calGrid"></div>
-      <div class="row" style="margin-top:12px;font-size:12px;color:var(--muted);">
-        <span><span class="dot session"></span>有練習</span>
-        <span><span class="dot win"></span>當日有勝場</span>
-        <span><span class="dot lose"></span>當日有負場</span>
-      </div>
-    </div>
-    <div class="card" id="dayDetail" style="display:none;"></div>
-  </div>
-
-  <!-- ===== 對戰紀錄 ===== -->
-  <div class="panel" id="panel-matches">
-    <div class="card">
-      <h2>新增對戰紀錄</h2>
-      <div class="grid2">
-        <div class="field"><label>日期</label><input type="date" id="mDate"></div>
-        <div class="field"><label>類型</label>
-          <select id="mType"><option value="單打">單打</option><option value="雙打">雙打</option></select>
-        </div>
-        <div class="field"><label>對手</label><input type="text" id="mOpponent" placeholder="對手姓名"></div>
-        <div class="field"><label>局數比分（用逗號分隔，例如 21-15,19-21,21-18）</label><input type="text" id="mScore" placeholder="21-15,21-18"></div>
-      </div>
-      <div class="field"><label>備註</label><input type="text" id="mNote" placeholder="戰術、失誤、心得..." style="width:100%;"></div>
-      <button id="addMatchBtn" onclick="addMatch()">新增對戰</button>
-    </div>
-    <div class="card">
-      <h2>對戰紀錄列表</h2>
-      <table>
-        <thead><tr><th>日期</th><th>類型</th><th>對手</th><th>比分</th><th>結果</th><th>備註</th><th></th></tr></thead>
-        <tbody id="matchTableBody"></tbody>
-      </table>
-      <div id="matchEmptyHint" class="empty-hint">尚無對戰紀錄</div>
-    </div>
-  </div>
-
-  <!-- ===== 能力總覽 ===== -->
-  <div class="panel" id="panel-dashboard">
-    <div class="card">
-      <h2>整體戰績</h2>
-      <div class="stat-grid" id="statGrid"></div>
-    </div>
-    <div class="grid2">
-      <div class="card">
-        <h2>自評能力雷達圖</h2>
-        <div class="chart-box"><canvas id="radarChart"></canvas></div>
-      </div>
-      <div class="card">
-        <h2>每月練習次數</h2>
-        <div class="chart-box"><canvas id="practiceChart"></canvas></div>
-      </div>
-    </div>
-    <div class="card">
-      <h2>調整自評分數（1-5）</h2>
-      <div id="skillSliders"></div>
-    </div>
-  </div>
-
-</main>
-
-</div><!-- /appRoot -->
-
 <script>
-/* ---------------- Supabase setup ---------------- */
+/* ================= Supabase setup ================= */
 const SUPABASE_URL = 'https://ivuanvdxduyvqymdofuj.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2dWFudmR4ZHV5dnF5bWRvZnVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyNTY1MjYsImV4cCI6MjEwMDgzMjUyNn0.3PHdRpihUuuc1Q-61X1d-vl6FpQdyRvDtrTNN2rak7Q';
 const SITE_URL = 'https://graceho1997.github.io/badminton-notes/';
 let sb = null;
 let currentUser = null;
 
-function signInWithGoogle(){
-  sb.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: SITE_URL } });
-}
-function signOut(){
-  sb.auth.signOut().then(()=>{ window.location.href = SITE_URL; });
-}
+function signInWithGoogle(){ sb.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: SITE_URL } }); }
+function signOut(){ sb.auth.signOut().then(()=>{ window.location.href = SITE_URL; }); }
+function setSyncStatus(state, msg){ const el=document.getElementById('syncStatus'); el.className=state; el.innerText=msg; }
 
-function setSyncStatus(state, msg){
-  const el = document.getElementById('syncStatus');
-  el.className = state;
-  el.innerText = msg;
-}
-
-/* ---------------- Data model ---------------- */
-const defaultTechniques = [
-  {key:"serve", icon:"🎯", name:"發球（短球／長球）", text:"短發球：貼網低平，重心壓低；長發球：多用於雙打偷襲後場。"},
-  {key:"clear", icon:"🌤️", name:"高遠球 Clear", text:"擊球點在身體前上方，手臂高點發力，把對手壓到底線。"},
-  {key:"smash", icon:"⚡", name:"殺球 Smash", text:"轉髖轉肩帶動手臂，擊球點盡量在最高點，角度往下壓。"},
-  {key:"drop", icon:"🪶", name:"切球 / 點扣 Drop", text:"假動作要像殺球，最後手腕放鬆切球過網，貼近網前。"},
-  {key:"drive", icon:"↔️", name:"平抽球 Drive", text:"雙打中場對抽，手腕快速出手，減少揮拍幅度。"},
-  {key:"net", icon:"🕸️", name:"網前小球 Net Shot", text:"輕觸球，弧線低而貼網，重心要穩、腳步先到位。"},
-  {key:"lob", icon:"🚀", name:"挑球 Lob", text:"從網前把球挑高到底線，防守轉換用，注意不要挑太短。"},
-  {key:"footwork", icon:"👟", name:"步法 Footwork", text:"六角形步法練習，回中央位置，起跳與墊步節奏。"},
-  {key:"strategy", icon:"🧠", name:"戰術 / 比賽策略", text:"觀察對手弱點、控制節奏、關鍵分心理調整。"}
+/* ================= Static config ================= */
+const CATEGORIES = [
+  {key:'新手必會', icon:'🔰'}, {key:'發球', icon:'🎯'}, {key:'基本擊球', icon:'🏸'},
+  {key:'步伐移動', icon:'👟'}, {key:'進攻技巧', icon:'⚔️'}, {key:'防守技巧', icon:'🛡️'},
+  {key:'戰術觀念', icon:'🧠'}, {key:'體能訓練', icon:'💪'}, {key:'心理素質', icon:'🧘'}
 ];
+const ALL_SEED_ITEMS = [
+  {id:'starter_1', icon:'🔰', name:'新手基本功清單', category:'新手必會', tags:'新手,基礎', content:'<ul><li>握拍方式（正手/反手）</li><li>基本站姿與預備動作</li><li>高遠球、發球先練熟</li><li>養成回中習慣</li></ul>'},
+  {id:'serve', icon:'🎯', name:'發球（短球／長球）', category:'發球', tags:'基礎擊球,單打適用,雙打適用', content:'短發球：貼網低平，重心壓低；長發球：多用於雙打偷襲後場。'},
+  {id:'clear', icon:'🌤️', name:'高遠球 Clear', category:'基本擊球', tags:'基礎擊球,單打適用,雙打適用', content:'擊球點在身體前上方，手臂高點發力，把對手壓到底線。'},
+  {id:'lob', icon:'🚀', name:'挑球 Lob', category:'基本擊球', tags:'基礎擊球,防守', content:'從網前把球挑高到底線，防守轉換用，注意不要挑太短。'},
+  {id:'net', icon:'🕸️', name:'放網 Net Shot', category:'基本擊球', tags:'基礎擊球,網前', content:'輕觸球，弧線低而貼網，重心要穩、腳步先到位。'},
+  {id:'drive', icon:'↔️', name:'平抽球 Drive', category:'基本擊球', tags:'雙打適用,中場', content:'雙打中場對抽，手腕快速出手，減少揮拍幅度。'},
+  {id:'smash', icon:'⚡', name:'殺球 Smash', category:'基本擊球', tags:'進攻,單打適用,雙打適用', content:'轉髖轉肩帶動手臂，擊球點盡量在最高點，角度往下壓。'},
+  {id:'drop', icon:'🪶', name:'切球 / 點扣 Drop', category:'基本擊球', tags:'進攻,假動作', content:'假動作要像殺球，最後手腕放鬆切球過網，貼近網前。'},
+  {id:'basics_block', icon:'🧤', name:'接殺 Block', category:'基本擊球', tags:'防守,反應', content:'手腕放鬆、拍面前傾，借力卸掉球速，回擋到對方空檔。'},
+  {id:'footwork', icon:'👟', name:'步法 Footwork', category:'步伐移動', tags:'基礎,單打適用,雙打適用', content:'六角形步法練習，回中央位置，起跳與墊步節奏。'},
+  {id:'attack_1', icon:'⚔️', name:'進攻轉換時機', category:'進攻技巧', tags:'進攻,判斷', content:'留意對手回球高度，過腰以上優先考慮進攻，壓縮對手反應時間。'},
+  {id:'defense_1', icon:'🛡️', name:'防守回位', category:'防守技巧', tags:'防守,步法', content:'擊球後立即回中，重心放低，準備應對下一拍。'},
+  {id:'strategy', icon:'🧠', name:'戰術 / 比賽策略', category:'戰術觀念', tags:'戰術,心理', content:'觀察對手弱點、控制節奏、關鍵分心理調整。'},
+  {id:'fitness_1', icon:'💪', name:'基礎體能訓練菜單', category:'體能訓練', tags:'體能,場外', content:'間歇跑、開合跳、核心訓練，每週安排2-3次。'},
+  {id:'mental_1', icon:'🧘', name:'比賽心態調整', category:'心理素質', tags:'心理,比賽', content:'專注在下一分，避免糾結失誤，用固定呼吸/動作重置情緒。'}
+];
+const PRACTICE_TAGS = ['高遠球','殺球','網前','步法','多球','發球','雙打','單打','體能','休息'];
+const MOODS = ['😄','🙂','😐','😣','🤕'];
 const defaultSkillKeys = ['serve','clear','smash','drop','drive','net','lob','footwork','strategy','stamina'];
+const skillNames = {serve:'發球',clear:'高遠球',smash:'殺球',drop:'切球',drive:'平抽球',net:'網前技巧',lob:'挑球',footwork:'步法移動',strategy:'戰術',stamina:'體能'};
 
-let appData = {
-  techniques: [],
-  sessions: [],
-  matches: [],
-  skillRatings: {}
-};
+let appData = { techniques:[], sessions:[], matches:[], skillRatings:{}, equipment:[] };
+let calYear, calMonth, selectedDate=null;
+let selectedCategory = '新手必會';
+let selectedTechKey = null;
+let selectedMatchId = null;
+let techSearchQuery = '';
 
-let calYear, calMonth; // 0-indexed month
-
-/* ---------------- Load everything from Supabase ---------------- */
+/* ================= Load ================= */
 async function loadAll(){
-  // techniques
   let { data: techs, error: techErr } = await sb.from('techniques').select('*').order('sort_order', {ascending:true});
   if(techErr) throw techErr;
-  if(!techs || techs.length===0){
-    const seed = defaultTechniques.map((t,i)=>({id:t.key, icon:t.icon, name:t.name, content:t.text, is_custom:false, sort_order:i, user_id:currentUser.id}));
-    const { error: seedErr } = await sb.from('techniques').insert(seed);
+  techs = techs || [];
+  const existingIds = new Set(techs.map(t=>t.id));
+  const missing = ALL_SEED_ITEMS.filter(item=>!existingIds.has(item.id));
+  if(missing.length){
+    const rows = missing.map((item,i)=>({...item, user_id:currentUser.id, is_custom:false, sort_order: techs.length+i}));
+    const { error: seedErr } = await sb.from('techniques').insert(rows);
     if(seedErr) throw seedErr;
-    techs = seed;
+    techs = techs.concat(rows);
   }
-  appData.techniques = techs.map(t=>({key:t.id, icon:t.icon, name:t.name, text:t.content||'', custom:t.is_custom}));
+  appData.techniques = techs.map(t=>({key:t.id, icon:t.icon, name:t.name, text:t.content||'', category:t.category||'基本擊球', tags:t.tags||'', custom:t.is_custom, sort_order:t.sort_order||0}));
 
-  // sessions
   let { data: sess, error: sessErr } = await sb.from('sessions').select('*');
   if(sessErr) throw sessErr;
-  appData.sessions = (sess||[]).map(s=>({date:s.date, note:s.note||''}));
+  appData.sessions = (sess||[]).map(s=>({date:s.date, note:s.note||'', location:s.location||'', duration:s.duration_minutes||null, tags:s.tags||'', mood:s.mood||'', body:s.body_condition||'', injury:s.injury||''}));
 
-  // matches
   let { data: ms, error: msErr } = await sb.from('matches').select('*').order('match_date', {ascending:false});
   if(msErr) throw msErr;
-  appData.matches = (ms||[]).map(m=>({id:m.id, date:m.match_date, type:m.type, opponent:m.opponent, score:m.score, win:m.is_win, note:m.note||''}));
+  appData.matches = (ms||[]).map(m=>({id:m.id, date:m.match_date, type:m.type, opponent:m.opponent, score:m.score, win:m.is_win, note:m.note||'', duration:m.duration_minutes||null, location:m.location||'', keyPoints:m.key_points||'', myPerf:m.my_performance||'', nextReminder:m.next_reminder||''}));
 
-  // skill ratings
   let { data: sk, error: skErr } = await sb.from('skill_ratings').select('*');
   if(skErr) throw skErr;
   if(!sk || sk.length===0){
@@ -381,41 +453,42 @@ async function loadAll(){
   appData.skillRatings = {};
   defaultSkillKeys.forEach(k=>appData.skillRatings[k]=3);
   sk.forEach(s=>{ appData.skillRatings[s.skill_key] = s.value; });
+
+  let { data: eq, error: eqErr } = await sb.from('equipment').select('*').order('created_at', {ascending:true});
+  if(eqErr) throw eqErr;
+  appData.equipment = (eq||[]).map(e=>({id:e.id, name:e.name, brand:e.brand_model||'', tension:e.string_tension||'', purchaseDate:e.purchase_date||'', notes:e.notes||'', active:e.is_active}));
 }
 
-/* ---------------- Init ---------------- */
+/* ================= Init / Auth ================= */
 let appInitialized = false;
-
 function showLoadError(msg){
   setSyncStatus('err','⚠ 連線失敗');
   document.getElementById('loadingOverlay').classList.remove('hide');
   document.getElementById('loadingOverlay').innerHTML = '<div style="max-width:360px;text-align:center;color:#e11d48;font-weight:600;">連接 Supabase 失敗<br><span style="font-weight:400;color:#64748b;font-size:12.5px;display:block;margin-top:8px;">'+msg+'</span></div>';
 }
-
 function onSignedOut(){
   document.getElementById('loadingOverlay').classList.add('hide');
   document.getElementById('appRoot').style.display = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
 }
-
 async function onSignedIn(user){
-  if(appInitialized) return; // avoid double init on repeated auth events
+  if(appInitialized) return;
   appInitialized = true;
   currentUser = user;
   document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('appRoot').style.display = 'block';
+  document.getElementById('appRoot').style.display = 'flex';
   const email = user.email || '';
   document.getElementById('userEmail').innerText = email;
   document.getElementById('userAvatar').innerText = (email[0]||'?').toUpperCase();
 
   const today = new Date();
-  calYear = today.getFullYear();
-  calMonth = today.getMonth();
+  calYear = today.getFullYear(); calMonth = today.getMonth();
   document.getElementById('mDate').value = today.toISOString().slice(0,10);
+  document.getElementById('eqDate').value = today.toISOString().slice(0,10);
 
-  document.querySelectorAll('.tab').forEach(t=>{
+  document.querySelectorAll('.navitem').forEach(t=>{
     t.addEventListener('click', ()=>{
-      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.navitem').forEach(x=>x.classList.remove('active'));
       document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
       t.classList.add('active');
       document.getElementById('panel-'+t.dataset.tab).classList.add('active');
@@ -428,116 +501,172 @@ async function onSignedIn(user){
     setSyncStatus('pending','連接中...');
     await loadAll();
     setSyncStatus('ok','☁ 已連接');
-    renderTechniques();
+    renderCategoryList();
+    renderTechList();
+    renderTechDetail();
     renderCalendar();
-    renderMatches();
+    renderMatchList();
+    renderEquipment();
     document.getElementById('loadingOverlay').classList.add('hide');
   }catch(err){
     console.error(err);
-    const msg = (err && err.message) ? err.message : String(err);
-    showLoadError(msg);
+    showLoadError((err&&err.message)?err.message:String(err));
     appInitialized = false;
   }
 }
-
 window.addEventListener('DOMContentLoaded', async function(){
-  if(typeof supabase === 'undefined'){
-    showLoadError('Supabase JS SDK 沒有載入成功（CDN 讀不到，可能是網路問題），請檢查網路連線後重新整理頁面。');
-    return;
-  }
+  if(typeof supabase === 'undefined'){ showLoadError('Supabase JS SDK 沒有載入成功，請檢查網路連線後重新整理頁面。'); return; }
   sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-  sb.auth.onAuthStateChange((event, session) => {
+  sb.auth.onAuthStateChange((event, session)=>{
     if(session && session.user){ onSignedIn(session.user); }
-    else if(event === 'SIGNED_OUT'){ onSignedOut(); appInitialized = false; }
+    else if(event==='SIGNED_OUT'){ onSignedOut(); appInitialized=false; }
   });
-
   const { data, error } = await sb.auth.getSession();
   if(error){ showLoadError(error.message); return; }
-  if(data && data.session && data.session.user){
-    onSignedIn(data.session.user);
-  } else {
-    onSignedOut();
-  }
+  if(data && data.session && data.session.user){ onSignedIn(data.session.user); } else { onSignedOut(); }
 });
 
-/* ---------------- Techniques ---------------- */
-function renderTechniques(){
-  const list = document.getElementById('techniqueList');
-  list.innerHTML = '';
-  appData.techniques.forEach((tech, idx)=>{
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <h3>${tech.icon||'🏸'} ${tech.name} ${tech.custom ? '<button class="danger" style="float:right;padding:2px 8px;" onclick="removeTechnique('+idx+')">刪除</button>' : ''}</h3>
-      <textarea onchange="updateTechnique(${idx}, this.value)">${tech.text || ''}</textarea>
-    `;
-    list.appendChild(card);
-  });
+/* ================= Techniques ================= */
+function renderCategoryList(){
+  const box = document.getElementById('categoryList');
+  box.innerHTML = CATEGORIES.map(c=>{
+    const count = appData.techniques.filter(t=>t.category===c.key).length;
+    return `<div class="cat-item ${c.key===selectedCategory && !techSearchQuery ? 'active':''}" onclick="selectCategory('${c.key}')">${c.icon} ${c.key}<span class="cnt">${count}</span></div>`;
+  }).join('');
 }
-async function updateTechnique(idx, val){
-  appData.techniques[idx].text = val;
+function selectCategory(cat){ selectedCategory = cat; techSearchQuery=''; document.getElementById('techSearch').value=''; renderCategoryList(); renderTechList(); }
+function onTechSearch(val){ techSearchQuery = val.trim(); renderCategoryList(); renderTechList(); }
+function renderTechList(){
+  const title = document.getElementById('techListTitle');
+  let list;
+  if(techSearchQuery){
+    const q = techSearchQuery.toLowerCase();
+    list = appData.techniques.filter(t=> t.name.toLowerCase().includes(q) || t.tags.toLowerCase().includes(q));
+    title.innerText = '搜尋結果';
+  } else {
+    list = appData.techniques.filter(t=>t.category===selectedCategory);
+    title.innerText = selectedCategory;
+  }
+  const box = document.getElementById('techListPanel');
+  if(!list.length){ box.innerHTML = '<div class="empty-hint">這裡還沒有招式筆記</div>'; return; }
+  box.innerHTML = list.map(t=>`
+    <div class="tech-row ${t.key===selectedTechKey?'active':''}" onclick="selectTechnique('${t.key}')">
+      <div class="tname">${t.icon||'🏸'} ${t.name}</div>
+      <div class="ttags">${(t.tags||'').split(',').filter(Boolean).map(tag=>'<span class="pill">'+tag+'</span>').join('')}</div>
+    </div>`).join('');
+  if(!list.some(t=>t.key===selectedTechKey)) { selectedTechKey = list[0] ? list[0].key : null; }
+  renderTechDetail();
+}
+function getTech(key){ return appData.techniques.find(t=>t.key===key); }
+function renderTechDetail(){
+  const box = document.getElementById('techDetailPanel');
+  const t = getTech(selectedTechKey);
+  if(!t){ box.innerHTML = '<div class="empty-hint">從左側選擇一個招式來查看筆記</div>'; return; }
+  const tags = (t.tags||'').split(',').filter(Boolean);
+  box.innerHTML = `
+    <div class="crumb">${t.category} / ${t.name}</div>
+    <h2 style="margin:0 0 8px;font-size:16px;">${t.icon||'🏸'} ${t.name}</h2>
+    <div class="row" style="margin-bottom:10px;" id="tagRow">
+      ${tags.map(tag=>`<span class="pill active">${tag}<span class="x" onclick="removeTag('${tag}')"> ✕</span></span>`).join('')}
+      <input type="text" class="tag-input" placeholder="+標籤" onkeydown="if(event.key==='Enter'){addTag(this.value);this.value='';}">
+    </div>
+    <div class="editor-toolbar">
+      <button type="button" onmousedown="event.preventDefault()" onclick="execCmd('bold')"><b>B</b></button>
+      <button type="button" onmousedown="event.preventDefault()" onclick="execCmd('italic')"><i>I</i></button>
+      <button type="button" onmousedown="event.preventDefault()" onclick="execCmd('underline')"><u>U</u></button>
+      <button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertUnorderedList')">• 清單</button>
+    </div>
+    <div class="rich-editor" id="richEditor" contenteditable="true" oninput="onEditorInput()" onblur="saveTechContent()">${t.text}</div>
+    <div class="charcount" id="charCount">0 字</div>
+    <div class="row" style="margin-top:10px;justify-content:space-between;">
+      <button class="danger" onclick="deleteTechnique()">刪除這個招式</button>
+    </div>
+  `;
+  const ed = document.getElementById('richEditor');
+  document.getElementById('charCount').innerText = (ed.textContent||'').length + ' 字';
+}
+function execCmd(cmd){ document.getElementById('richEditor').focus(); document.execCommand(cmd, false, null); }
+function onEditorInput(){ const ed=document.getElementById('richEditor'); document.getElementById('charCount').innerText=(ed.textContent||'').length+' 字'; }
+async function saveTechContent(){
+  const t = getTech(selectedTechKey); if(!t) return;
+  const html = document.getElementById('richEditor').innerHTML;
+  t.text = html;
   setSyncStatus('pending','儲存中...');
-  const { error } = await sb.from('techniques').update({content: val}).eq('id', appData.techniques[idx].key);
+  const { error } = await sb.from('techniques').update({content: html}).eq('id', t.key).eq('user_id', currentUser.id);
   setSyncStatus(error?'err':'ok', error?'⚠ 儲存失敗':'☁ 已同步');
 }
+async function addTag(tag){
+  tag = tag.trim(); if(!tag) return;
+  const t = getTech(selectedTechKey); if(!t) return;
+  const tags = (t.tags||'').split(',').filter(Boolean);
+  if(tags.includes(tag)) return;
+  tags.push(tag); t.tags = tags.join(',');
+  setSyncStatus('pending','儲存中...');
+  const { error } = await sb.from('techniques').update({tags: t.tags}).eq('id', t.key).eq('user_id', currentUser.id);
+  setSyncStatus(error?'err':'ok', error?'⚠ 儲存失敗':'☁ 已同步');
+  renderTechDetail(); renderTechList();
+}
+async function removeTag(tag){
+  const t = getTech(selectedTechKey); if(!t) return;
+  const tags = (t.tags||'').split(',').filter(Boolean).filter(x=>x!==tag);
+  t.tags = tags.join(',');
+  await sb.from('techniques').update({tags: t.tags}).eq('id', t.key).eq('user_id', currentUser.id);
+  renderTechDetail(); renderTechList();
+}
 async function addTechnique(){
-  const nameInput = document.getElementById('newTechName');
-  const name = nameInput.value.trim();
-  if(!name) return;
+  const input = document.getElementById('newTechName');
+  const name = input.value.trim(); if(!name) return;
   const key = 'custom_' + Date.now();
-  const row = {id:key, icon:'✨', name, content:'', is_custom:true, sort_order: appData.techniques.length, user_id:currentUser.id};
+  const row = {id:key, icon:'✨', name, content:'', category: techSearchQuery? '新手必會' : selectedCategory, tags:'', is_custom:true, sort_order: appData.techniques.length, user_id:currentUser.id};
   setSyncStatus('pending','儲存中...');
   const { error } = await sb.from('techniques').insert(row);
   if(error){ setSyncStatus('err','⚠ 新增失敗'); alert('新增失敗：'+error.message); return; }
-  appData.techniques.push({key, icon:'✨', name, text:'', custom:true});
-  nameInput.value='';
-  renderTechniques();
+  appData.techniques.push({key, icon:'✨', name, text:'', category:row.category, tags:'', custom:true});
+  input.value=''; selectedTechKey = key;
+  renderCategoryList(); renderTechList();
   setSyncStatus('ok','☁ 已同步');
 }
-async function removeTechnique(idx){
-  const key = appData.techniques[idx].key;
+async function deleteTechnique(){
+  const t = getTech(selectedTechKey); if(!t) return;
+  if(!confirm('確定要刪除「'+t.name+'」嗎？')) return;
   setSyncStatus('pending','刪除中...');
-  const { error } = await sb.from('techniques').delete().eq('id', key);
+  const { error } = await sb.from('techniques').delete().eq('id', t.key).eq('user_id', currentUser.id);
   if(error){ setSyncStatus('err','⚠ 刪除失敗'); alert('刪除失敗：'+error.message); return; }
-  appData.techniques.splice(idx,1);
-  renderTechniques();
+  appData.techniques = appData.techniques.filter(x=>x.key!==t.key);
+  selectedTechKey = null;
+  renderCategoryList(); renderTechList();
   setSyncStatus('ok','☁ 已同步');
 }
 
-/* ---------------- Calendar ---------------- */
+/* ================= Calendar ================= */
 function changeMonth(delta){
   calMonth += delta;
   if(calMonth<0){calMonth=11;calYear--;}
   if(calMonth>11){calMonth=0;calYear++;}
   renderCalendar();
-  document.getElementById('dayDetail').style.display='none';
 }
-function fmtDate(y,m,d){
-  return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+function jumpToToday(){
+  document.querySelector('.navitem[data-tab=calendar]').click();
+  const today = new Date().toISOString().slice(0,10);
+  showDayDetail(today);
 }
+function fmtDate(y,m,d){ return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
 function renderCalendar(){
   document.getElementById('calTitle').innerText = `${calYear} 年 ${calMonth+1} 月`;
   const grid = document.getElementById('calGrid');
   grid.innerHTML = '';
-  ['日','一','二','三','四','五','六'].forEach(d=>{
-    const h = document.createElement('div');
-    h.className='cal-head'; h.innerText=d;
-    grid.appendChild(h);
-  });
+  ['日','一','二','三','四','五','六'].forEach(d=>{ const h=document.createElement('div'); h.className='cal-head'; h.innerText=d; grid.appendChild(h); });
   const firstDay = new Date(calYear, calMonth, 1).getDay();
   const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
   const todayStr = new Date().toISOString().slice(0,10);
-
-  for(let i=0;i<firstDay;i++){
-    const e = document.createElement('div');
-    e.className='cal-day empty';
-    grid.appendChild(e);
-  }
+  for(let i=0;i<firstDay;i++){ const e=document.createElement('div'); e.className='cal-day empty'; grid.appendChild(e); }
   for(let d=1; d<=daysInMonth; d++){
     const dateStr = fmtDate(calYear, calMonth, d);
     const cell = document.createElement('div');
-    cell.className='cal-day' + (dateStr===todayStr ? ' today':'');
+    let cls = 'cal-day';
+    if(dateStr===todayStr) cls += ' today';
+    if(dateStr===selectedDate) cls += ' selected';
+    cell.className = cls;
     const hasSession = appData.sessions.some(s=>s.date===dateStr);
     const dayMatches = appData.matches.filter(m=>m.date===dateStr);
     const hasWin = dayMatches.some(m=>m.win);
@@ -546,67 +675,93 @@ function renderCalendar(){
     if(hasSession) dots += '<span class="dot session"></span>';
     if(hasWin) dots += '<span class="dot win"></span>';
     if(hasLose) dots += '<span class="dot lose"></span>';
-    cell.innerHTML = `<div class="dnum">${d}</div><div>${dots}</div>`;
+    const sess = appData.sessions.find(s=>s.date===dateStr);
+    cell.innerHTML = `<div class="dnum">${d} ${sess&&sess.mood?sess.mood:''}</div><div>${dots}</div>`;
     cell.onclick = ()=>showDayDetail(dateStr);
     grid.appendChild(cell);
   }
 }
 function showDayDetail(dateStr){
+  selectedDate = dateStr;
+  renderCalendar();
   const box = document.getElementById('dayDetail');
-  box.style.display='block';
-  const session = appData.sessions.find(s=>s.date===dateStr);
+  const s = appData.sessions.find(x=>x.date===dateStr) || {date:dateStr, note:'', location:'', duration:null, tags:'', mood:'', body:'', injury:''};
   const dayMatches = appData.matches.filter(m=>m.date===dateStr);
+  const activeTags = (s.tags||'').split(',').filter(Boolean);
   let matchHtml = dayMatches.length ? dayMatches.map(m=>`
-    <div class="row" style="justify-content:space-between;border-bottom:1px solid var(--border);padding:6px 0;">
+    <div class="row" style="justify-content:space-between;border-bottom:1px solid var(--border);padding:5px 0;font-size:12.5px;">
       <span>${m.type} vs ${m.opponent} — ${m.score} <span class="badge ${m.win?'win':'lose'}">${m.win?'勝':'負'}</span></span>
     </div>`).join('') : '<div class="empty-hint">當天無對戰紀錄</div>';
 
   box.innerHTML = `
-    <h2>${dateStr} 紀錄</h2>
-    <div class="field">
-      <label>練習備註（有填寫代表當天有去打球）</label>
-      <textarea id="sessionNote" placeholder="練習內容、場地、心得...">${session ? session.note : ''}</textarea>
+    <h2>${dateStr}</h2>
+    <div class="field"><label>練習內容</label><div id="tagChips">${PRACTICE_TAGS.map(tag=>`<span class="chip-toggle ${activeTags.includes(tag)?'active':''}" onclick="toggleSessionTag('${tag}')">${tag}</span>`).join('')}</div></div>
+    <div class="grid2">
+      <div class="field"><label>地點</label><input type="text" id="sLocation" value="${s.location||''}" placeholder="球館名稱"></div>
+      <div class="field"><label>時長（分鐘）</label><input type="number" id="sDuration" value="${s.duration||''}" placeholder="90"></div>
     </div>
+    <div class="field"><label>心情</label><div class="mood-row" id="moodRow">${MOODS.map(m=>`<button type="button" class="mood-btn ${s.mood===m?'active':''}" onclick="setMood('${m}')">${m}</button>`).join('')}</div></div>
+    <div class="grid2">
+      <div class="field"><label>身體狀況</label><input type="text" id="sBody" value="${s.body||''}" placeholder="良好／疲勞..."></div>
+      <div class="field"><label>受傷狀況</label><input type="text" id="sInjury" value="${s.injury||''}" placeholder="無／膝蓋..."></div>
+    </div>
+    <div class="field"><label>備註</label><textarea id="sessionNote" placeholder="練習內容、心得...">${s.note||''}</textarea></div>
     <div class="row">
-      <button onclick="saveSession('${dateStr}')">儲存練習紀錄</button>
-      ${session ? `<button class="danger" onclick="deleteSession('${dateStr}')">刪除練習紀錄</button>` : ''}
-      <button class="secondary" onclick="document.getElementById('mDate').value='${dateStr}'; document.querySelector('.tab[data-tab=matches]').click();">在此日新增對戰</button>
+      <button onclick="saveSession('${dateStr}')">儲存打球記錄</button>
+      ${appData.sessions.some(x=>x.date===dateStr) ? `<button class="danger" onclick="deleteSession('${dateStr}')">刪除</button>` : ''}
     </div>
     <h3 style="margin-top:14px;">當天對戰</h3>
     ${matchHtml}
   `;
+  box.dataset.pendingTags = s.tags||'';
+  box.dataset.pendingMood = s.mood||'';
+}
+function toggleSessionTag(tag){
+  const box = document.getElementById('dayDetail');
+  let tags = (box.dataset.pendingTags||'').split(',').filter(Boolean);
+  if(tags.includes(tag)) tags = tags.filter(t=>t!==tag); else tags.push(tag);
+  box.dataset.pendingTags = tags.join(',');
+  document.querySelectorAll('#tagChips .chip-toggle').forEach(el=>{ if(el.innerText===tag) el.classList.toggle('active'); });
+}
+function setMood(m){
+  const box = document.getElementById('dayDetail');
+  box.dataset.pendingMood = box.dataset.pendingMood===m ? '' : m;
+  document.querySelectorAll('#moodRow .mood-btn').forEach(el=>{ el.classList.toggle('active', el.innerText===box.dataset.pendingMood); });
 }
 async function saveSession(dateStr){
+  const box = document.getElementById('dayDetail');
   const note = document.getElementById('sessionNote').value;
+  const location = document.getElementById('sLocation').value;
+  const duration = document.getElementById('sDuration').value ? parseInt(document.getElementById('sDuration').value,10) : null;
+  const body = document.getElementById('sBody').value;
+  const injury = document.getElementById('sInjury').value;
+  const tags = box.dataset.pendingTags||'';
+  const mood = box.dataset.pendingMood||'';
   setSyncStatus('pending','儲存中...');
-  const { error } = await sb.from('sessions').upsert({date:dateStr, note, user_id:currentUser.id}, {onConflict:'user_id,date'});
+  const { error } = await sb.from('sessions').upsert({date:dateStr, note, location, duration_minutes:duration, tags, mood, body_condition:body, injury, user_id:currentUser.id}, {onConflict:'user_id,date'});
   if(error){ setSyncStatus('err','⚠ 儲存失敗'); alert('儲存失敗：'+error.message); return; }
   const existing = appData.sessions.find(s=>s.date===dateStr);
-  if(existing){ existing.note = note; }
-  else { appData.sessions.push({date:dateStr, note}); }
-  renderCalendar();
-  showDayDetail(dateStr);
+  const updated = {date:dateStr, note, location, duration, tags, mood, body, injury};
+  if(existing){ Object.assign(existing, updated); } else { appData.sessions.push(updated); }
+  renderCalendar(); showDayDetail(dateStr);
   setSyncStatus('ok','☁ 已同步');
 }
 async function deleteSession(dateStr){
   setSyncStatus('pending','刪除中...');
-  const { error } = await sb.from('sessions').delete().eq('date', dateStr);
+  const { error } = await sb.from('sessions').delete().eq('date', dateStr).eq('user_id', currentUser.id);
   if(error){ setSyncStatus('err','⚠ 刪除失敗'); alert('刪除失敗：'+error.message); return; }
   appData.sessions = appData.sessions.filter(s=>s.date!==dateStr);
-  renderCalendar();
-  showDayDetail(dateStr);
+  renderCalendar(); showDayDetail(dateStr);
   setSyncStatus('ok','☁ 已同步');
 }
 
-/* ---------------- Matches ---------------- */
+/* ================= Matches ================= */
 function computeWin(scoreStr){
   const games = scoreStr.split(',').map(g=>g.trim()).filter(Boolean);
   let myWins=0, oppWins=0;
   games.forEach(g=>{
     const parts = g.split('-').map(x=>parseInt(x.trim(),10));
-    if(parts.length===2 && !isNaN(parts[0]) && !isNaN(parts[1])){
-      if(parts[0]>parts[1]) myWins++; else if(parts[1]>parts[0]) oppWins++;
-    }
+    if(parts.length===2 && !isNaN(parts[0]) && !isNaN(parts[1])){ if(parts[0]>parts[1]) myWins++; else if(parts[1]>parts[0]) oppWins++; }
   });
   return myWins > oppWins;
 }
@@ -618,120 +773,218 @@ async function addMatch(){
   const note = document.getElementById('mNote').value.trim();
   if(!date || !opponent || !score){ alert('請填寫日期、對手、比分'); return; }
   const win = computeWin(score);
-  const btn = document.getElementById('addMatchBtn');
-  btn.disabled = true;
+  const btn = document.getElementById('addMatchBtn'); btn.disabled = true;
   setSyncStatus('pending','儲存中...');
-  const { data, error } = await sb.from('matches')
-    .insert({match_date:date, type, opponent, score, is_win:win, note, user_id:currentUser.id})
-    .select()
-    .single();
+  const { data, error } = await sb.from('matches').insert({match_date:date, type, opponent, score, is_win:win, note, user_id:currentUser.id}).select().single();
   btn.disabled = false;
   if(error){ setSyncStatus('err','⚠ 新增失敗'); alert('新增失敗：'+error.message); return; }
-  appData.matches.push({id:data.id, date, type, opponent, score, win, note});
-  document.getElementById('mOpponent').value='';
-  document.getElementById('mScore').value='';
-  document.getElementById('mNote').value='';
-  renderMatches();
-  renderCalendar();
+  appData.matches.unshift({id:data.id, date, type, opponent, score, win, note, duration:null, location:'', keyPoints:'', myPerf:'', nextReminder:''});
+  document.getElementById('mOpponent').value=''; document.getElementById('mScore').value=''; document.getElementById('mNote').value='';
+  renderMatchList(); renderCalendar();
   setSyncStatus('ok','☁ 已同步');
+}
+function getMatch(id){ return appData.matches.find(m=>m.id===id); }
+function renderMatchList(){
+  const box = document.getElementById('matchListPanel');
+  const sorted = [...appData.matches].sort((a,b)=> b.date.localeCompare(a.date));
+  document.getElementById('matchEmptyHint').style.display = sorted.length ? 'none':'block';
+  box.innerHTML = sorted.map(m=>`
+    <div class="match-row ${m.id===selectedMatchId?'active':''}" onclick="selectMatch(${m.id})">
+      <div class="mtop"><span>${m.date}</span><span class="badge ${m.win?'win':'lose'}">${m.win?'勝':'負'}</span></div>
+      <div class="mname">${m.type} vs ${m.opponent}</div>
+      <div style="font-size:11.5px;color:var(--muted);">${m.score}</div>
+    </div>`).join('');
+}
+function selectMatch(id){ selectedMatchId = id; renderMatchList(); renderMatchDetail(); }
+function renderMatchDetail(){
+  const box = document.getElementById('matchDetailPanel');
+  const m = getMatch(selectedMatchId);
+  if(!m){ box.innerHTML = '<div class="empty-hint">點選左側對戰紀錄查看／編輯詳細分析</div>'; return; }
+  box.innerHTML = `
+    <div class="row" style="justify-content:space-between;">
+      <h2 style="margin:0;">${m.date} · ${m.type} vs ${m.opponent}</h2>
+      <span class="badge ${m.win?'win':'lose'}">${m.win?'勝利':'落敗'}</span>
+    </div>
+    <p style="font-size:12.5px;color:var(--muted);margin:4px 0 12px;">比分 ${m.score}</p>
+    <div class="grid2">
+      <div class="field"><label>地點</label><input type="text" id="detLocation" value="${m.location||''}" onchange="updateMatchField('location', this.value)"></div>
+      <div class="field"><label>打球時長（分鐘）</label><input type="number" id="detDuration" value="${m.duration||''}" onchange="updateMatchField('duration', this.value)"></div>
+    </div>
+    <div class="field"><label>比賽重點</label><textarea onchange="updateMatchField('keyPoints', this.value)" placeholder="這場比賽的關鍵回合、轉折點...">${m.keyPoints||''}</textarea></div>
+    <div class="grid2">
+      <div class="field"><label>我的表現</label><textarea onchange="updateMatchField('myPerf', this.value)" placeholder="表現不錯的地方">${m.myPerf||''}</textarea></div>
+      <div class="field"><label>下次提醒</label><textarea onchange="updateMatchField('nextReminder', this.value)" placeholder="下次要注意的地方">${m.nextReminder||''}</textarea></div>
+    </div>
+    <div class="field"><label>更多筆記</label><textarea onchange="updateMatchField('note', this.value)">${m.note||''}</textarea></div>
+    <button class="danger" onclick="deleteMatch(${m.id})">刪除這場紀錄</button>
+  `;
+}
+const matchFieldColumnMap = {location:'location', duration:'duration_minutes', keyPoints:'key_points', myPerf:'my_performance', nextReminder:'next_reminder', note:'note'};
+async function updateMatchField(field, val){
+  const m = getMatch(selectedMatchId); if(!m) return;
+  if(field==='duration') val = val ? parseInt(val,10) : null;
+  m[field] = val;
+  setSyncStatus('pending','儲存中...');
+  const col = matchFieldColumnMap[field];
+  const { error } = await sb.from('matches').update({[col]: val}).eq('id', m.id).eq('user_id', currentUser.id);
+  setSyncStatus(error?'err':'ok', error?'⚠ 儲存失敗':'☁ 已同步');
 }
 async function deleteMatch(id){
   setSyncStatus('pending','刪除中...');
-  const { error } = await sb.from('matches').delete().eq('id', id);
+  const { error } = await sb.from('matches').delete().eq('id', id).eq('user_id', currentUser.id);
   if(error){ setSyncStatus('err','⚠ 刪除失敗'); alert('刪除失敗：'+error.message); return; }
   appData.matches = appData.matches.filter(m=>m.id!==id);
-  renderMatches();
-  renderCalendar();
+  if(selectedMatchId===id) selectedMatchId=null;
+  renderMatchList(); renderMatchDetail(); renderCalendar();
   setSyncStatus('ok','☁ 已同步');
 }
-function renderMatches(){
-  const tbody = document.getElementById('matchTableBody');
-  tbody.innerHTML='';
-  const sorted = [...appData.matches].sort((a,b)=> b.date.localeCompare(a.date));
-  sorted.forEach(m=>{
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${m.date}</td><td>${m.type}</td><td>${m.opponent}</td><td>${m.score}</td>
-      <td><span class="badge ${m.win?'win':'lose'}">${m.win?'勝':'負'}</span></td>
-      <td>${m.note||''}</td>
-      <td><button class="danger" style="padding:2px 8px;" onclick="deleteMatch(${m.id})">刪除</button></td>
-    `;
-    tbody.appendChild(tr);
-  });
-  document.getElementById('matchEmptyHint').style.display = sorted.length ? 'none' : 'block';
-}
 
-/* ---------------- Dashboard ---------------- */
+/* ================= Dashboard ================= */
 let radarChartObj=null, practiceChartObj=null;
+function getPeriodDays(){ const v=document.getElementById('periodSelect').value; return v==='all'? null : parseInt(v,10); }
+function withinPeriod(dateStr, days){
+  if(days===null) return true;
+  const d = new Date(dateStr); const now = new Date();
+  const diff = (now - d) / (1000*60*60*24);
+  return diff <= days && diff >= -1;
+}
 function renderDashboard(){
-  const total = appData.matches.length;
-  const wins = appData.matches.filter(m=>m.win).length;
-  const losses = total - wins;
+  const days = getPeriodDays();
+  const matchesP = appData.matches.filter(m=>withinPeriod(m.date, days));
+  const sessionsP = appData.sessions.filter(s=>withinPeriod(s.date, days));
+  const total = matchesP.length;
+  const wins = matchesP.filter(m=>m.win).length;
   const winRate = total ? Math.round(wins/total*100) : 0;
-  const sessionCount = appData.sessions.length;
+  const totalHours = Math.round((sessionsP.reduce((sum,s)=>sum+(s.duration||0),0)/60)*10)/10;
 
   document.getElementById('statGrid').innerHTML = `
-    <div class="stat"><div class="icon">🏸</div><div class="num">${total}</div><div class="lbl">總場次</div></div>
-    <div class="stat"><div class="icon">✅</div><div class="num">${wins}</div><div class="lbl">勝場</div></div>
-    <div class="stat"><div class="icon">❌</div><div class="num">${losses}</div><div class="lbl">敗場</div></div>
+    <div class="stat"><div class="icon">🏸</div><div class="num">${sessionsP.length}</div><div class="lbl">打球次數</div></div>
+    <div class="stat"><div class="icon">⏱️</div><div class="num">${totalHours}</div><div class="lbl">總時數(小時)</div></div>
+    <div class="stat"><div class="icon">🏆</div><div class="num">${total}</div><div class="lbl">比賽場次</div></div>
     <div class="stat"><div class="icon">🔥</div><div class="num">${winRate}%</div><div class="lbl">勝率</div></div>
-    <div class="stat"><div class="icon">📅</div><div class="num">${sessionCount}</div><div class="lbl">練習天數</div></div>
   `;
 
-  const skillNames = {serve:'發球',clear:'高遠球',smash:'殺球',drop:'切球',drive:'平抽球',net:'網前小球',lob:'挑球',footwork:'步法',strategy:'戰術',stamina:'體力'};
-  const sliderBox = document.getElementById('skillSliders');
-  sliderBox.innerHTML = Object.keys(appData.skillRatings).map(k=>`
-    <div class="skill-row">
-      <label>${skillNames[k]||k}</label>
-      <input type="range" min="1" max="5" step="1" value="${appData.skillRatings[k]}" oninput="updateSkill('${k}', this.value)">
-      <div class="val" id="val-${k}">${appData.skillRatings[k]}</div>
-    </div>
-  `).join('');
+  const values = Object.values(appData.skillRatings);
+  const overall = values.length ? Math.round((values.reduce((a,b)=>a+b,0)/values.length)*20) : 0;
+  document.getElementById('overallScore').innerText = overall;
+
+  const skillBox = document.getElementById('skillBars');
+  skillBox.innerHTML = Object.keys(appData.skillRatings).map(k=>{
+    const v = appData.skillRatings[k];
+    return `<div class="skill-row">
+      <div class="toprow"><span>${skillNames[k]||k}</span><span>${v*20}</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:${v*20}%;"></div></div>
+      <input type="range" min="1" max="5" step="1" value="${v}" oninput="updateSkill('${k}', this.value)">
+    </div>`;
+  }).join('');
 
   const ctx1 = document.getElementById('radarChart').getContext('2d');
   const labels = Object.keys(appData.skillRatings).map(k=>skillNames[k]||k);
   const data = Object.values(appData.skillRatings);
   if(radarChartObj) radarChartObj.destroy();
-  radarChartObj = new Chart(ctx1, {
-    type:'radar',
-    data:{labels, datasets:[{label:'自評能力', data, backgroundColor:'rgba(16,185,129,.2)', borderColor:'#059669', pointBackgroundColor:'#059669'}]},
-    options:{responsive:true, maintainAspectRatio:false, scales:{r:{min:0,max:5,ticks:{stepSize:1}}}, plugins:{legend:{display:false}}}
-  });
+  radarChartObj = new Chart(ctx1, { type:'radar', data:{labels, datasets:[{label:'自評能力', data, backgroundColor:'rgba(16,185,129,.2)', borderColor:'#059669', pointBackgroundColor:'#059669'}]}, options:{responsive:true, maintainAspectRatio:false, scales:{r:{min:0,max:5,ticks:{stepSize:1}}}, plugins:{legend:{display:false}}} });
 
   const monthCounts = {};
-  appData.sessions.forEach(s=>{
-    const ym = s.date.slice(0,7);
-    monthCounts[ym] = (monthCounts[ym]||0)+1;
-  });
+  appData.sessions.forEach(s=>{ const ym=s.date.slice(0,7); monthCounts[ym]=(monthCounts[ym]||0)+1; });
   const months = Object.keys(monthCounts).sort();
   const ctx2 = document.getElementById('practiceChart').getContext('2d');
   if(practiceChartObj) practiceChartObj.destroy();
-  practiceChartObj = new Chart(ctx2, {
-    type:'bar',
-    data:{labels: months, datasets:[{label:'練習次數', data: months.map(m=>monthCounts[m]), backgroundColor:'#059669'}]},
-    options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, ticks:{stepSize:1}}}}
-  });
+  practiceChartObj = new Chart(ctx2, { type:'bar', data:{labels:months, datasets:[{label:'練習次數', data:months.map(m=>monthCounts[m]), backgroundColor:'#059669'}]}, options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, ticks:{stepSize:1}}}} });
+
+  const tagCounts = {};
+  sessionsP.forEach(s=>{ (s.tags||'').split(',').filter(Boolean).forEach(tag=>{ tagCounts[tag]=(tagCounts[tag]||0)+1; }); });
+  const top5 = Object.entries(tagCounts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const maxCt = top5.length ? top5[0][1] : 1;
+  const top5Box = document.getElementById('top5Box');
+  top5Box.innerHTML = top5.length ? top5.map(([tag,ct])=>`
+    <div class="top5-row"><span class="nm">${tag}</span><div class="bar-bg"><div class="bar-fill" style="width:${ct/maxCt*100}%;"></div></div><span class="ct">${ct}次</span></div>
+  `).join('') : '<div class="empty-hint">這段期間還沒有練習紀錄的標籤</div>';
+
+  renderTips(sessionsP, matchesP);
+}
+function daysSince(dateStr){ return Math.floor((new Date() - new Date(dateStr))/(1000*60*60*24)); }
+function renderTips(sessionsP, matchesP){
+  const tips = [];
+  const lastSession = [...appData.sessions].sort((a,b)=>b.date.localeCompare(a.date))[0];
+  if(lastSession){
+    const gap = daysSince(lastSession.date);
+    tips.push(gap>=5 ? `已經 ${gap} 天沒有打球紀錄了，保持練習頻率有助於維持手感。` : `最近練習頻率不錯（上次打球是 ${gap} 天前），繼續保持！`);
+  } else {
+    tips.push('還沒有任何打球紀錄，去「打球日曆」新增第一筆吧。');
+  }
+  const sortedMatches = [...appData.matches].sort((a,b)=>a.date.localeCompare(b.date));
+  if(sortedMatches.length>=6){
+    const recent5 = sortedMatches.slice(-5);
+    const prev5 = sortedMatches.slice(-10,-5);
+    const rate = arr=> arr.filter(m=>m.win).length/arr.length;
+    if(prev5.length){
+      const r1 = rate(recent5), r0 = rate(prev5);
+      if(r1 > r0) tips.push('近期 5 場勝率比之前進步了，你的努力有回饋！');
+      else if(r1 < r0) tips.push('近期 5 場勝率比之前下降，可以回頭看看對戰紀錄裡的「比賽重點」找原因。');
+    }
+  }
+  const minSkill = Object.entries(appData.skillRatings).sort((a,b)=>a[1]-b[1])[0];
+  if(minSkill) tips.push(`自評分數中「${skillNames[minSkill[0]]||minSkill[0]}」相對較弱，可以在技巧整理裡多做針對練習。`);
+  const tagCounts = {};
+  sessionsP.forEach(s=>{ (s.tags||'').split(',').filter(Boolean).forEach(tag=>{ tagCounts[tag]=(tagCounts[tag]||0)+1; }); });
+  if(!tagCounts['步法'] && sessionsP.length>0) tips.push('這段期間的練習內容較少包含「步法」，建議安排進去。');
+
+  document.getElementById('tipsBox').innerHTML = tips.slice(0,4).map(t=>`<div class="tip-item">💡 ${t}</div>`).join('');
 }
 async function updateSkill(key, val){
   const value = parseInt(val,10);
   appData.skillRatings[key] = value;
-  document.getElementById('val-'+key).innerText = val;
   renderDashboard();
   setSyncStatus('pending','儲存中...');
   const { error } = await sb.from('skill_ratings').upsert({skill_key:key, value, user_id:currentUser.id}, {onConflict:'user_id,skill_key'});
   setSyncStatus(error?'err':'ok', error?'⚠ 儲存失敗':'☁ 已同步');
 }
 
-/* ---------------- Export (optional manual backup) ---------------- */
+/* ================= Equipment ================= */
+function renderEquipment(){
+  const box = document.getElementById('equipList');
+  if(!appData.equipment.length){ box.innerHTML = '<div class="empty-hint">還沒有新增球拍</div>'; return; }
+  box.innerHTML = appData.equipment.map(e=>`
+    <div class="equip-card">
+      <div class="etop">
+        <span class="ename">🏸 ${e.name} ${e.active?'<span class="badge win">使用中</span>':''}</span>
+        <button class="danger icon-btn" onclick="deleteEquipment(${e.id})">刪除</button>
+      </div>
+      <div class="emeta">${e.brand||''} ${e.tension?(' · '+e.tension+' 磅'):''} ${e.purchaseDate?(' · 購入 '+e.purchaseDate):''}</div>
+      ${e.notes?`<div class="emeta">${e.notes}</div>`:''}
+    </div>`).join('');
+}
+async function addEquipment(){
+  const name = document.getElementById('eqName').value.trim();
+  if(!name){ alert('請填寫球拍名稱'); return; }
+  const brand = document.getElementById('eqBrand').value.trim();
+  const tension = document.getElementById('eqTension').value.trim();
+  const purchaseDate = document.getElementById('eqDate').value;
+  const notes = document.getElementById('eqNote').value.trim();
+  setSyncStatus('pending','儲存中...');
+  const { data, error } = await sb.from('equipment').insert({name, brand_model:brand, string_tension:tension, purchase_date:purchaseDate||null, notes, is_active:true, user_id:currentUser.id}).select().single();
+  if(error){ setSyncStatus('err','⚠ 新增失敗'); alert('新增失敗：'+error.message); return; }
+  appData.equipment.push({id:data.id, name, brand, tension, purchaseDate, notes, active:true});
+  document.getElementById('eqName').value=''; document.getElementById('eqBrand').value=''; document.getElementById('eqTension').value=''; document.getElementById('eqNote').value='';
+  renderEquipment();
+  setSyncStatus('ok','☁ 已同步');
+}
+async function deleteEquipment(id){
+  setSyncStatus('pending','刪除中...');
+  const { error } = await sb.from('equipment').delete().eq('id', id).eq('user_id', currentUser.id);
+  if(error){ setSyncStatus('err','⚠ 刪除失敗'); alert('刪除失敗：'+error.message); return; }
+  appData.equipment = appData.equipment.filter(e=>e.id!==id);
+  renderEquipment();
+  setSyncStatus('ok','☁ 已同步');
+}
+
+/* ================= Export (manual backup) ================= */
 function exportData(){
   const blob = new Blob([JSON.stringify(appData, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  const stamp = new Date().toISOString().slice(0,10);
-  a.href = url;
-  a.download = `羽球筆記備份_${stamp}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
+  a.href = url; a.download = `羽球筆記備份_${new Date().toISOString().slice(0,10)}.json`;
+  a.click(); URL.revokeObjectURL(url);
 }
 </script>
 </body>
