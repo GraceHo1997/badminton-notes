@@ -167,7 +167,14 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
           </div>
           <div class="panel record-panel">
             <h2 style="margin-top:0" id="recordDate">-</h2>
-            <div class="field"><label>練習內容（從羽球筆記選取）</label><div id="trainingChips"></div></div>
+            <div class="field">
+              <label>練習內容（輸入文字，從羽球筆記技巧中選取）</label>
+              <div style="position:relative">
+                <input class="input" id="trainingInput" placeholder="輸入技巧名稱搜尋…" style="width:100%" autocomplete="off">
+                <div id="trainingDropdown" style="position:absolute;left:0;right:0;top:47px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);max-height:220px;overflow:auto;z-index:15;display:none"></div>
+              </div>
+              <div class="chips" id="trainingSelected" style="margin-top:10px"></div>
+            </div>
             <div class="form-grid" style="margin-top:15px">
               <div class="field full"><label>地點</label><input class="input" id="fLocation" style="width:100%"></div>
               <div class="field"><label>開始時間</label><input class="input" id="startTime" type="time" style="width:100%"></div>
@@ -220,16 +227,19 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
         </div>
         <div class="panel recommend"><h3 style="margin-top:0">訓練建議</h3><div id="tipsBox"></div></div>
         <div class="panel recommend">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><h3 style="margin:0">我的球拍</h3></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><h3 style="margin:0">我的裝備</h3><button class="btn" id="toggleEquipFormBtn">＋ 新增裝備</button></div>
           <div id="equipList"></div>
-          <div class="form-grid" style="margin-top:10px">
-            <div class="field"><label>球拍名稱</label><input class="input" id="eqName" style="width:100%" placeholder="例如：Astrox 100ZZ"></div>
-            <div class="field"><label>品牌／型號</label><input class="input" id="eqBrand" style="width:100%"></div>
-            <div class="field"><label>磅數</label><input class="input" id="eqTension" style="width:100%" placeholder="24-26 磅"></div>
-            <div class="field"><label>購入日期</label><input class="input" id="eqDate" type="date" style="width:100%"></div>
+          <div id="equipForm" style="display:none;margin-top:14px">
+            <div class="form-grid">
+              <div class="field"><label>類型</label><select id="eqType" style="width:100%"><option>球拍</option><option>球鞋</option><option>其他</option></select></div>
+              <div class="field"><label>名稱</label><input class="input" id="eqName" style="width:100%" placeholder="例如：Astrox 100ZZ"></div>
+              <div class="field"><label>品牌／型號</label><input class="input" id="eqBrand" style="width:100%"></div>
+              <div class="field"><label>磅數／尺寸</label><input class="input" id="eqTension" style="width:100%" placeholder="24-26 磅 或 尺寸"></div>
+              <div class="field"><label>購入日期</label><input class="input" id="eqDate" type="date" style="width:100%"></div>
+            </div>
+            <div class="field full"><label>備註</label><input class="input" id="eqNote" style="width:100%"></div>
+            <div style="display:flex;gap:9px;margin-top:10px"><button class="btn primary" id="addEquipBtn">儲存裝備</button><button class="btn" id="cancelEquipBtn">取消</button></div>
           </div>
-          <div class="field full"><label>備註</label><input class="input" id="eqNote" style="width:100%"></div>
-          <button class="btn primary" id="addEquipBtn">＋ 新增球拍</button>
         </div>
       </section>
     </div>
@@ -262,7 +272,7 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
   <div class="drawer-foot"><button class="btn" id="queueBtn">加入下次練習</button><button class="btn" id="deleteSkillBtn" style="color:var(--red)">刪除技巧</button></div>
 </aside>
 
-<div class="modal" id="skillModal"><div class="modal-head">新增技巧</div><div class="modal-body"><div class="form-grid"><div class="field"><label>技巧名稱</label><input class="input" id="newSkillName" style="width:100%" placeholder="例如：反手擋網"></div><div class="field"><label>難度</label><select id="newSkillLevel" style="width:100%"><option>初階</option><option>中階</option><option>進階</option></select></div><div class="field"><label>大分類</label><select id="newSkillCat" style="width:100%"></select></div><div class="field"><label>子分類</label><input class="input" id="newSkillSub" style="width:100%" placeholder="例如：網前控制"></div><div class="field full"><label>技巧解釋</label><textarea id="newSkillDesc" placeholder="簡短說明這個技巧的目的與使用方式"></textarea></div></div></div><div class="modal-foot"><button class="btn" data-close-modal>取消</button><button class="btn primary" id="saveSkill">新增技巧</button></div></div>
+<div class="modal" id="skillModal"><div class="modal-head">新增技巧</div><div class="modal-body"><div class="form-grid"><div class="field"><label>技巧名稱</label><input class="input" id="newSkillName" style="width:100%" placeholder="例如：反手擋網"></div><div class="field"><label>難度</label><select id="newSkillLevel" style="width:100%"><option>初階</option><option>中階</option><option>進階</option></select></div><div class="field"><label>大分類</label><select id="newSkillCat" style="width:100%"></select></div><div class="field full"><label>技巧解釋</label><textarea id="newSkillDesc" placeholder="簡短說明這個技巧的目的與使用方式"></textarea></div></div></div><div class="modal-foot"><button class="btn" data-close-modal>取消</button><button class="btn primary" id="saveSkill">新增技巧</button></div></div>
 
 <div class="modal" id="matchModal">
   <div class="modal-head">新增對戰紀錄</div>
@@ -274,7 +284,8 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
       <div class="field" id="teammateField" style="display:none"><label>隊友名字</label><input class="input" id="teammateName" style="width:100%"></div>
       <div class="field"><label id="opponent1Label">對手名字</label><input class="input" id="opponent1Name" style="width:100%"></div>
       <div class="field" id="opponent2Field" style="display:none"><label>對手 2 名字</label><input class="input" id="opponent2Name" style="width:100%"></div>
-      <div class="field full"><label>比分</label><div class="match-row"><input class="input score" id="myScore" type="number" min="0" value="21"><div style="text-align:center">：</div><input class="input score" id="oppScore" type="number" min="0" value="18"></div></div>
+      <div class="field full"><label>比分（選填）</label><div class="match-row"><input class="input score" id="myScore" type="number" min="0" placeholder="我方"><div style="text-align:center">：</div><input class="input score" id="oppScore" type="number" min="0" placeholder="對方"></div></div>
+      <div class="field full"><label>勝負結果</label><div class="match-type-toggle"><button type="button" class="match-type result-btn active" data-result="win">✓ 勝利</button><button type="button" class="match-type result-btn" data-result="lose">✕ 落敗</button></div></div>
       <div class="field full"><label>備註</label><textarea id="matchNote"></textarea></div>
     </div>
   </div>
@@ -303,14 +314,48 @@ let activeCat="全部技巧", activeSub="全部";
 let calYear, calMonth, selectedDate=null;
 let selectedSkillKey=null;
 let matchType="單打";
+let matchResult="win";
+let selectedTrainingTags=[];
 
 function cls(l){return l==="初階"?"beginner":l==="中階"?"medium":"advanced"}
 function masteryClass(m){return m==="已掌握"?"done":m==="學習中"?"learning":"todo"}
 
 /* ================= Load ================= */
+const ALL_SEED_ITEMS = [
+  {id:'seed_grip_forehand', name:'正手握拍', category:'基礎動作', sub_category:'握拍', level:'初階', content:'以握手方式自然握住拍柄，適合正手區及頭頂區擊球。'},
+  {id:'seed_ready_step', name:'啟動步', category:'基礎動作', sub_category:'姿勢', level:'初階', content:'在對手擊球瞬間做小幅彈跳，落地後快速啟動。'},
+  {id:'seed_forecourt_footwork', name:'正手上網步伐', category:'步伐與移動', sub_category:'前場步伐', level:'初階', content:'以啟動步接跨步移向正手前場，最後由持拍側腳落地。'},
+  {id:'seed_rearcourt_footwork', name:'頭頂區後退步伐', category:'步伐與移動', sub_category:'後場步伐', level:'中階', content:'快速轉身移向反手後場，以頭頂正手方式處理來球。'},
+  {id:'seed_short_serve_backhand', name:'反手短發球', category:'發球與接發球', sub_category:'發球', level:'初階', content:'將球短促推送到前發球線附近，讓球貼網且不易被撲。'},
+  {id:'seed_return_push', name:'接發推球', category:'發球與接發球', sub_category:'接發球', level:'初階', content:'將球快速推向對方中後場空檔，壓迫發球方下一拍。'},
+  {id:'seed_doubles_first3', name:'雙打前三拍', category:'發球與接發球', sub_category:'戰術', level:'中階', content:'把發球、接發與第三拍視為一組，率先取得下壓。'},
+  {id:'seed_net_shot_forehand', name:'正手放網', category:'前場技巧', sub_category:'網前控制', level:'初階', content:'用柔和拍面讓球貼網落到對方前場。'},
+  {id:'seed_net_spin', name:'搓球', category:'前場技巧', sub_category:'網前控制', level:'中階', content:'由球托側面摩擦，使球過網後旋轉並快速下墜。'},
+  {id:'seed_mid_intercept', name:'中場攔截', category:'中場技巧', sub_category:'攔截', level:'中階', content:'在球下降前提早截擊，減少對手反應時間。'},
+  {id:'seed_flat_drive_variation', name:'平抽擋節奏變化', category:'中場技巧', sub_category:'變化', level:'進階', content:'加入停頓、加速或落點變化，打亂對手節奏。'},
+  {id:'seed_clear_forehand', name:'正手高遠球', category:'後場技巧', sub_category:'高遠球', level:'初階', content:'在高擊球點將球打高打深至對方後場。'},
+  {id:'seed_smash_forehand', name:'正手殺球', category:'後場技巧', sub_category:'殺球', level:'中階', content:'在高點加速拍頭向下擊球，以速度與角度製造壓力。'},
+  {id:'seed_slice_drop', name:'劈吊', category:'後場技巧', sub_category:'吊球', level:'中階', content:'以切球方式改變球速與方向，使對手難以預判。'},
+  {id:'seed_smash_defense_backhand', name:'反手殺球防守', category:'防守技巧', sub_category:'殺球防守', level:'初階', content:'以拇指發力和反手拍面處理快速殺球。'},
+  {id:'seed_net_block_defense', name:'防守擋網', category:'防守技巧', sub_category:'回球選擇', level:'中階', content:'吸收殺球力量，把球柔和擋到網前轉守為攻。'},
+  {id:'seed_doubles_position_basic', name:'前後進攻站位', category:'雙打站位與戰術', sub_category:'基本站位', level:'初階', content:'後場負責下壓，前場負責封網與攔截。'},
+  {id:'seed_doubles_rotation', name:'左右轉前後', category:'雙打站位與戰術', sub_category:'輪轉', level:'中階', content:'成功下壓或擋網後，兩人轉為前後進攻站位。'},
+  {id:'seed_attack_middle', name:'攻中路', category:'雙打站位與戰術', sub_category:'進攻戰術', level:'初階', content:'把球打向兩名對手之間，製造猶豫與空檔。'}
+];
+async function seedDefaultTechniques(){
+  const rows = ALL_SEED_ITEMS.map((t,i)=>({id:t.id, name:t.name, category:t.category, sub_category:t.sub_category, level:t.level, content:t.content, tags:'', key_points:'', common_mistakes:'', my_notes:'', mastery:'待學習', next_practice:false, is_custom:false, sort_order:i, user_id:currentUser.id}));
+  const {error} = await sb.from('techniques').insert(rows);
+  if(error) console.error('seed error', error);
+}
 async function loadAll(){
   let {data:techs, error:e1} = await sb.from('techniques').select('*').order('sort_order',{ascending:true});
   if(e1) throw e1;
+  if(!techs || techs.length===0){
+    await seedDefaultTechniques();
+    const r2 = await sb.from('techniques').select('*').order('sort_order',{ascending:true});
+    if(r2.error) throw r2.error;
+    techs = r2.data;
+  }
   skills = (techs||[]).map(t=>({key:t.id, name:t.name, cat:t.category||'基礎動作', sub:t.sub_category||'其他', level:t.level||'初階', desc:t.content||'', points:t.key_points||'', mistakes:t.common_mistakes||'', notes:t.my_notes||'', mastery:t.mastery||'待學習', queued:!!t.next_practice}));
 
   let {data:sess, error:e2} = await sb.from('sessions').select('*');
@@ -323,7 +368,7 @@ async function loadAll(){
 
   let {data:eq, error:e5} = await sb.from('equipment').select('*').order('created_at',{ascending:true});
   if(e5) throw e5;
-  equipment = (eq||[]).map(e=>({id:e.id, name:e.name, brand:e.brand_model||'', tension:e.string_tension||'', purchaseDate:e.purchase_date||'', notes:e.notes||'', active:e.is_active}));
+  equipment = (eq||[]).map(e=>({id:e.id, name:e.name, type:e.type||'球拍', brand:e.brand_model||'', tension:e.string_tension||'', purchaseDate:e.purchase_date||'', notes:e.notes||'', active:e.is_active}));
 }
 
 /* ================= Auth / Init ================= */
@@ -420,18 +465,24 @@ function initUI(){
 
   document.getElementById('prevMonthBtn').onclick = ()=>changeMonth(-1);
   document.getElementById('nextMonthBtn').onclick = ()=>changeMonth(1);
-  renderTrainingChips();
   MOODS.forEach(x=>{ const b=document.createElement('button'); b.type='button'; b.className='mood'; b.textContent=x; b.onclick=()=>{ const wasActive=b.classList.contains('active'); document.querySelectorAll('#moods .mood').forEach(m=>m.classList.remove('active')); if(!wasActive) b.classList.add('active'); }; document.getElementById('moods').appendChild(b); });
   document.getElementById('startTime').onchange = updateDuration;
   document.getElementById('endTime').onchange = updateDuration;
   document.getElementById('saveRecord').onclick = saveRecord;
   document.getElementById('clearRecord').onclick = clearRecordForm;
-  document.getElementById('addMatchBtn').onclick = ()=>openModal('matchModal');
-  document.querySelectorAll(".match-type").forEach(b=>b.onclick=()=>{ matchType=b.dataset.type; document.querySelectorAll(".match-type").forEach(x=>x.classList.toggle("active",x===b)); updateMatchFields(); });
+  document.getElementById('addMatchBtn').onclick = ()=>{ resetMatchModal(); openModal('matchModal'); };
+  document.querySelectorAll(".match-type[data-type]").forEach(b=>b.onclick=()=>{ matchType=b.dataset.type; document.querySelectorAll(".match-type[data-type]").forEach(x=>x.classList.toggle("active",x===b)); updateMatchFields(); });
+  document.querySelectorAll(".result-btn").forEach(b=>b.onclick=()=>{ matchResult=b.dataset.result; document.querySelectorAll(".result-btn").forEach(x=>x.classList.toggle("active",x===b)); });
   updateMatchFields();
   document.getElementById('saveMatch').onclick = createMatch;
+  document.getElementById('toggleEquipFormBtn').onclick = ()=>{
+    const f=document.getElementById('equipForm');
+    f.style.display = f.style.display==='none' ? 'block' : 'none';
+  };
+  document.getElementById('cancelEquipBtn').onclick = ()=>{ document.getElementById('equipForm').style.display='none'; clearEquipForm(); };
   document.getElementById('addEquipBtn').onclick = createEquipment;
   document.getElementById('periodSelect').onchange = renderOverview;
+  initTrainingInput();
 
   renderNotes();
 }
@@ -486,15 +537,15 @@ async function createSkill(){
   if(!name) return toast("請輸入技巧名稱");
   const level = document.getElementById('newSkillLevel').value;
   const cat = document.getElementById('newSkillCat').value;
-  const sub = document.getElementById('newSkillSub').value || "其他";
+  const sub = "其他";
   const desc = document.getElementById('newSkillDesc').value || "尚未填寫技巧說明。";
   const key = 'custom_'+Date.now();
   const row = {id:key, name, category:cat, sub_category:sub, level, content:desc, tags:'', key_points:'', common_mistakes:'', my_notes:'', mastery:'待學習', next_practice:false, is_custom:true, sort_order:skills.length, user_id:currentUser.id};
   const {error} = await sb.from('techniques').insert(row);
   if(error) return toast('新增失敗：'+error.message);
   skills.push({key, name, cat, sub, level, desc, points:'', mistakes:'', notes:'', mastery:'待學習', queued:false});
-  document.getElementById('newSkillName').value=''; document.getElementById('newSkillSub').value=''; document.getElementById('newSkillDesc').value='';
-  closeAll(); renderNotes(); renderTrainingChips(); toast("技巧已新增");
+  document.getElementById('newSkillName').value=''; document.getElementById('newSkillDesc').value='';
+  closeAll(); renderNotes(); toast("技巧已新增");
 }
 async function saveTechField(localField, column, value, skipToast){
   const s = getSkill(selectedSkillKey); if(!s) return;
@@ -528,7 +579,7 @@ async function deleteSkill(){
   const {error} = await sb.from('techniques').delete().eq('id', s.key).eq('user_id', currentUser.id);
   if(error) return toast('刪除失敗：'+error.message);
   skills = skills.filter(x=>x.key!==s.key);
-  closeAll(); renderNotes(); renderTrainingChips(); renderQueue();
+  closeAll(); renderNotes(); renderQueue();
   toast('已刪除');
 }
 
@@ -564,14 +615,37 @@ function updateDuration(){
   out.value = `${h?h+' 小時':''}${h&&m?' ':''}${m?m+' 分鐘':''}` || '0 分鐘';
   out.dataset.mins = mins;
 }
-function renderTrainingChips(){
-  const box = document.getElementById('trainingChips');
-  box.innerHTML = CAT_NAMES.map(cat=>{
-    const items = skills.filter(s=>s.cat===cat);
-    if(!items.length) return '';
-    return `<div class="tag-group"><div class="tag-group-title">${cat}</div><div class="chips">${items.map(s=>`<button type="button" class="chip" data-name="${s.name}">${s.name}</button>`).join('')}</div></div>`;
-  }).join('');
-  document.querySelectorAll('#trainingChips .chip').forEach(b=>b.onclick=()=>b.classList.toggle('active'));
+function renderTrainingSelected(){
+  const box = document.getElementById('trainingSelected');
+  box.innerHTML = selectedTrainingTags.map(name=>`<button type="button" class="chip active" data-name="${name}">${name} ✕</button>`).join('');
+  box.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
+    selectedTrainingTags = selectedTrainingTags.filter(n=>n!==b.dataset.name);
+    renderTrainingSelected();
+  });
+}
+function renderTrainingDropdown(query){
+  const dd = document.getElementById('trainingDropdown');
+  const q = (query||'').trim().toLowerCase();
+  let matched = skills.filter(s=>!selectedTrainingTags.includes(s.name));
+  if(q) matched = matched.filter(s=>s.name.toLowerCase().includes(q));
+  matched = matched.slice(0,8);
+  if(!matched.length){ dd.style.display='none'; dd.innerHTML=''; return; }
+  dd.innerHTML = matched.map(s=>`<div class="drop-item" data-name="${s.name}" style="padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--line);font-size:13.5px">${s.name}<span style="color:var(--muted);margin-left:6px;font-size:12px">${s.cat}</span></div>`).join('');
+  dd.style.display='block';
+  dd.querySelectorAll('.drop-item').forEach(el=>el.onclick=()=>{
+    selectedTrainingTags.push(el.dataset.name);
+    document.getElementById('trainingInput').value='';
+    dd.style.display='none';
+    renderTrainingSelected();
+  });
+}
+function initTrainingInput(){
+  const input = document.getElementById('trainingInput');
+  input.oninput = ()=>renderTrainingDropdown(input.value);
+  input.onfocus = ()=>renderTrainingDropdown(input.value);
+  document.addEventListener('click', e=>{
+    if(!e.target.closest('#trainingInput') && !e.target.closest('#trainingDropdown')) document.getElementById('trainingDropdown').style.display='none';
+  });
 }
 function loadDayIntoPanel(dateStr){
   document.getElementById('recordDate').textContent = dateStr;
@@ -583,8 +657,9 @@ function loadDayIntoPanel(dateStr){
   document.getElementById('fBody').value = s.body || '狀況良好';
   document.getElementById('fInjury').value = s.injury;
   document.getElementById('fNote').value = s.note;
-  const activeTags = (s.tags||'').split(',').filter(Boolean);
-  document.querySelectorAll('#trainingChips .chip').forEach(el=>el.classList.toggle('active', activeTags.includes(el.dataset.name)));
+  selectedTrainingTags = (s.tags||'').split(',').filter(Boolean);
+  document.getElementById('trainingInput').value = '';
+  renderTrainingSelected();
   document.querySelectorAll('#moods .mood').forEach(el=>el.classList.toggle('active', el.textContent===s.mood));
   renderMatchList(dateStr);
 }
@@ -596,7 +671,9 @@ function clearRecordForm(){
   document.getElementById('fBody').value='狀況良好';
   document.getElementById('fInjury').value='';
   document.getElementById('fNote').value='';
-  document.querySelectorAll('#trainingChips .chip').forEach(el=>el.classList.remove('active'));
+  selectedTrainingTags=[];
+  document.getElementById('trainingInput').value='';
+  renderTrainingSelected();
   document.querySelectorAll('#moods .mood').forEach(el=>el.classList.remove('active'));
   toast('已清空表單（尚未儲存）');
 }
@@ -609,7 +686,7 @@ async function saveRecord(){
   const body = document.getElementById('fBody').value;
   const injury = document.getElementById('fInjury').value;
   const note = document.getElementById('fNote').value;
-  const tags = [...document.querySelectorAll('#trainingChips .chip.active')].map(el=>el.dataset.name).join(',');
+  const tags = selectedTrainingTags.join(',');
   const moodEl = document.querySelector('#moods .mood.active');
   const mood = moodEl ? moodEl.textContent : '';
   const {error} = await sb.from('sessions').upsert({date:dateStr, location, start_time:start, end_time:end, duration_minutes:duration, tags, mood, body_condition:body, injury, note, user_id:currentUser.id}, {onConflict:'user_id,date'});
@@ -628,6 +705,18 @@ function updateMatchFields(){
   document.getElementById('opponent2Field').style.display = isDoubles?'block':'none';
   document.getElementById('opponent1Label').textContent = isDoubles?'對手 1 名字':'對手名字';
 }
+function resetMatchModal(){
+  matchType='單打'; matchResult='win';
+  document.querySelectorAll(".match-type[data-type]").forEach(x=>x.classList.toggle("active", x.dataset.type==='單打'));
+  document.querySelectorAll(".result-btn").forEach(x=>x.classList.toggle("active", x.dataset.result==='win'));
+  updateMatchFields();
+  document.getElementById('myScore').value='';
+  document.getElementById('oppScore').value='';
+  document.getElementById('opponent1Name').value='';
+  document.getElementById('teammateName').value='';
+  document.getElementById('opponent2Name').value='';
+  document.getElementById('matchNote').value='';
+}
 function renderMatchList(dateStr){
   const list = matches.filter(m=>m.date===dateStr);
   const box = document.getElementById('matchList');
@@ -635,7 +724,7 @@ function renderMatchList(dateStr){
   box.innerHTML = list.map(m=>{
     const mySide = m.type==='雙打' ? `我 / ${m.teammate||'?'}` : '我';
     const oppSide = m.type==='雙打' ? `${m.opponent} / ${m.opponent2||'?'}` : m.opponent;
-    return `<div class="record-item"><div><strong>${m.type}・${m.score}</strong><br><small>${mySide} vs ${oppSide}${m.note?(' · '+m.note):''}</small></div><span class="badge ${m.win?'beginner':'advanced'}">${m.win?'勝利':'落敗'}</span><button class="close" style="width:28px;height:28px;font-size:15px;margin-left:8px" onclick="deleteMatch(${m.id})">×</button></div>`;
+    return `<div class="record-item"><div><strong>${m.type}${m.score?('・'+m.score):''}</strong><br><small>${mySide} vs ${oppSide}${m.note?(' · '+m.note):''}</small></div><span class="badge ${m.win?'beginner':'advanced'}">${m.win?'勝利':'落敗'}</span><button class="close" style="width:28px;height:28px;font-size:15px;margin-left:8px" onclick="deleteMatch(${m.id})">×</button></div>`;
   }).join('');
 }
 async function createMatch(){
@@ -648,15 +737,16 @@ async function createMatch(){
     if(!teammate) return toast('請輸入隊友名字');
     if(!opponent2) return toast('請輸入第二位對手名字');
   }
-  const myScore = Number(document.getElementById('myScore').value);
-  const oppScore = Number(document.getElementById('oppScore').value);
+  const myRaw = document.getElementById('myScore').value.trim();
+  const oppRaw = document.getElementById('oppScore').value.trim();
+  const hasScore = myRaw!=='' && oppRaw!=='';
+  const score = hasScore ? `${myRaw}-${oppRaw}` : '';
   const note = document.getElementById('matchNote').value.trim();
-  const win = myScore > oppScore;
-  const score = `${myScore}-${oppScore}`;
+  const win = matchResult==='win';
   const {data,error} = await sb.from('matches').insert({match_date:selectedDate, type:matchType, opponent, teammate_name:teammate, opponent2_name:opponent2, score, is_win:win, note, user_id:currentUser.id}).select().single();
   if(error) return toast('新增失敗：'+error.message);
   matches.unshift({id:data.id, date:selectedDate, type:matchType, opponent, teammate, opponent2, score, win, note});
-  document.getElementById('opponent1Name').value=''; document.getElementById('teammateName').value=''; document.getElementById('opponent2Name').value=''; document.getElementById('matchNote').value='';
+  resetMatchModal();
   closeAll(); renderMatchList(selectedDate); renderCalendar();
   toast('對戰紀錄已新增');
 }
@@ -673,13 +763,17 @@ function renderQueue(){
   const box = document.getElementById('queueList');
   const list = skills.filter(s=>s.queued);
   if(!list.length){ box.innerHTML = '<div style="color:var(--muted);padding:8px 0">目前沒有待練習項目</div>'; return; }
-  box.innerHTML = list.map(s=>`<div class="queue-item" onclick="openSkill('${s.key}')"><div><strong>${s.name}</strong><small>${s.cat} · ${s.sub}</small></div><button class="close" style="width:28px;height:28px;font-size:15px" onclick="event.stopPropagation();quickRemoveQueue('${s.key}')">×</button></div>`).join('');
+  box.innerHTML = list.map(s=>`<div class="queue-item"><label style="display:flex;align-items:center;gap:11px;flex:1;cursor:pointer"><input type="checkbox" style="width:19px;height:19px;flex:none" onclick="event.stopPropagation();markPracticed('${s.key}')"><span onclick="event.stopPropagation();openSkill('${s.key}')" style="cursor:pointer"><strong>${s.name}</strong><small style="display:block">${s.cat} · ${s.sub}</small></span></label></div>`).join('');
 }
-async function quickRemoveQueue(key){
+async function markPracticed(key){
   const s = getSkill(key); if(!s) return;
   s.queued = false;
-  await sb.from('techniques').update({next_practice:false}).eq('id', s.key).eq('user_id', currentUser.id);
+  s.mastery = s.mastery==='待學習' ? '學習中' : s.mastery;
+  const {error} = await sb.from('techniques').update({next_practice:false, mastery:s.mastery}).eq('id', s.key).eq('user_id', currentUser.id);
+  if(error){ toast('更新失敗：'+error.message); return; }
   renderQueue(); renderNotes();
+  if(document.getElementById('page-overview').classList.contains('active')) renderOverview();
+  toast('已標記為練習過，移出待練習清單');
 }
 
 /* ================= Overview ================= */
@@ -775,23 +869,30 @@ function renderTips(sessionsP, matchesP, scores){
 }
 
 /* ================= Equipment ================= */
+function equipIcon(type){ return type==='球鞋' ? '👟' : type==='其他' ? '🎒' : '🏸'; }
 function renderEquipment(){
   const box=document.getElementById('equipList');
-  if(!equipment.length){ box.innerHTML='<div style="color:var(--muted);padding:8px 0">還沒有新增球拍</div>'; return; }
-  box.innerHTML = equipment.map(e=>`<div class="equip-card"><div class="etop"><span class="ename">🏸 ${e.name} ${e.active?'<span class="badge beginner">使用中</span>':''}</span><button class="close" style="width:28px;height:28px;font-size:15px" onclick="deleteEquipment(${e.id})">×</button></div><div class="emeta">${e.brand||''}${e.tension?(' · '+e.tension+' 磅'):''}${e.purchaseDate?(' · 購入 '+e.purchaseDate):''}</div>${e.notes?`<div class="emeta">${e.notes}</div>`:''}</div>`).join('');
+  if(!equipment.length){ box.innerHTML='<div style="color:var(--muted);padding:8px 0">還沒有新增裝備</div>'; return; }
+  box.innerHTML = equipment.map(e=>`<div class="equip-card"><div class="etop"><span class="ename">${equipIcon(e.type)} ${e.name} ${e.active?'<span class="badge beginner">使用中</span>':''}</span><button class="close" style="width:28px;height:28px;font-size:15px" onclick="deleteEquipment(${e.id})">×</button></div><div class="emeta">${e.type}${e.brand?(' · '+e.brand):''}${e.tension?(' · '+e.tension):''}${e.purchaseDate?(' · 購入 '+e.purchaseDate):''}</div>${e.notes?`<div class="emeta">${e.notes}</div>`:''}</div>`).join('');
+}
+function clearEquipForm(){
+  document.getElementById('eqType').value='球拍';
+  document.getElementById('eqName').value=''; document.getElementById('eqBrand').value=''; document.getElementById('eqTension').value=''; document.getElementById('eqDate').value=''; document.getElementById('eqNote').value='';
 }
 async function createEquipment(){
   const name=document.getElementById('eqName').value.trim();
-  if(!name) return toast('請輸入球拍名稱');
+  if(!name) return toast('請輸入裝備名稱');
+  const type=document.getElementById('eqType').value;
   const brand=document.getElementById('eqBrand').value.trim();
   const tension=document.getElementById('eqTension').value.trim();
   const purchaseDate=document.getElementById('eqDate').value;
   const notes=document.getElementById('eqNote').value.trim();
-  const {data,error} = await sb.from('equipment').insert({name, brand_model:brand, string_tension:tension, purchase_date:purchaseDate||null, notes, is_active:true, user_id:currentUser.id}).select().single();
+  const {data,error} = await sb.from('equipment').insert({name, type, brand_model:brand, string_tension:tension, purchase_date:purchaseDate||null, notes, is_active:true, user_id:currentUser.id}).select().single();
   if(error) return toast('新增失敗：'+error.message);
-  equipment.push({id:data.id, name, brand, tension, purchaseDate, notes, active:true});
-  document.getElementById('eqName').value=''; document.getElementById('eqBrand').value=''; document.getElementById('eqTension').value=''; document.getElementById('eqNote').value='';
-  renderEquipment(); toast('球拍已新增');
+  equipment.push({id:data.id, name, type, brand, tension, purchaseDate, notes, active:true});
+  clearEquipForm();
+  document.getElementById('equipForm').style.display='none';
+  renderEquipment(); toast('裝備已新增');
 }
 async function deleteEquipment(id){
   const {error} = await sb.from('equipment').delete().eq('id',id).eq('user_id', currentUser.id);
