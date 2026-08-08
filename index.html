@@ -256,9 +256,8 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
       <button data-m="學習中">學習中</button>
       <button data-m="已掌握">已掌握</button>
     </div>
-    <div class="field"><label>技巧解釋</label><textarea id="detailDesc"></textarea></div>
-    <div class="section"><h3>技巧重點（每行一項）</h3><textarea id="detailPoints"></textarea></div>
-    <div class="section"><h3>常見錯誤（每行一項）</h3><textarea id="detailMistakes"></textarea></div>
+    <div class="section" style="margin-top:0"><h3>技巧解釋</h3><div class="detail-box" id="detailDesc"></div></div>
+    <div class="section"><h3>常見錯誤</h3><div class="detail-box" id="detailMistakes"></div></div>
     <div class="section">
       <h3>我的筆記</h3>
       <div class="detail-box" id="notesDisplay"></div>
@@ -284,7 +283,11 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
       <div class="field" id="teammateField" style="display:none"><label>隊友名字</label><input class="input" id="teammateName" style="width:100%"></div>
       <div class="field"><label id="opponent1Label">對手名字</label><input class="input" id="opponent1Name" style="width:100%"></div>
       <div class="field" id="opponent2Field" style="display:none"><label>對手 2 名字</label><input class="input" id="opponent2Name" style="width:100%"></div>
-      <div class="field full"><label>比分（選填）</label><div class="match-row"><input class="input score" id="myScore" type="number" min="0" placeholder="我方"><div style="text-align:center">：</div><input class="input score" id="oppScore" type="number" min="0" placeholder="對方"></div></div>
+      <div class="field full"><label>比分（選填）</label><div class="match-row">
+        <div style="text-align:center"><div style="font-size:11px;color:var(--muted);margin-bottom:4px">我方</div><input class="input score" id="myScore" type="number" min="0"></div>
+        <div style="text-align:center">：</div>
+        <div style="text-align:center"><div style="font-size:11px;color:var(--muted);margin-bottom:4px">對方</div><input class="input score" id="oppScore" type="number" min="0"></div>
+      </div></div>
       <div class="field full"><label>勝負結果</label><div class="match-type-toggle"><button type="button" class="match-type result-btn active" data-result="win">✓ 勝利</button><button type="button" class="match-type result-btn" data-result="lose">✕ 落敗</button></div></div>
       <div class="field full"><label>備註</label><textarea id="matchNote"></textarea></div>
     </div>
@@ -321,29 +324,107 @@ function cls(l){return l==="初階"?"beginner":l==="中階"?"medium":"advanced"}
 function masteryClass(m){return m==="已掌握"?"done":m==="學習中"?"learning":"todo"}
 
 /* ================= Load ================= */
-const ALL_SEED_ITEMS = [
-  {id:'seed_grip_forehand', name:'正手握拍', category:'基礎動作', sub_category:'握拍', level:'初階', content:'以握手方式自然握住拍柄，適合正手區及頭頂區擊球。'},
-  {id:'seed_ready_step', name:'啟動步', category:'基礎動作', sub_category:'姿勢', level:'初階', content:'在對手擊球瞬間做小幅彈跳，落地後快速啟動。'},
-  {id:'seed_forecourt_footwork', name:'正手上網步伐', category:'步伐與移動', sub_category:'前場步伐', level:'初階', content:'以啟動步接跨步移向正手前場，最後由持拍側腳落地。'},
-  {id:'seed_rearcourt_footwork', name:'頭頂區後退步伐', category:'步伐與移動', sub_category:'後場步伐', level:'中階', content:'快速轉身移向反手後場，以頭頂正手方式處理來球。'},
-  {id:'seed_short_serve_backhand', name:'反手短發球', category:'發球與接發球', sub_category:'發球', level:'初階', content:'將球短促推送到前發球線附近，讓球貼網且不易被撲。'},
-  {id:'seed_return_push', name:'接發推球', category:'發球與接發球', sub_category:'接發球', level:'初階', content:'將球快速推向對方中後場空檔，壓迫發球方下一拍。'},
-  {id:'seed_doubles_first3', name:'雙打前三拍', category:'發球與接發球', sub_category:'戰術', level:'中階', content:'把發球、接發與第三拍視為一組，率先取得下壓。'},
-  {id:'seed_net_shot_forehand', name:'正手放網', category:'前場技巧', sub_category:'網前控制', level:'初階', content:'用柔和拍面讓球貼網落到對方前場。'},
-  {id:'seed_net_spin', name:'搓球', category:'前場技巧', sub_category:'網前控制', level:'中階', content:'由球托側面摩擦，使球過網後旋轉並快速下墜。'},
-  {id:'seed_mid_intercept', name:'中場攔截', category:'中場技巧', sub_category:'攔截', level:'中階', content:'在球下降前提早截擊，減少對手反應時間。'},
-  {id:'seed_flat_drive_variation', name:'平抽擋節奏變化', category:'中場技巧', sub_category:'變化', level:'進階', content:'加入停頓、加速或落點變化，打亂對手節奏。'},
-  {id:'seed_clear_forehand', name:'正手高遠球', category:'後場技巧', sub_category:'高遠球', level:'初階', content:'在高擊球點將球打高打深至對方後場。'},
-  {id:'seed_smash_forehand', name:'正手殺球', category:'後場技巧', sub_category:'殺球', level:'中階', content:'在高點加速拍頭向下擊球，以速度與角度製造壓力。'},
-  {id:'seed_slice_drop', name:'劈吊', category:'後場技巧', sub_category:'吊球', level:'中階', content:'以切球方式改變球速與方向，使對手難以預判。'},
-  {id:'seed_smash_defense_backhand', name:'反手殺球防守', category:'防守技巧', sub_category:'殺球防守', level:'初階', content:'以拇指發力和反手拍面處理快速殺球。'},
-  {id:'seed_net_block_defense', name:'防守擋網', category:'防守技巧', sub_category:'回球選擇', level:'中階', content:'吸收殺球力量，把球柔和擋到網前轉守為攻。'},
-  {id:'seed_doubles_position_basic', name:'前後進攻站位', category:'雙打站位與戰術', sub_category:'基本站位', level:'初階', content:'後場負責下壓，前場負責封網與攔截。'},
-  {id:'seed_doubles_rotation', name:'左右轉前後', category:'雙打站位與戰術', sub_category:'輪轉', level:'中階', content:'成功下壓或擋網後，兩人轉為前後進攻站位。'},
-  {id:'seed_attack_middle', name:'攻中路', category:'雙打站位與戰術', sub_category:'進攻戰術', level:'初階', content:'把球打向兩名對手之間，製造猶豫與空檔。'}
+const RAW_TECHNIQUES = [
+['基礎動作','握拍','正手握拍','初階','以握手方式自然握住拍柄，拇指與食指形成 V 字，適合正手區及頭頂區擊球。','握拍太緊、虎口卡死，手腕無法靈活轉動，擊球缺乏彈性與速度。'],
+['基礎動作','握拍','反手拇指握拍','初階','拇指平貼拍柄較寬的斜面，利用拇指推壓完成反手短促發力。','拇指位置太靠拍框邊緣或完全平貼寬面，發力時容易滑動、拍面控制不穩。'],
+['基礎動作','握拍','握拍切換','初階','依來球方向在正手與反手握法間快速轉換，避免固定握死而限制拍面。','切換速度太慢，來不及在擊球前完成轉換，導致拍面角度錯誤。'],
+['基礎動作','發力','手指發力','初階','擊球瞬間由放鬆握拍轉為手指收緊，製造短而快的爆發力。','全靠手臂大幅甩動代替手指瞬間收緊，動作變大、速度反而變慢。'],
+['基礎動作','發力','前臂旋轉','中階','透過前臂內旋或外旋加速拍頭，而不是只用手腕甩拍。','誤用手腕死甩取代前臂內外旋，容易造成手腕疲勞甚至受傷。'],
+['基礎動作','姿勢','準備姿勢','初階','雙腳略寬於肩、膝蓋微彎、重心在前腳掌，球拍保持在身體前方。','重心放在腳跟或雙腳站得太直，起動反應變慢。'],
+['基礎動作','姿勢','啟動步','初階','對手擊球瞬間做小幅彈跳，落地後利用反作用力快速往來球方向移動。','彈跳過高或時機太早/太晚，導致無法即時判斷來球方向。'],
+['基礎動作','擊球','擊球點判斷','初階','盡量在身體前上方、舒適且可主動發力的位置接觸球。','習慣等球落到身體側後方才擊球，失去主動出擊的時機與力量。'],
+['基礎動作','發力','重心轉移','中階','利用下肢與軀幹把力量由後腳傳到前腳，提升擊球穩定度與力量。','上肢先動而下肢沒跟上，力量無法由下往上傳遞，擊球顯得單薄。'],
+['基礎動作','恢復','擊球後回位','初階','完成擊球後立刻恢復平衡並移向合理的下一拍準備位置。','擊球後停在原地看球，沒有立刻恢復到準備位置，容易被下一拍牽制。'],
+['步伐與移動','前場步伐','正手上網步伐','初階','以啟動步接跨步移向正手前場，最後由持拍側腳穩定落地。','最後一步跨得太小或太晚出腳，導致重心不穩、擊球點太低。'],
+['步伐與移動','前場步伐','反手上網步伐','初階','向反手前場移動並以持拍側腳跨出，保持上半身穩定方便控球。','身體轉動不足，用手臂硬伸去接球，控球精準度下降。'],
+['步伐與移動','前場步伐','跨步','初階','最後一步大幅跨出並彎曲前膝，以靠近球並吸收前進力量。','前膝伸得太直、缺乏彎曲緩衝，容易造成膝蓋負擔並影響下一步啟動。'],
+['步伐與移動','前場步伐','上網後回位','初階','擊球後用前腳蹬地，快速退回能兼顧下一拍的位置。','擊球後仍站在前場觀察，沒有蹬地後退，後場空間被壓縮。'],
+['步伐與移動','中場步伐','左右防守移動','初階','維持低重心，以小跳步或側併步調整身體到球的後方。','用交叉步取代小碎步，重心轉換太慢，來不及還原防守位置。'],
+['步伐與移動','中場步伐','平抽擋移動','中階','使用小碎步保持身體正對球網，讓拍面能快速處理左右來球。','站得太直、腳步太大步，身體正對來球的角度跟不上節奏。'],
+['步伐與移動','中場步伐','中場攔截步伐','中階','向前或側前方踏出一步，在球尚未下降前提早截擊。','出腳太晚讓球已經下墜，只能被動接球而非主動攔截。'],
+['步伐與移動','後場步伐','正手後退步伐','初階','轉髖側身後用併步或交叉步移向正手後場，保持擊球空間。','轉髖不足，肩膀沒有側向後場，擊球時容易被追身。'],
+['步伐與移動','後場步伐','頭頂區後退步伐','中階','快速轉身移向反手後場，以頭頂正手方式處理來球。','轉身速度太慢，最後用勉強的手臂動作硬打反手方向的球。'],
+['步伐與移動','後場步伐','併步','初階','雙腳依序靠近再分開，適合短距離調整與保持身體穩定。','步伐間距抓得太大，造成移動途中重心不穩、容易絆到自己的腳。'],
+['步伐與移動','後場步伐','交叉步','中階','後退時雙腳交叉跨越，可較快覆蓋長距離後場。','交叉時上半身跟著旋轉過度，回球方向容易被對手預判。'],
+['步伐與移動','後場步伐','剪刀腳','中階','後場擊球時在空中交換雙腳，落地後順勢向前回位。','起跳時機錯誤或落地沒有順勢緩衝，容易造成下肢受傷。'],
+['步伐與移動','綜合步伐','六點步伐','初階','依序移動至前場、中場與後場六個方向，訓練全場覆蓋與回位。','只顧移動速度卻忽略回位，導致下一輪練習節奏亂掉。'],
+['步伐與移動','綜合步伐','雙打輪轉步伐','中階','依搭檔與球路在前後、左右站位間移動，避免兩人重疊或留下空檔。','兩人移動時沒有互相觀察，容易同時撲向同一顆球或留下空檔。'],
+['發球與接發球','發球','反手短發球','初階','以短促推送將球發到對方前發球線附近，讓球貼網且不易被撲。','手腕過度用力推球，球飛行弧線太高，容易被對手撲殺。'],
+['發球與接發球','發球','反手後場發球','中階','使用與短發球相似的準備動作，突然將球送至對方後場。','準備動作與短發球差異太明顯，提早被對手看出來球長短。'],
+['發球與接發球','發球','平射偷襲發球','中階','以較平快速的球路攻擊接發者站位或反應空間，需控制合法高度。','擊球點太低或角度太平，球容易觸網或出界犯規。'],
+['發球與接發球','發球','正手高遠發球','初階','由低處向前上方揮拍，把球送至對方後場深處，單打較常使用。','揮拍軌跡太平，球的弧度不夠高，容易被對手提前上網進攻。'],
+['發球與接發球','發球','發球落點控制','中階','控制球落在 T 點、外角或身體附近，迫使對手使用不同接發方式。','只固定打同一個落點，缺乏變化，容易被對手掌握節奏。'],
+['發球與接發球','接發球','接發放網','初階','利用柔和拍面把發球回到網前，限制對方第三拍進攻。','手臂過度伸展去撈球，拍面不穩，回球容易過高被對手撲球。'],
+['發球與接發球','接發球','接發推球','初階','將球快速推向對方中後場空檔，壓迫發球方的下一拍。','出手時機太晚，推球缺乏力量，球容易停在中場被對手抓機會。'],
+['發球與接發球','接發球','接發撲球','中階','當發球偏高時提早向前，用短促動作將球往下撲。','判斷球高但實際球不夠高就強行撲球，容易造成掛網或出界。'],
+['發球與接發球','接發球','接發挑後場','初階','在無法主動壓球時把球挑高挑深，換取防守準備時間。','挑球弧度不夠高或不夠深，讓對手能輕鬆進攻後場。'],
+['發球與接發球','接發球','接發平抽','中階','快速將球平抽到發球方或搭檔身體附近，搶奪中前場節奏。','拍面角度沒抓好，平抽球容易偏高給對手殺球機會。'],
+['發球與接發球','戰術','雙打前三拍','中階','把發球、接發與第三拍視為一組，目標是率先取得下壓與前場控制。','只想著自己這一拍，沒有和搭檔溝通站位，前三拍後露出空檔。'],
+['前場技巧','網前控制','正手放網','初階','在正手前場以柔和拍面觸球，使球貼網落到對方前場。','出手力量過大，球容易彈得太高，反而被對手在網前搶攻。'],
+['前場技巧','網前控制','反手放網','初階','用反手握法在身體前方輕推球過網，重點是拍面穩定。','拍面角度沒控制好，球容易掛網或彈出場外。'],
+['前場技巧','網前控制','搓球','中階','由球托側面摩擦，使球過網後旋轉並快速下墜。','摩擦動作太慢或太用力，球的旋轉不明顯、下墜速度也不夠。'],
+['前場技巧','網前控制','滾網球','進階','讓球盡量貼著網帶翻越，提高對手回球難度。','觸球位置太靠拍框，球貼網角度不夠，容易被對手輕鬆挑起。'],
+['前場技巧','變化','勾對角','中階','在網前以拍面改變方向，把球送到對角前場空檔。','出手前預備動作太明顯，提早被對手看穿方向而攔截。'],
+['前場技巧','壓迫','推球','初階','在較高擊球點將球快速推向對手中後場或空檔。','擊球點太低才推，力量不足，球容易停在半場被抓下壓。'],
+['前場技巧','壓迫','撲球','中階','在球高於網帶時提早擊球，以短小動作向下壓球。','撲球時重心過度前傾，一旦落空容易失去平衡讓出前場空間。'],
+['前場技巧','壓迫','封網','中階','站在前場預判對方回球，以拍面攔截並維持進攻。','站位太靠後或反應太慢，錯過攔截時機讓球直接過網。'],
+['前場技巧','過渡','前場挑球','初階','從低擊球點把球挑到對方後場，解除網前壓力。','挑球用力過猛，球飛出界，或力量不足讓對手輕鬆進攻。'],
+['前場技巧','變化','前場假動作','進階','保持相同準備動作，在擊球前最後一刻改變方向或速度。','動作差異太刻意、太誇張，反而提早被對手識破真正方向。'],
+['中場技巧','平抽擋','正手平抽','初階','在身體前側以短促動作平擊球，追求速度與連續性。','揮拍幅度太大，速度跟不上連續抽球的節奏。'],
+['中場技巧','平抽擋','反手平抽','初階','以拇指推壓和前臂旋轉完成反手快速平擊。','只靠手腕發力，缺乏拇指與前臂配合，抽球力量不足。'],
+['中場技巧','平抽擋','平擋','初階','借用對方來球力量，以穩定拍面將球平直回擊。','拍面太軟或角度太開，擋回的球容易過高給對手再次進攻。'],
+['中場技巧','壓迫','推壓球','中階','從肩膀或胸口高度向前下方推球，迫使對手低手回球。','出手角度太高，球容易被對手在中場直接攔截反壓。'],
+['中場技巧','攔截','中場攔截','中階','提早移動並在球下降前截擊，減少對手反應時間。','提早出手卻沒抓準來球高度，容易攔空或掛網。'],
+['中場技巧','處理來球','身體球處理','中階','縮短揮拍並利用反手面或快速閃身處理打向胸口與肩膀的球。','收拍動作不夠及時，球打到身體才慌忙揮拍，容易失誤。'],
+['中場技巧','變化','平抽擋節奏變化','進階','在連續快球中加入停頓、加速或改變落點，打亂對手節奏。','節奏變化太規律、太固定，反而被對手抓到規律提前預判。'],
+['後場技巧','高遠球','正手高遠球','初階','在高擊球點將球打高打深至對方後場，爭取時間或迫使對手後退。','擊球點偏低，球的弧度不夠深，讓對手輕鬆進攻。'],
+['後場技巧','高遠球','頭頂高遠球','中階','在反手後場使用頭頂正手動作，把球回到對方後場。','用手腕硬打取代身體轉動，容易造成球路偏斜且力量不足。'],
+['後場技巧','高遠球','反手高遠球','進階','背向或側向球網時，以反手旋轉發力將球送至後場。','發力時機太晚或身體背對球網過久，球容易打不高不深。'],
+['後場技巧','殺球','正手殺球','中階','在高點加速拍頭向下擊球，以速度與角度製造進攻壓力。','只用手臂力量、缺乏身體轉動配合，殺球速度與角度都受限。'],
+['後場技巧','殺球','頭頂殺球','中階','從頭頂區使用正手動作下壓，常用於控制直線或中路。','拍頭下壓角度不夠，殺球容易變成高遠球被對手輕鬆接下。'],
+['後場技巧','殺球','點殺','中階','以較短、較快的發力打出陡峭球路，重視落點與下一拍銜接。','發力太滿變成重殺，節奏被打亂、下一拍銜接不上。'],
+['後場技巧','殺球','重殺','進階','使用完整身體力量與快速拍頭打出高速度殺球，但需要良好平衡。','為了追求速度犧牲平衡，殺球後容易來不及回位防守。'],
+['後場技巧','殺球','劈殺','進階','改變拍面切擊球托，使殺球方向或速度與揮拍動作不一致。','切球角度掌握不好，容易讓球速忽快忽慢、失去欺敵效果。'],
+['後場技巧','殺球','跳殺','進階','起跳後在更高擊球點完成殺球，增加角度但對體能與落地要求較高。','起跳時機沒抓好或落地方式不對，容易造成腳踝與膝蓋的負擔。'],
+['後場技巧','吊球','正手吊球','初階','使用近似高遠球的準備動作，減速讓球落至對方前場。','減速動作太明顯，容易被對手提前判斷是吊球而非殺球。'],
+['後場技巧','吊球','頭頂吊球','中階','在頭頂區把球柔和送到對方前場，搭配殺球與高遠球使用。','力量控制不夠細膩，吊球容易吊得太深或太淺。'],
+['後場技巧','吊球','劈吊','中階','以切球方式改變球速與方向，使對手較難由動作預判。','切球角度不夠精準，球的落點容易偏離預期目標。'],
+['後場技巧','吊球','滑拍吊球','進階','拍面沿球托滑過，製造更明顯的方向與速度變化。','拍面滑動時機掌握不好，容易造成擊球不實或下網。'],
+['後場技巧','被動處理','被動正手底線球','中階','在正手後場失去平衡時，優先把球安全回深或過渡至中場。','慌亂中用力過猛回擊，球容易出界或給對手更好的進攻機會。'],
+['後場技巧','被動處理','被動反手底線球','進階','在反手底線來不及繞頭時，以反手高遠、抽球或過渡球化解壓力。','身體來不及轉位就硬打，容易造成回球軟弱、被對手輕鬆進攻。'],
+['防守技巧','基本防守','基本防守站姿','初階','雙腳分開、重心降低、球拍置於身體前方，準備處理左右及追身球。','重心太高或雙腳站得太併，反應速度跟不上快速殺球。'],
+['防守技巧','殺球防守','正手殺球防守','初階','使用短揮拍和穩定拍面處理正手側殺球，避免大幅拉拍。','拉拍幅度太大，來不及應付速度較快的殺球。'],
+['防守技巧','殺球防守','反手殺球防守','初階','以拇指發力和反手拍面處理身體左側或正面的快速殺球。','反手拍面角度不穩，容易把球擋得過高給對手再次進攻。'],
+['防守技巧','殺球防守','身體球防守','中階','讓球拍保持在胸前，縮短動作並提早決定使用正手或反手面。','猶豫要用正手還是反手，導致反應時間不夠、擊球倉促。'],
+['防守技巧','回球選擇','防守擋網','中階','吸收殺球力量，把球柔和擋到網前，嘗試把防守轉為搶網。','擋網力量控制不好，球容易彈得太高或太靠近網帶中央。'],
+['防守技巧','回球選擇','防守抽球','中階','借力將球快速平抽回中後場，壓迫對方後場或輪轉空檔。','抽球角度太高，容易被對手在中場直接攔截。'],
+['防守技巧','回球選擇','防守挑後場','初階','把球挑高挑深，確保有時間恢復左右防守站位。','挑球高度不足，讓對手能夠連續進攻而沒有喘息空間。'],
+['防守技巧','回球選擇','防守推中場','中階','把球推向對方前後場之間的空檔，破壞其進攻節奏。','落點判斷不準，推球正好落在對手方便回擊的位置。'],
+['防守技巧','銜接','防守後回位','初階','回球後立刻恢復低重心與合理間距，準備下一次連續攻擊。','回球後停留在原地看結果，沒有立即恢復到防守準備姿勢。'],
+['防守技巧','銜接','防守轉進攻','中階','利用擋網、平抽或落點變化讓對手起球，再轉為前後進攻站位。','轉換時機掌握不好，該進攻時仍保持防守姿態，錯失反擊機會。'],
+['雙打站位與戰術','基本站位','前後進攻站位','初階','後場球員負責下壓，前場球員負責封網與攔截較短回球。','後場球員下壓後沒有觀察前場動態，兩人責任區域出現重疊或空隙。'],
+['雙打站位與戰術','基本站位','左右防守站位','初階','兩人左右分工覆蓋各自半場，保持適當間距處理殺球。','兩人間距太遠或太近，中間或兩側容易被對手直接得分。'],
+['雙打站位與戰術','基本站位','平抽擋站位','中階','兩人略呈左右或前後錯位，避免站在同一直線並維持中場壓力。','站位太過對稱、直線排列，容易被同一方向連續攻擊。'],
+['雙打站位與戰術','輪轉','左右轉前後','中階','當一方成功下壓或擋網時，前者向前、搭檔移至後方形成進攻。','轉換時機太慢，讓對手有時間回穩並反壓回來。'],
+['雙打站位與戰術','輪轉','前後轉左右','中階','當球被挑起或進攻失去時，前後球員分別退到左右防守區域。','退防時機太晚，被高球逼到不利位置才轉換站位。'],
+['雙打站位與戰術','輪轉','後場殺球後向前輪轉','中階','後場球員殺球後依落點與搭檔位置向前跟進，準備下一拍封壓。','殺球後忘記跟進，讓搭檔獨自承擔前場封網壓力。'],
+['雙打站位與戰術','輪轉','前場退後補位','中階','當前場球員被迫後退處理高球時，搭檔需依方向補上空出的區域。','補位方向判斷錯誤，導致原本前場的空間依然露出破綻。'],
+['雙打站位與戰術','分工','中間球分工','初階','依球的高度、方向、正反手與當下站位決定由誰接，並以溝通避免搶球。','缺乏口頭確認，兩人同時搶球或同時讓球，造成漏接或撞拍。'],
+['雙打站位與戰術','進攻戰術','攻中路','初階','把球打向兩名對手之間，增加猶豫、撞拍或回球不穩的機會。','落點打得太靠邊，反而讓對手容易單獨處理而不是製造猶豫。'],
+['雙打站位與戰術','進攻戰術','攻追身','初階','攻擊對手肩膀、髖部或持拍側身體附近，限制其揮拍空間。','力量拿捏不準，球太偏外側，讓對手還有空間輕鬆閃避回擊。'],
+['雙打站位與戰術','進攻戰術','攻反手','初階','持續壓迫對手較弱的反手區，迫使其回出較短或較高的球。','過度依賴同一種球路，容易被對手適應並提前預判。'],
+['雙打站位與戰術','進攻戰術','打兩人空檔','中階','觀察對手移動後留下的前後或左右空間，把球送到無人覆蓋處。','觀察時間不夠，還沒看清楚空檔位置就急著出手，容易打偏。'],
+['雙打站位與戰術','進攻戰術','殺直線後封網','中階','後場以直線殺球壓迫，前場搭檔重點封堵直線與中路回球。','前場搭檔封網位置偏向中路，直線空檔反而露出破綻。'],
+['雙打站位與戰術','進攻戰術','吊球創造前場機會','中階','以較快吊球迫使對手低手回球，讓前場搭檔尋找撲球或推壓機會。','吊球力量太大變成高球，沒有真正壓低對手回球高度。'],
+['雙打站位與戰術','防守戰術','防守抽回中路','中階','把防守球抽向對手中間，降低對方直接大角度進攻的空間。','抽球方向習慣性固定，容易被對手預判並提前站位攔截。'],
+['雙打站位與戰術','防守戰術','防守擋網反擊','中階','將殺球擋到網前並立刻向前跟進，迫使進攻方重新移動。','擋網後跟進速度太慢，錯失反擊的最佳時機。'],
+['雙打站位與戰術','搭檔配合','報球與讓球','初階','使用簡短口令確認由誰接球，降低中間球漏接或兩人撞拍。','口令喊得太晚或聲音太小，容易造成兩人同時揮拍或都不接。'],
+['雙打站位與戰術','搭檔配合','補位','初階','搭檔離開原區域後，依球路移動填補其留下的空間。','補位速度太慢或方向猜錯，讓對手抓住剛好露出的空檔。'],
+['雙打站位與戰術','搭檔配合','左右手搭檔站位','中階','依兩人的持拍手安排中間球與發接發位置，善用雙方正手覆蓋。','沒有依雙方持拍手調整站位，正手覆蓋範圍重疊或出現死角。']
 ];
+const ALL_SEED_ITEMS = RAW_TECHNIQUES.map((r,i)=>({id:'t'+String(i+1).padStart(3,'0'), category:r[0], sub_category:r[1], name:r[2], level:r[3], content:r[4], mistake:r[5]}));
 async function seedDefaultTechniques(){
-  const rows = ALL_SEED_ITEMS.map((t,i)=>({id:t.id, name:t.name, category:t.category, sub_category:t.sub_category, level:t.level, content:t.content, tags:'', key_points:'', common_mistakes:'', my_notes:'', mastery:'待學習', next_practice:false, is_custom:false, sort_order:i, user_id:currentUser.id}));
+  const rows = ALL_SEED_ITEMS.map((t,i)=>({id:t.id, name:t.name, category:t.category, sub_category:t.sub_category, level:t.level, content:t.content, tags:'', key_points:'', common_mistakes:t.mistake, my_notes:'', mastery:'待學習', next_practice:false, is_custom:false, sort_order:i, user_id:currentUser.id}));
   const {error} = await sb.from('techniques').insert(rows);
   if(error) console.error('seed error', error);
 }
@@ -356,7 +437,7 @@ async function loadAll(){
     if(r2.error) throw r2.error;
     techs = r2.data;
   }
-  skills = (techs||[]).map(t=>({key:t.id, name:t.name, cat:t.category||'基礎動作', sub:t.sub_category||'其他', level:t.level||'初階', desc:t.content||'', points:t.key_points||'', mistakes:t.common_mistakes||'', notes:t.my_notes||'', mastery:t.mastery||'待學習', queued:!!t.next_practice}));
+  skills = (techs||[]).map(t=>({key:t.id, name:t.name, cat:t.category||'基礎動作', sub:t.sub_category||'其他', level:t.level||'初階', desc:t.content||'', mistakes:t.common_mistakes||'', notes:t.my_notes||'', mastery:t.mastery||'待學習', queued:!!t.next_practice}));
 
   let {data:sess, error:e2} = await sb.from('sessions').select('*');
   if(e2) throw e2;
@@ -441,9 +522,6 @@ function initUI(){
   document.getElementById('saveSkill').onclick = createSkill;
 
   document.querySelectorAll('#masteryToggle button').forEach(b=>b.onclick=()=>setMastery(b.dataset.m));
-  document.getElementById('detailDesc').onchange = e=>saveTechField('desc','content',e.target.value);
-  document.getElementById('detailPoints').onchange = e=>saveTechField('points','key_points',e.target.value);
-  document.getElementById('detailMistakes').onchange = e=>saveTechField('mistakes','common_mistakes',e.target.value);
   document.getElementById('editNotesBtn').onclick = ()=>{
     document.getElementById('notesDisplay').style.display='none';
     document.getElementById('notesEditArea').style.display='block';
@@ -517,9 +595,8 @@ function openSkill(key){
   document.getElementById('detailTitle').textContent = s.name;
   document.getElementById('detailLevel').textContent = s.level;
   document.getElementById('detailLevel').className = `badge ${cls(s.level)}`;
-  document.getElementById('detailDesc').value = s.desc;
-  document.getElementById('detailPoints').value = s.points;
-  document.getElementById('detailMistakes').value = s.mistakes;
+  document.getElementById('detailDesc').textContent = s.desc || '尚未提供技巧解釋';
+  document.getElementById('detailMistakes').textContent = s.mistakes || '尚未提供常見錯誤';
   document.querySelectorAll('#masteryToggle button').forEach(b=>b.classList.toggle('active', b.dataset.m===s.mastery));
   document.getElementById('notesDisplay').textContent = s.notes || '尚未填寫筆記';
   document.getElementById('notesDisplay').style.display='block';
@@ -543,7 +620,7 @@ async function createSkill(){
   const row = {id:key, name, category:cat, sub_category:sub, level, content:desc, tags:'', key_points:'', common_mistakes:'', my_notes:'', mastery:'待學習', next_practice:false, is_custom:true, sort_order:skills.length, user_id:currentUser.id};
   const {error} = await sb.from('techniques').insert(row);
   if(error) return toast('新增失敗：'+error.message);
-  skills.push({key, name, cat, sub, level, desc, points:'', mistakes:'', notes:'', mastery:'待學習', queued:false});
+  skills.push({key, name, cat, sub, level, desc, mistakes:'', notes:'', mastery:'待學習', queued:false});
   document.getElementById('newSkillName').value=''; document.getElementById('newSkillDesc').value='';
   closeAll(); renderNotes(); toast("技巧已新增");
 }
