@@ -54,18 +54,27 @@ select{height:43px;padding:0 35px 0 13px}
 .tabs{display:flex;gap:8px;overflow:auto;margin-bottom:18px}.tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;color:#68766e;white-space:nowrap}.tab.active{background:#1c2923;color:#fff;border-color:#1c2923}
 .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.skill-card{border:1px solid var(--line);border-radius:16px;padding:17px;background:#fff;position:relative;transition:.18s}.skill-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(35,53,44,.09);border-color:#c5d2cb}
 .skill-name{font-size:17px;font-weight:800;margin:7px 0}.skill-desc{font-size:14px;color:#69776f;line-height:1.55;min-height:44px}.meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;color:#8a958e;font-size:12px;margin-top:12px}
-.badge{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:800}.beginner{background:var(--green-soft);color:var(--green-dark)}.medium{background:var(--orange-soft);color:#bd6810}.advanced{background:#f0eafd;color:var(--purple)}
+.badge{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:800}.beginner{background:var(--green-soft);color:var(--green-dark)}.medium{background:var(--orange-soft);color:#bd6810}.advanced{background:#f0eafd;color:var(--purple)}.win{background:#e1f8ee;color:#07885f}.loss{background:#ffe8eb;color:#c94758}
 .mstat{font-weight:800}.mstat.done{color:var(--green-dark)}.mstat.learning{color:#bd6810}.mstat.todo{color:#9aa39d}
 .calendar-layout{display:grid;grid-template-columns:1.06fr .94fr;gap:20px}.calendar-panel,.record-panel{padding:22px}
 .month-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.month-title{font-size:21px;font-weight:850}.arrow{width:36px;height:36px;border:1px solid #cfeee0;background:#fff;color:var(--green);border-radius:11px;font-size:20px}
-.weekdays,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.weekdays div{text-align:center;color:#6f7f76;font-size:13px;padding:8px}.day{height:83px;border:1px solid var(--line);border-radius:13px;padding:9px;background:#fcfdfc;position:relative}.day:hover{border-color:#a8d8c3}.day.active{border:2px solid var(--green);box-shadow:0 0 0 3px #e7f7ef}.day.today{border:2px solid var(--orange);background:#fff8f0}.day.empty{border:none;background:transparent}.dot{width:8px;height:8px;border-radius:50%;background:var(--green);position:absolute;left:10px;bottom:10px}.match-dot{background:var(--red);left:23px}.friend-dot{background:var(--blue);left:36px}.legend{display:flex;gap:16px;margin-top:15px;color:#6f7e75;font-size:12px}.legend i{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+.weekdays,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.weekdays div{text-align:center;color:#6f7f76;font-size:13px;padding:8px}.day{height:83px;border:1px solid var(--line);border-radius:13px;padding:9px;background:#fcfdfc;position:relative}.day:hover{border-color:#a8d8c3}.day.active{border:2px solid var(--green);box-shadow:0 0 0 3px #e7f7ef}.day.today{border:2px solid var(--orange);background:#fff8f0}.day.empty{border:none;background:transparent}.dot{width:7px;height:7px;border-radius:50%;background:var(--green)}.dot.red{background:var(--red)}.dot.blue{background:var(--blue)}.legend{display:flex;gap:16px;margin-top:15px;color:#6f7e75;font-size:12px}.legend i{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field label{display:block;font-size:13px;color:#6b796f;font-weight:750;margin-bottom:6px}.field.full{grid-column:1/-1}.chips{display:flex;flex-wrap:wrap;gap:7px}.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 11px;color:#65736b}.chip.active{background:var(--green-soft);color:var(--green-dark);border-color:#94d8ba}
 .tag-group{margin-bottom:8px}.tag-group-title{font-size:11px;color:#98a29c;font-weight:800;margin-bottom:5px}
 .moods{display:flex;gap:8px}.mood{width:43px;height:43px;border:1px solid var(--line);background:#fff;border-radius:11px;font-size:21px}.mood.active{background:var(--green-soft);border-color:var(--green)}
 textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
-.match-row{display:grid;grid-template-columns:minmax(0,1fr) 54px minmax(0,1fr);gap:6px;align-items:center}
-.score{width:100%;min-width:0;font-size:19px;font-weight:850;text-align:center;padding:0 4px}
-.score::-webkit-inner-spin-button,.score::-webkit-outer-spin-button{margin:0}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:24px}.top .title h1{margin:0;font-size:30px}.top .title p{margin:7px 0 0;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:1.08fr .92fr;gap:22px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 3px 15px rgba(21,57,43,.03)}
+.calendar-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.calendar-head strong{font-size:20px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:9px}.dow{color:#84918b;font-size:13px;text-align:center;padding:3px}
+.dots{position:absolute;left:10px;bottom:9px;display:flex;gap:5px}
+.detail .date{font-size:25px;font-weight:900}
+.label{color:#76847e;font-size:13px;font-weight:800;margin-top:17px;margin-bottom:7px}
+.session-box{background:#f8fbfa;border:1px solid var(--line);border-radius:14px;padding:13px;margin-top:8px}
+.match-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.match-row:last-child{border-bottom:0}
+.footer-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .match-type-toggle{display:grid;grid-template-columns:1fr 1fr;gap:9px;background:#f3f6f4;padding:5px;border-radius:13px}.match-type{border:0;background:transparent;border-radius:10px;padding:10px 14px;font-weight:800;color:#6b796f}.match-type.active{background:#fff;color:var(--green-dark);box-shadow:0 3px 10px rgba(34,53,43,.09)}
 .name-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#9aa89f;font-size:15px;pointer-events:none}
 .drop-list{position:absolute;left:0;right:0;top:47px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);max-height:180px;overflow:auto;z-index:20}
@@ -166,44 +175,30 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
       </section>
 
       <section class="page active" id="page-calendar">
-        <div class="page-header">
-          <div><h1>打球日曆</h1><div class="subtitle">記錄每次打球，也看看今天有哪些好友會出現</div></div>
+        <div class="top">
+          <div class="title"><h1>打球日曆</h1><p>記錄每次打球，也看看今天有哪些好友會出現</p></div>
+          <button class="btn primary" id="openSessionBtn">＋ 新增打球紀錄</button>
         </div>
-        <div class="calendar-layout">
-          <div class="panel calendar-panel">
-            <div class="month-head"><button class="arrow" id="prevMonthBtn">‹</button><div class="month-title" id="monthTitle"></div><button class="arrow" id="nextMonthBtn">›</button></div>
-            <div class="weekdays"><div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div></div>
-            <div class="days" id="calendarDays"></div>
-            <div class="legend"><span><i style="background:var(--green)"></i>我有打球</span><span><i style="background:var(--red)"></i>有對戰</span><span><i style="background:var(--blue)"></i>好友有打球</span><span><i style="background:var(--orange)"></i>今天</span></div>
+        <div class="grid2">
+          <div class="card">
+            <div class="calendar-head"><button class="arrow" id="prevMonthBtn">‹</button><strong id="monthTitle"></strong><button class="arrow" id="nextMonthBtn">›</button></div>
+            <div class="cal"><div class="dow">日</div><div class="dow">一</div><div class="dow">二</div><div class="dow">三</div><div class="dow">四</div><div class="dow">五</div><div class="dow">六</div></div>
+            <div class="cal" id="calendarDays" style="margin-top:9px"></div>
+            <div style="margin-top:16px" class="subtitle">🟢 我有打球　🔴 有對戰　🔵 好友有打球</div>
           </div>
-          <div class="panel record-panel">
-            <h2 style="margin-top:0" id="recordDate">-</h2>
-            <div class="field">
-              <label>練習內容（輸入文字，從羽球筆記技巧中選取）</label>
-              <div style="position:relative">
-                <input class="input" id="trainingInput" placeholder="輸入技巧名稱搜尋…" style="width:100%" autocomplete="off">
-                <div id="trainingDropdown" style="position:absolute;left:0;right:0;top:47px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);max-height:220px;overflow:auto;z-index:15;display:none"></div>
-              </div>
-              <div class="chips" id="trainingSelected" style="margin-top:10px"></div>
-            </div>
-            <div class="form-grid" style="margin-top:15px">
-              <div class="field full"><label>地點</label><input class="input" id="fLocation" style="width:100%"></div>
-              <div class="field"><label>開始時間</label><input class="input" id="startTime" type="time" style="width:100%"></div>
-              <div class="field"><label>結束時間</label><input class="input" id="endTime" type="time" style="width:100%"></div>
-              <div class="field full"><label>總時長</label><input class="input" id="durationDisplay" readonly style="width:100%;background:#f3f6f4;color:#66756d"></div>
-              <div class="field full"><label>心情</label><div class="moods" id="moods"></div></div>
-              <div class="field"><label>身體狀況</label><select id="fBody" style="width:100%"><option>狀況良好</option><option>普通</option><option>尚未恢復</option><option>疲勞</option></select></div>
-              <div class="field"><label>受傷狀況</label><input class="input" id="fInjury" style="width:100%" placeholder="無"></div>
-              <div class="field full"><label>備註</label><textarea id="fNote"></textarea></div>
-            </div>
-            <div style="margin-top:14px;display:flex;gap:9px"><button class="btn primary" id="saveRecord">儲存打球紀錄</button><button class="btn" id="clearRecord">清除</button></div>
-            <div class="match-section">
-              <div style="display:flex;justify-content:space-between;align-items:center"><h3>當天對戰</h3><button class="btn" id="addMatchBtn">＋ 新增對戰</button></div>
-              <div class="record-list" id="matchList"></div>
-            </div>
-            <div class="match-section">
-              <h3>👥 當天一起打球</h3>
-              <div class="chips" id="dayFriendsChips"><span class="subtitle" style="font-size:13px">尚無資料</span></div>
+          <div class="card detail">
+            <div class="date" id="recordDate">-</div>
+            <div class="label">今日打球</div>
+            <div id="sessionSummaryBox" class="session-box"></div>
+            <div class="label">練習內容</div>
+            <div class="chips" id="trainingSelectedView"></div>
+            <div class="label">對戰</div>
+            <div class="session-box" id="matchList"></div>
+            <div class="label">👥 今天一起打球</div>
+            <div class="chips" id="dayFriendsChips"></div>
+            <div class="footer-actions">
+              <button class="btn" id="editSessionBtn">編輯</button>
+              <button class="btn primary" id="addMatchBtn">＋ 新增對戰</button>
             </div>
           </div>
         </div>
@@ -213,9 +208,25 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
         <div class="page-header">
           <div><h1>好友</h1><div class="subtitle">看看朋友今天有沒有打球，也查看你們的對戰紀錄</div></div>
         </div>
+        <div class="panel content-panel" style="margin-bottom:18px">
+          <h3 style="margin-top:0">我的帳號</h3>
+          <div class="subtitle" style="margin:-6px 0 12px">把這組帳號給朋友，讓他們可以搜尋到你並加你好友</div>
+          <div id="myAccountView" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <div class="badge beginner" style="font-size:15px;padding:9px 16px" id="myUsernameText">@載入中</div>
+            <button class="btn" id="copyUsernameBtn">複製帳號</button>
+            <button class="btn" id="editUsernameBtn">修改帳號</button>
+          </div>
+          <div id="myAccountEdit" style="display:none;gap:9px;align-items:center;flex-wrap:wrap">
+            <input class="input" id="myUsernameInput" style="max-width:220px" placeholder="英文/數字/底線，3-20字">
+            <button class="btn primary" id="saveUsernameBtn">儲存</button>
+            <button class="btn" id="cancelUsernameBtn">取消</button>
+          </div>
+        </div>
         <div class="panel content-panel">
+          <h3 style="margin-top:0">搜尋好友</h3>
+          <div class="subtitle" style="margin:-6px 0 12px">可以用對方的帳號（例如 @grace123）或顯示名稱搜尋</div>
           <div class="toolbar">
-            <div class="search-wrap"><span>⌕</span><input class="input search" id="friendSearchInput" placeholder="搜尋姓名或帳號…"></div>
+            <div class="search-wrap"><span>⌕</span><input class="input search" id="friendSearchInput" placeholder="輸入帳號或名字…"></div>
             <button class="btn primary" id="friendSearchBtn">搜尋</button>
           </div>
           <div id="friendSearchResults"></div>
@@ -277,10 +288,41 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
   <div class="drawer-body">
     <div class="section" style="margin-top:0"><h3>戰績摘要</h3><div class="detail-box" id="friendStatsBox"></div></div>
     <div class="section"><h3>最近打球</h3><div id="friendRecentSessions"></div></div>
-    <div class="section"><h3>與我的對戰紀錄</h3><div id="friendHeadToHead"></div></div>
+    <div class="section"><h3>與我的對戰紀錄</h3><div id="friendHeadToHead"></div><button class="btn" id="linkMatchesBtn" style="margin-top:10px;width:100%">🔗 檢查可連結的對戰紀錄</button></div>
   </div>
   <div class="drawer-foot"><button class="btn" style="color:var(--red)" id="removeFriendBtn">刪除好友</button></div>
 </aside>
+
+<div class="modal" id="sessionModal">
+  <div class="modal-head" style="display:flex;justify-content:space-between;align-items:center">
+    <div id="sessionModalTitle">新增打球紀錄</div>
+    <button class="close" data-close-modal style="width:34px;height:34px;font-size:18px">×</button>
+  </div>
+  <div class="modal-body">
+    <div class="field"><label>日期</label><input class="input" id="sessionDateDisplay" disabled style="width:100%;background:#f3f6f4;color:#66756d"></div>
+    <div class="field" style="margin-top:14px"><label>地點</label><input class="input" id="fLocation" style="width:100%" placeholder="例如：Pflugerville ABA"></div>
+    <div class="form-grid" style="margin-top:14px">
+      <div class="field"><label>開始時間</label><input class="input" id="startTime" type="time" style="width:100%"></div>
+      <div class="field"><label>結束時間</label><input class="input" id="endTime" type="time" style="width:100%"></div>
+      <div class="field full"><label>總時長</label><input class="input" id="durationDisplay" readonly style="width:100%;background:#f3f6f4;color:#66756d"></div>
+    </div>
+    <div class="field" style="margin-top:14px">
+      <label>練習內容（輸入文字，從羽球筆記技巧中選取）</label>
+      <div style="position:relative">
+        <input class="input" id="trainingInput" placeholder="輸入技巧名稱搜尋…" style="width:100%" autocomplete="off">
+        <div id="trainingDropdown" class="drop-list" style="top:47px;display:none"></div>
+      </div>
+      <div class="chips" id="trainingSelected" style="margin-top:10px"></div>
+    </div>
+    <div class="form-grid" style="margin-top:14px">
+      <div class="field full"><label>心情</label><div class="moods" id="moods"></div></div>
+      <div class="field"><label>身體狀況</label><select id="fBody" style="width:100%"><option>狀況良好</option><option>普通</option><option>尚未恢復</option><option>疲勞</option></select></div>
+      <div class="field"><label>受傷狀況</label><input class="input" id="fInjury" style="width:100%" placeholder="無"></div>
+      <div class="field full"><label>備註</label><textarea id="fNote" placeholder="今天的練習心得…"></textarea></div>
+    </div>
+  </div>
+  <div class="modal-foot"><button class="btn" id="clearRecord">清除</button><button class="btn primary" id="saveRecord">儲存打球紀錄</button></div>
+</div>
 
 <div class="modal" id="skillModal"><div class="modal-head">新增技巧</div><div class="modal-body"><div class="form-grid"><div class="field"><label>技巧名稱</label><input class="input" id="newSkillName" style="width:100%" placeholder="例如：反手擋網"></div><div class="field"><label>難度</label><select id="newSkillLevel" style="width:100%"><option>初階</option><option>中階</option><option>進階</option></select></div><div class="field"><label>大分類</label><select id="newSkillCat" style="width:100%"></select></div><div class="field full"><label>技巧解釋</label><textarea id="newSkillDesc" placeholder="簡短說明這個技巧的目的與使用方式"></textarea></div></div></div><div class="modal-foot"><button class="btn" data-close-modal>取消</button><button class="btn primary" id="saveSkill">新增技巧</button></div></div>
 
@@ -576,7 +618,7 @@ async function onSignedIn(user){
     initUI();
     selectedDate = today.toISOString().slice(0,10);
     renderCalendar();
-    loadDayIntoPanel(selectedDate);
+    renderDaySummary(selectedDate);
     renderFriends();
   }catch(err){
     console.error(err);
@@ -625,9 +667,14 @@ function initUI(){
   });
   document.getElementById('savePrivacyBtn').onclick = savePrivacy;
 
+  document.getElementById('copyUsernameBtn').onclick = copyMyUsername;
+  document.getElementById('editUsernameBtn').onclick = startEditUsername;
+  document.getElementById('saveUsernameBtn').onclick = saveUsername;
+  document.getElementById('cancelUsernameBtn').onclick = cancelEditUsername;
   document.getElementById('friendSearchBtn').onclick = searchFriends;
   document.getElementById('friendSearchInput').onkeydown = e=>{ if(e.key==='Enter') searchFriends(); };
   document.getElementById('removeFriendBtn').onclick = removeFriend;
+  document.getElementById('linkMatchesBtn').onclick = manualLinkMatches;
 
   document.getElementById('editNotesBtn').onclick = ()=>{
     document.getElementById('notesDisplay').style.display='none';
@@ -654,6 +701,8 @@ function initUI(){
   document.getElementById('endTime').onchange = updateDuration;
   document.getElementById('saveRecord').onclick = saveRecord;
   document.getElementById('clearRecord').onclick = clearRecordForm;
+  document.getElementById('openSessionBtn').onclick = ()=>openSessionModal(selectedDate);
+  document.getElementById('editSessionBtn').onclick = ()=>openSessionModal(selectedDate);
   document.getElementById('addMatchBtn').onclick = ()=>{ resetMatchModal(); openModal('matchModal'); };
   document.querySelectorAll(".match-type[data-type]").forEach(b=>b.onclick=()=>{ matchType=b.dataset.type; document.querySelectorAll(".match-type[data-type]").forEach(x=>x.classList.toggle("active",x===b)); renderTeamInputs(); });
   document.getElementById('addGameBtn').onclick = addGameRow;
@@ -768,17 +817,18 @@ function drawCalendarDots(){
   const firstDay = new Date(calYear,calMonth,1).getDay();
   const daysInMonth = new Date(calYear,calMonth+1,0).getDate();
   const todayStr = new Date().toISOString().slice(0,10);
-  for(let i=0;i<firstDay;i++){ const e=document.createElement('div'); e.className='day empty'; grid.appendChild(e); }
+  for(let i=0;i<firstDay;i++){ const e=document.createElement('div'); grid.appendChild(e); }
   for(let d=1; d<=daysInMonth; d++){
     const dateStr = fmtDate(calYear,calMonth,d);
     const hasSession = sessions.some(s=>s.date===dateStr);
     const hasMatch = matches.some(m=>m.date===dateStr);
     const hasFriend = friendSessionDates.has(dateStr);
     const btn = document.createElement('button');
-    let c='day'; if(dateStr===todayStr) c+=' today'; if(dateStr===selectedDate) c+=' active';
+    let c='day'; if(dateStr===todayStr) c+=' today'; if(dateStr===selectedDate) c+=' selected';
     btn.className=c;
-    btn.innerHTML = `<strong>${d}</strong>${hasSession?'<i class="dot"></i>':''}${hasMatch?'<i class="dot match-dot"></i>':''}${hasFriend?'<i class="dot friend-dot"></i>':''}`;
-    btn.onclick = ()=>{ selectedDate=dateStr; drawCalendarDots(); loadDayIntoPanel(dateStr); };
+    const dots = (hasSession?'<i class="dot"></i>':'') + (hasMatch?'<i class="dot red"></i>':'') + (hasFriend?'<i class="dot blue"></i>':'');
+    btn.innerHTML = `<b>${d}</b>${dots?`<div class="dots">${dots}</div>`:''}`;
+    btn.onclick = ()=>{ selectedDate=dateStr; drawCalendarDots(); renderDaySummary(dateStr); };
     grid.appendChild(btn);
   }
 }
@@ -824,9 +874,28 @@ function initTrainingInput(){
     if(!e.target.closest('#trainingInput') && !e.target.closest('#trainingDropdown')) document.getElementById('trainingDropdown').style.display='none';
   });
 }
-function loadDayIntoPanel(dateStr){
+function getSessionOf(dateStr){
+  return sessions.find(x=>x.date===dateStr) || {location:'',start:'',end:'',duration:null,tags:'',mood:'',body:'狀況良好',injury:'',note:''};
+}
+function renderDaySummary(dateStr){
   document.getElementById('recordDate').textContent = dateStr;
-  const s = sessions.find(x=>x.date===dateStr) || {location:'',start:'',end:'',tags:'',mood:'',body:'狀況良好',injury:'',note:''};
+  const s = getSessionOf(dateStr);
+  const box = document.getElementById('sessionSummaryBox');
+  if(s.start || s.end || s.location){
+    const durTxt = s.duration ? `${Math.floor(s.duration/60)?Math.floor(s.duration/60)+' 小時 ':''}${s.duration%60?s.duration%60+' 分鐘':''}`.trim() : '';
+    box.innerHTML = `<strong>🏸 ${s.start||'--'} – ${s.end||'--'}</strong><div class="subtitle" style="margin-top:4px">${s.location||'未填寫地點'}${durTxt?(' · '+durTxt):''}</div>${s.mood||s.injury?`<div class="subtitle" style="margin-top:6px">${s.mood||''} ${s.body||''}${s.injury?(' · 受傷：'+s.injury):''}</div>`:''}${s.note?`<div class="subtitle" style="margin-top:6px">${s.note}</div>`:''}`;
+  } else {
+    box.innerHTML = `<span class="subtitle">這天還沒有安排打球，點下方「編輯」或右上角「＋ 新增打球紀錄」開始記錄。</span>`;
+  }
+  const tags = (s.tags||'').split(',').filter(Boolean);
+  document.getElementById('trainingSelectedView').innerHTML = tags.length ? tags.map(t=>`<span class="chip on">${t}</span>`).join('') : '<span class="subtitle" style="font-size:13px">尚未選擇練習內容</span>';
+  renderMatchList(dateStr);
+  renderDayFriends(dateStr);
+}
+function openSessionModal(dateStr){
+  const s = getSessionOf(dateStr);
+  document.getElementById('sessionModalTitle').textContent = sessions.some(x=>x.date===dateStr) ? '編輯打球紀錄' : '新增打球紀錄';
+  document.getElementById('sessionDateDisplay').value = dateStr;
   document.getElementById('fLocation').value = s.location;
   document.getElementById('startTime').value = s.start;
   document.getElementById('endTime').value = s.end;
@@ -838,8 +907,7 @@ function loadDayIntoPanel(dateStr){
   document.getElementById('trainingInput').value = '';
   renderTrainingSelected();
   document.querySelectorAll('#moods .mood').forEach(el=>el.classList.toggle('active', el.textContent===s.mood));
-  renderMatchList(dateStr);
-  renderDayFriends(dateStr);
+  openModal('sessionModal');
 }
 function renderDayFriends(dateStr){
   const box = document.getElementById('dayFriendsChips');
@@ -880,7 +948,9 @@ async function saveRecord(){
   const existing = sessions.find(s=>s.date===dateStr);
   const updated = {date:dateStr, location, start, end, duration, tags, mood, body, injury, note};
   if(existing) Object.assign(existing, updated); else sessions.push(updated);
-  renderCalendar();
+  closeAll();
+  drawCalendarDots();
+  renderDaySummary(dateStr);
   toast(`打球紀錄已儲存（${start||'--'}–${end||'--'}）`);
 }
 
@@ -971,12 +1041,12 @@ function matchItemHTML(m){
   const mySide = m.type==='雙打' ? `我 / ${m.teammate||'?'}` : '我';
   const oppSide = m.type==='雙打' ? `${m.opponent} / ${m.opponent2||'?'}` : m.opponent;
   const gameLabel = m.gameNo ? `第 ${m.gameNo} 場` : '';
-  return `<div class="record-item"><div><strong>${m.type}${gameLabel?(' · '+gameLabel):''}</strong><br><small>${mySide} vs ${oppSide}${m.note?(' · '+m.note):''}</small></div><span class="badge ${m.win?'beginner':'advanced'}">${m.win?'勝利':'落敗'}</span><button class="close" style="width:28px;height:28px;font-size:15px;margin-left:8px" onclick="deleteMatch(${m.id})">×</button></div>`;
+  return `<div class="match-row"><span><b>${m.type}${gameLabel?('・'+gameLabel):''}</b><br><small class="subtitle">${mySide} vs ${oppSide}${m.note?(' · '+m.note):''}</small></span><span style="display:flex;align-items:center;gap:8px"><span class="badge ${m.win?'win':'loss'}">${m.win?'勝利':'落敗'}</span><button class="close" style="width:26px;height:26px;font-size:14px" onclick="deleteMatch(${m.id})">×</button></span></div>`;
 }
 function renderMatchList(dateStr){
   const list = matches.filter(m=>m.date===dateStr);
   const box = document.getElementById('matchList');
-  box.innerHTML = list.length ? list.map(matchItemHTML).join('') : '<div style="text-align:center;color:var(--muted);padding:20px">當天無對戰紀錄</div>';
+  box.innerHTML = list.length ? list.map(matchItemHTML).join('') : '<div class="subtitle" style="text-align:center;padding:14px 0">當天無對戰紀錄</div>';
 }
 async function createMatch(){
   const count = matchType==='雙打' ? 2 : 1;
@@ -1104,7 +1174,44 @@ function friendStatusText(f){
   if(f.lastPlayed) return `最近打球：${f.lastPlayed} · 今天沒有紀錄`;
   return '目前沒有打球紀錄';
 }
+function renderMyAccount(){
+  const txt = document.getElementById('myUsernameText');
+  txt.textContent = myProfile && myProfile.username ? '@'+myProfile.username : '尚未設定帳號';
+}
+function copyMyUsername(){
+  if(!myProfile || !myProfile.username) return toast('還沒有帳號可以複製');
+  const val = '@'+myProfile.username;
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(val).then(()=>toast('已複製帳號：'+val)).catch(()=>toast('複製失敗，請手動選取文字'));
+  } else {
+    toast('這個瀏覽器不支援自動複製，帳號是：'+val);
+  }
+}
+function startEditUsername(){
+  document.getElementById('myUsernameInput').value = (myProfile&&myProfile.username)||'';
+  document.getElementById('myAccountView').style.display='none';
+  document.getElementById('myAccountEdit').style.display='flex';
+}
+function cancelEditUsername(){
+  document.getElementById('myAccountView').style.display='flex';
+  document.getElementById('myAccountEdit').style.display='none';
+}
+async function saveUsername(){
+  let val = document.getElementById('myUsernameInput').value.trim().toLowerCase();
+  if(!/^[a-z0-9_]{3,20}$/.test(val)) return toast('帳號只能用英文小寫、數字、底線，長度 3-20 字');
+  const {error} = await sb.from('profiles').update({username:val}).eq('id', currentUser.id);
+  if(error){
+    if(error.code==='23505' || /duplicate|unique/i.test(error.message)) toast('這個帳號已經被使用了，換一個試試');
+    else toast('儲存失敗：'+error.message);
+    return;
+  }
+  myProfile.username = val;
+  renderMyAccount();
+  cancelEditUsername();
+  toast('帳號已更新為 @'+val);
+}
 function renderFriends(){
+  renderMyAccount();
   const box = document.getElementById('friendGrid');
   box.innerHTML = friends.length ? friends.map(f=>`<div class="friend-item"><div class="avatar">${(f.name[0]||'?').toUpperCase()}</div><div class="friend-info"><strong>${f.name}</strong><div class="status">${friendStatusText(f)}</div></div><button class="btn" onclick="openFriendProfile('${f.id}')">查看</button></div>`).join('') : '<div class="subtitle" style="padding:8px 0">還沒有好友，搜尋姓名或帳號來加好友吧</div>';
 
@@ -1116,7 +1223,7 @@ function renderFriends(){
   }).join('') : '<div class="subtitle" style="padding:6px 0">目前沒有邀請</div>';
 }
 async function searchFriends(){
-  const q = document.getElementById('friendSearchInput').value.trim();
+  const q = document.getElementById('friendSearchInput').value.trim().replace(/^@/,'');
   const box = document.getElementById('friendSearchResults');
   if(!q){ box.innerHTML=''; return; }
   box.innerHTML = '<div class="subtitle" style="padding:8px 0">搜尋中…</div>';
@@ -1140,13 +1247,47 @@ async function sendFriendRequest(toUserId, btnEl){
   if(btnEl) btnEl.outerHTML = '<span class="badge medium">邀請已送出</span>';
   toast('好友邀請已送出');
 }
+async function linkExistingMatchesToFriend(friendId, friendName, silent){
+  if(!friendName) return 0;
+  const lname = friendName.trim().toLowerCase();
+  if(!lname) return 0;
+  const candidates = matches.filter(m=>{
+    const t = (m.teammate||'').trim().toLowerCase(), o=(m.opponent||'').trim().toLowerCase(), o2=(m.opponent2||'').trim().toLowerCase();
+    return (!m.teammateId && t===lname) || (!m.opponentId && o===lname) || (!m.opponent2Id && o2===lname);
+  });
+  if(!candidates.length) return 0;
+  if(!silent && !confirm(`在你的對戰紀錄裡有 ${candidates.length} 筆比賽的對手／隊友名字是「${friendName}」，要跟這位好友建立關聯嗎？這樣戰績分析和好友頁面的對戰紀錄才會準確。`)) return 0;
+  let linked=0;
+  for(const m of candidates){
+    const updates={};
+    if(!m.teammateId && (m.teammate||'').trim().toLowerCase()===lname) updates.teammate_id=friendId;
+    if(!m.opponentId && (m.opponent||'').trim().toLowerCase()===lname) updates.opponent_id=friendId;
+    if(!m.opponent2Id && (m.opponent2||'').trim().toLowerCase()===lname) updates.opponent2_id=friendId;
+    if(Object.keys(updates).length){
+      const {error} = await sb.from('matches').update(updates).eq('id', m.id).eq('user_id', currentUser.id);
+      if(!error){
+        if(updates.teammate_id) m.teammateId=friendId;
+        if(updates.opponent_id) m.opponentId=friendId;
+        if(updates.opponent2_id) m.opponent2Id=friendId;
+        linked++;
+      }
+    }
+  }
+  if(linked) toast(`已連結 ${linked} 筆對戰紀錄`);
+  return linked;
+}
 async function respondRequest(reqId, accept){
   const fn = accept ? 'accept_friend_request' : 'decline_friend_request';
+  const req = incomingRequests.find(r=>r.id===reqId);
   const {error} = await sb.rpc(fn, {request_id:reqId});
   if(error){ toast('操作失敗：'+error.message); return; }
   await loadFriendsData();
   renderFriends();
   refreshFriendMonthDots();
+  if(accept && req){
+    const name = req.profile ? (req.profile.display_name||req.profile.username) : null;
+    if(name) await linkExistingMatchesToFriend(req.fromUser, name);
+  }
   toast(accept ? '已成為好友' : '已拒絕邀請');
 }
 async function openFriendProfile(friendId){
@@ -1172,6 +1313,9 @@ async function openFriendProfile(friendId){
     ? recent.map(r=>`<div class="record-item"><span>${r.play_date}</span><span class="subtitle">${r.location||''}</span></div>`).join('')
     : '<div class="subtitle">沒有可顯示的打球紀錄</div>';
 
+  renderFriendHeadToHead(friendId);
+}
+function renderFriendHeadToHead(friendId){
   const mine = matches.filter(m=> m.teammateId===friendId || m.opponentId===friendId || m.opponent2Id===friendId);
   const together = mine.filter(m=>m.teammateId===friendId).length;
   const against = mine.filter(m=>m.opponentId===friendId||m.opponent2Id===friendId);
@@ -1179,6 +1323,15 @@ async function openFriendProfile(friendId){
   document.getElementById('friendHeadToHead').innerHTML = `
     <div class="insight" style="padding:0 0 10px;border:0">依你自己記錄的資料：一起打球 ${together} 次</div>
     <div class="insight" style="padding:0;border:0">對戰 ${against.length} 場 · 你贏 ${wins} 場${against.length?(' · 你的勝率 '+Math.round(wins/against.length*1000)/10+'%'):''}</div>`;
+}
+async function manualLinkMatches(){
+  if(!selectedFriendId) return;
+  const f = friends.find(x=>x.id===selectedFriendId);
+  if(!f) return;
+  const linked = await linkExistingMatchesToFriend(selectedFriendId, f.name, false);
+  if(linked===0) toast('沒有找到可以連結的對戰紀錄');
+  renderFriendHeadToHead(selectedFriendId);
+  renderOpponentStats();
 }
 async function removeFriend(){
   if(!selectedFriendId) return;
