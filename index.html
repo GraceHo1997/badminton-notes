@@ -67,6 +67,11 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
 .score{width:100%;min-width:0;font-size:19px;font-weight:850;text-align:center;padding:0 4px}
 .score::-webkit-inner-spin-button,.score::-webkit-outer-spin-button{margin:0}
 .match-type-toggle{display:grid;grid-template-columns:1fr 1fr;gap:9px;background:#f3f6f4;padding:5px;border-radius:13px}.match-type{border:0;background:transparent;border-radius:10px;padding:10px 14px;font-weight:800;color:#6b796f}.match-type.active{background:#fff;color:var(--green-dark);box-shadow:0 3px 10px rgba(34,53,43,.09)}
+.name-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#9aa89f;font-size:15px;pointer-events:none}
+.drop-list{position:absolute;left:0;right:0;top:47px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);max-height:180px;overflow:auto;z-index:20}
+.drop-item{padding:9px 14px;cursor:pointer;border-bottom:1px solid var(--line);font-size:13.5px}
+.drop-item:last-child{border-bottom:0}
+.game-row{display:flex;align-items:center;gap:10px;background:#f8faf9;border:1px solid var(--line);border-radius:13px;padding:10px 12px}
 .mastery-toggle{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#f3f6f4;padding:5px;border-radius:13px;margin:0 0 20px}
 .mastery-toggle button{border:0;background:transparent;border-radius:9px;padding:9px 6px;font-weight:800;color:#6b796f;font-size:12.5px}
 .mastery-toggle button.active{background:#fff;color:var(--green-dark);box-shadow:0 3px 10px rgba(34,53,43,.09)}
@@ -274,25 +279,31 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
 <div class="modal" id="skillModal"><div class="modal-head">新增技巧</div><div class="modal-body"><div class="form-grid"><div class="field"><label>技巧名稱</label><input class="input" id="newSkillName" style="width:100%" placeholder="例如：反手擋網"></div><div class="field"><label>難度</label><select id="newSkillLevel" style="width:100%"><option>初階</option><option>中階</option><option>進階</option></select></div><div class="field"><label>大分類</label><select id="newSkillCat" style="width:100%"></select></div><div class="field full"><label>技巧解釋</label><textarea id="newSkillDesc" placeholder="簡短說明這個技巧的目的與使用方式"></textarea></div></div></div><div class="modal-foot"><button class="btn" data-close-modal>取消</button><button class="btn primary" id="saveSkill">新增技巧</button></div></div>
 
 <div class="modal" id="matchModal">
-  <div class="modal-head">新增對戰紀錄</div>
+  <div class="modal-head" style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+    <div>
+      <div>新增對戰紀錄</div>
+      <div class="subtitle" style="font-size:13px;font-weight:400;margin-top:4px">記錄本次對戰的隊伍、對手與結果。</div>
+    </div>
+    <button class="close" data-close-modal style="width:34px;height:34px;font-size:18px;flex:none">×</button>
+  </div>
   <div class="modal-body">
     <div class="field full" style="margin-bottom:18px"><label>對戰類型</label>
-      <div class="match-type-toggle"><button class="match-type active" data-type="單打">單打</button><button class="match-type" data-type="雙打">雙打</button></div>
+      <div class="match-type-toggle"><button class="match-type" data-type="單打">單打</button><button class="match-type active" data-type="雙打">雙打</button></div>
     </div>
-    <div class="form-grid">
-      <div class="field" id="teammateField" style="display:none"><label>隊友名字</label><input class="input" id="teammateName" style="width:100%"></div>
-      <div class="field"><label id="opponent1Label">對手名字</label><input class="input" id="opponent1Name" style="width:100%"></div>
-      <div class="field" id="opponent2Field" style="display:none"><label>對手 2 名字</label><input class="input" id="opponent2Name" style="width:100%"></div>
-      <div class="field full"><label>比分（選填）</label><div class="match-row">
-        <div style="text-align:center"><div style="font-size:11px;color:var(--muted);margin-bottom:4px">我方</div><input class="input score" id="myScore" type="number" min="0"></div>
-        <div style="text-align:center">：</div>
-        <div style="text-align:center"><div style="font-size:11px;color:var(--muted);margin-bottom:4px">對方</div><input class="input score" id="oppScore" type="number" min="0"></div>
-      </div></div>
-      <div class="field full"><label>勝負結果</label><div class="match-type-toggle"><button type="button" class="match-type result-btn active" data-result="win">✓ 勝利</button><button type="button" class="match-type result-btn" data-result="lose">✕ 落敗</button></div></div>
-      <div class="field full"><label>備註</label><textarea id="matchNote"></textarea></div>
+    <div class="field full" style="margin-bottom:8px"><label>隊伍資訊</label></div>
+    <div class="form-grid" style="margin-bottom:20px">
+      <div class="field"><label id="team1Label">我方</label><div id="team1Inputs" style="display:flex;flex-direction:column;gap:9px"></div></div>
+      <div class="field"><label id="team2Label">對手</label><div id="team2Inputs" style="display:flex;flex-direction:column;gap:9px"></div></div>
     </div>
+    <div class="field full" style="margin-bottom:18px">
+      <label>對戰結果</label>
+      <div class="subtitle" style="margin:-2px 0 10px">可新增多場對戰，記錄每場的勝負結果。</div>
+      <div id="gameRows" style="display:flex;flex-direction:column;gap:9px"></div>
+      <button type="button" class="btn" id="addGameBtn" style="width:100%;margin-top:9px;border-style:dashed;color:var(--green-dark)">＋ 新增一場對戰</button>
+    </div>
+    <div class="field full"><label>備註（選填）</label><textarea id="matchNote" placeholder="記錄對戰過程、表現或其他心得…" maxlength="500"></textarea></div>
   </div>
-  <div class="modal-foot"><button class="btn" data-close-modal>取消</button><button class="btn primary" id="saveMatch">儲存對戰</button></div>
+  <div class="modal-foot"><button class="btn" data-close-modal>取消</button><button class="btn primary" id="saveMatch">儲存紀錄</button></div>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -316,8 +327,7 @@ let skills=[], sessions=[], matches=[], equipment=[];
 let activeCat="全部技巧", activeSub="全部";
 let calYear, calMonth, selectedDate=null;
 let selectedSkillKey=null;
-let matchType="單打";
-let matchResult="win";
+let matchType="雙打";
 let selectedTrainingTags=[];
 
 function cls(l){return l==="初階"?"beginner":l==="中階"?"medium":"advanced"}
@@ -445,7 +455,7 @@ async function loadAll(){
 
   let {data:ms, error:e3} = await sb.from('matches').select('*').order('match_date',{ascending:false});
   if(e3) throw e3;
-  matches = (ms||[]).map(m=>({id:m.id, date:m.match_date, type:m.type, opponent:m.opponent, teammate:m.teammate_name||'', opponent2:m.opponent2_name||'', score:m.score, win:m.is_win, note:m.note||''}));
+  matches = (ms||[]).map(m=>({id:m.id, date:m.match_date, type:m.type, opponent:m.opponent, teammate:m.teammate_name||'', opponent2:m.opponent2_name||'', score:m.score, win:m.is_win, note:m.note||'', gameNo:m.game_no||1}));
 
   let {data:eq, error:e5} = await sb.from('equipment').select('*').order('created_at',{ascending:true});
   if(e5) throw e5;
@@ -549,9 +559,8 @@ function initUI(){
   document.getElementById('saveRecord').onclick = saveRecord;
   document.getElementById('clearRecord').onclick = clearRecordForm;
   document.getElementById('addMatchBtn').onclick = ()=>{ resetMatchModal(); openModal('matchModal'); };
-  document.querySelectorAll(".match-type[data-type]").forEach(b=>b.onclick=()=>{ matchType=b.dataset.type; document.querySelectorAll(".match-type[data-type]").forEach(x=>x.classList.toggle("active",x===b)); updateMatchFields(); });
-  document.querySelectorAll(".result-btn").forEach(b=>b.onclick=()=>{ matchResult=b.dataset.result; document.querySelectorAll(".result-btn").forEach(x=>x.classList.toggle("active",x===b)); });
-  updateMatchFields();
+  document.querySelectorAll(".match-type[data-type]").forEach(b=>b.onclick=()=>{ matchType=b.dataset.type; document.querySelectorAll(".match-type[data-type]").forEach(x=>x.classList.toggle("active",x===b)); renderTeamInputs(); });
+  document.getElementById('addGameBtn').onclick = addGameRow;
   document.getElementById('saveMatch').onclick = createMatch;
   document.getElementById('toggleEquipFormBtn').onclick = ()=>{
     const f=document.getElementById('equipForm');
@@ -776,56 +785,99 @@ async function saveRecord(){
 }
 
 /* ================= Matches ================= */
-function updateMatchFields(){
-  const isDoubles = matchType==='雙打';
-  document.getElementById('teammateField').style.display = isDoubles?'block':'none';
-  document.getElementById('opponent2Field').style.display = isDoubles?'block':'none';
-  document.getElementById('opponent1Label').textContent = isDoubles?'對手 1 名字':'對手名字';
+let gameRows=[];
+function knownPlayerNames(){
+  const set=new Set();
+  matches.forEach(m=>{ if(m.teammate) set.add(m.teammate); if(m.opponent) set.add(m.opponent); if(m.opponent2) set.add(m.opponent2); });
+  return [...set];
 }
+function teamInputHTML(side, idx, placeholder){
+  return `<div style="position:relative"><span class="name-ico">👤</span><input class="input team-name-input" data-side="${side}" data-idx="${idx}" style="width:100%;padding-left:36px" placeholder="${placeholder}" autocomplete="off"><div class="drop-list" style="display:none"></div></div>`;
+}
+function renderTeamInputs(){
+  const count = matchType==='雙打' ? 2 : 1;
+  document.getElementById('team1Label').textContent = `我方（${count} 人）`;
+  document.getElementById('team2Label').textContent = `對手（${count} 人）`;
+  let t1 = `<div style="position:relative"><span class="name-ico">👤</span><input class="input" value="我" disabled style="width:100%;padding-left:36px;background:#f3f6f4;color:#8a958e"></div>`;
+  if(count===2) t1 += teamInputHTML('team1',1,'隊友姓名');
+  document.getElementById('team1Inputs').innerHTML = t1;
+  document.getElementById('team2Inputs').innerHTML = Array.from({length:count}).map((_,i)=>teamInputHTML('team2',i,count===2?`對手 ${i+1} 姓名`:'對手姓名')).join('');
+  wireTeamInputs();
+}
+function wireTeamInputs(){
+  document.querySelectorAll('.team-name-input').forEach(inp=>{
+    inp.oninput = ()=>showNameDropdown(inp);
+    inp.onfocus = ()=>showNameDropdown(inp);
+  });
+}
+function showNameDropdown(inp){
+  const dd = inp.parentElement.querySelector('.drop-list');
+  const q = inp.value.trim().toLowerCase();
+  const names = knownPlayerNames().filter(n=>!q || n.toLowerCase().includes(q)).slice(0,6);
+  if(!names.length){ dd.style.display='none'; dd.innerHTML=''; return; }
+  dd.innerHTML = names.map(n=>`<div class="drop-item">${n}</div>`).join('');
+  dd.style.display='block';
+  dd.querySelectorAll('.drop-item').forEach(el=>el.onclick=()=>{ inp.value = el.textContent; dd.style.display='none'; });
+}
+document.addEventListener('click', e=>{
+  if(!e.target.closest('.team-name-input') && !e.target.closest('.drop-list')){
+    document.querySelectorAll('.drop-list').forEach(d=>d.style.display='none');
+  }
+});
+function getTeamValue(side, idx){
+  const el = document.querySelector(`.team-name-input[data-side="${side}"][data-idx="${idx}"]`);
+  return el ? el.value.trim() : '';
+}
+function renderGameRows(){
+  const box = document.getElementById('gameRows');
+  box.innerHTML = gameRows.map((g,i)=>`
+    <div class="game-row">
+      <div style="font-weight:800;color:#58675f;min-width:52px">第 ${i+1} 場</div>
+      <div class="match-type-toggle" style="flex:1"><button type="button" class="match-type game-result-btn ${g.result==='win'?'active':''}" data-idx="${i}" data-result="win">✓ 勝利</button><button type="button" class="match-type game-result-btn ${g.result==='lose'?'active':''}" data-idx="${i}" data-result="lose">✕ 落敗</button></div>
+      <button type="button" class="close" data-remove-game="${i}" style="width:32px;height:32px;font-size:15px;flex:none">🗑</button>
+    </div>`).join('');
+  box.querySelectorAll('.game-result-btn').forEach(b=>b.onclick=()=>{ gameRows[+b.dataset.idx].result = b.dataset.result; renderGameRows(); });
+  box.querySelectorAll('[data-remove-game]').forEach(b=>b.onclick=()=>{
+    if(gameRows.length<=1){ toast('至少要保留一場對戰'); return; }
+    gameRows.splice(+b.dataset.removeGame,1); renderGameRows();
+  });
+}
+function addGameRow(){ gameRows.push({result:'win'}); renderGameRows(); }
 function resetMatchModal(){
-  matchType='單打'; matchResult='win';
-  document.querySelectorAll(".match-type[data-type]").forEach(x=>x.classList.toggle("active", x.dataset.type==='單打'));
-  document.querySelectorAll(".result-btn").forEach(x=>x.classList.toggle("active", x.dataset.result==='win'));
-  updateMatchFields();
-  document.getElementById('myScore').value='';
-  document.getElementById('oppScore').value='';
-  document.getElementById('opponent1Name').value='';
-  document.getElementById('teammateName').value='';
-  document.getElementById('opponent2Name').value='';
+  matchType='雙打';
+  document.querySelectorAll(".match-type[data-type]").forEach(x=>x.classList.toggle("active", x.dataset.type==='雙打'));
+  renderTeamInputs();
+  gameRows = [{result:'win'},{result:'win'}];
+  renderGameRows();
   document.getElementById('matchNote').value='';
+}
+function matchItemHTML(m){
+  const mySide = m.type==='雙打' ? `我 / ${m.teammate||'?'}` : '我';
+  const oppSide = m.type==='雙打' ? `${m.opponent} / ${m.opponent2||'?'}` : m.opponent;
+  const gameLabel = m.gameNo ? `第 ${m.gameNo} 場` : '';
+  return `<div class="record-item"><div><strong>${m.type}${gameLabel?(' · '+gameLabel):''}</strong><br><small>${mySide} vs ${oppSide}${m.note?(' · '+m.note):''}</small></div><span class="badge ${m.win?'beginner':'advanced'}">${m.win?'勝利':'落敗'}</span><button class="close" style="width:28px;height:28px;font-size:15px;margin-left:8px" onclick="deleteMatch(${m.id})">×</button></div>`;
 }
 function renderMatchList(dateStr){
   const list = matches.filter(m=>m.date===dateStr);
   const box = document.getElementById('matchList');
-  if(!list.length){ box.innerHTML = '<div style="text-align:center;color:var(--muted);padding:20px">當天無對戰紀錄</div>'; return; }
-  box.innerHTML = list.map(m=>{
-    const mySide = m.type==='雙打' ? `我 / ${m.teammate||'?'}` : '我';
-    const oppSide = m.type==='雙打' ? `${m.opponent} / ${m.opponent2||'?'}` : m.opponent;
-    return `<div class="record-item"><div><strong>${m.type}${m.score?('・'+m.score):''}</strong><br><small>${mySide} vs ${oppSide}${m.note?(' · '+m.note):''}</small></div><span class="badge ${m.win?'beginner':'advanced'}">${m.win?'勝利':'落敗'}</span><button class="close" style="width:28px;height:28px;font-size:15px;margin-left:8px" onclick="deleteMatch(${m.id})">×</button></div>`;
-  }).join('');
+  box.innerHTML = list.length ? list.map(matchItemHTML).join('') : '<div style="text-align:center;color:var(--muted);padding:20px">當天無對戰紀錄</div>';
 }
 async function createMatch(){
-  const opponent = document.getElementById('opponent1Name').value.trim();
+  const count = matchType==='雙打' ? 2 : 1;
+  const teammate = count===2 ? getTeamValue('team1',1) : '';
+  const opponent = getTeamValue('team2',0);
+  const opponent2 = count===2 ? getTeamValue('team2',1) : '';
   if(!opponent) return toast('請輸入對手名字');
-  let teammate='', opponent2='';
-  if(matchType==='雙打'){
-    teammate = document.getElementById('teammateName').value.trim();
-    opponent2 = document.getElementById('opponent2Name').value.trim();
-    if(!teammate) return toast('請輸入隊友名字');
-    if(!opponent2) return toast('請輸入第二位對手名字');
-  }
-  const myRaw = document.getElementById('myScore').value.trim();
-  const oppRaw = document.getElementById('oppScore').value.trim();
-  const hasScore = myRaw!=='' && oppRaw!=='';
-  const score = hasScore ? `${myRaw}-${oppRaw}` : '';
+  if(count===2 && !teammate) return toast('請輸入隊友名字');
+  if(count===2 && !opponent2) return toast('請輸入第二位對手名字');
   const note = document.getElementById('matchNote').value.trim();
-  const win = matchResult==='win';
-  const {data,error} = await sb.from('matches').insert({match_date:selectedDate, type:matchType, opponent, teammate_name:teammate, opponent2_name:opponent2, score, is_win:win, note, user_id:currentUser.id}).select().single();
+  const rows = gameRows.map((g,i)=>({match_date:selectedDate, type:matchType, opponent, teammate_name:teammate, opponent2_name:opponent2, score:'', is_win:g.result==='win', note, game_no:i+1, user_id:currentUser.id}));
+  const {data,error} = await sb.from('matches').insert(rows).select();
   if(error) return toast('新增失敗：'+error.message);
-  matches.unshift({id:data.id, date:selectedDate, type:matchType, opponent, teammate, opponent2, score, win, note});
-  resetMatchModal();
-  closeAll(); renderMatchList(selectedDate); renderCalendar();
-  toast('對戰紀錄已新增');
+  data.forEach((d,i)=>matches.unshift({id:d.id, date:selectedDate, type:matchType, opponent, teammate, opponent2, score:'', win:rows[i].is_win, note, gameNo:rows[i].game_no}));
+  closeAll();
+  renderMatchList(selectedDate); renderCalendar();
+  toast(`已新增 ${rows.length} 場對戰紀錄`);
 }
 async function deleteMatch(id){
   const {error} = await sb.from('matches').delete().eq('id',id).eq('user_id', currentUser.id);
