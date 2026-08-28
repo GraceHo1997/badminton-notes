@@ -207,15 +207,14 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
             <div style="margin-top:16px" class="subtitle">🟢 我有打球　🔴 有對戰　🔵 好友有打球</div>
           </div>
           <div class="card detail">
-            <div class="date" id="recordDate">-</div>
+            <div class="match-head-row" style="margin-top:0">
+              <div class="date" id="recordDate">-</div>
+              <button class="btn primary" id="editSessionBtn">＋ 新增打球紀錄</button>
+            </div>
             <div class="label">今日打球</div>
             <div id="sessionSummaryBox" class="session-box"></div>
             <div class="label">練習內容</div>
             <div class="chips" id="trainingSelectedView"></div>
-            <div class="inline-action-row">
-              <button class="btn primary" id="openSessionBtn">＋ 新增打球紀錄</button>
-              <button class="btn primary" id="editSessionBtn" style="display:none">✎ 編輯打球紀錄</button>
-            </div>
             <div class="match-head-row">
               <div class="label">對戰</div>
               <button class="btn primary" id="addMatchBtn" style="padding:8px 12px">＋ 新增對戰</button>
@@ -323,8 +322,7 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
     <button class="close" data-close-modal style="width:34px;height:34px;font-size:18px">×</button>
   </div>
   <div class="modal-body">
-    <div class="field"><label>日期</label><input class="input" id="sessionDateDisplay" disabled style="width:100%;background:#f3f6f4;color:#66756d"></div>
-    <div class="field" style="margin-top:14px"><label>地點</label><input class="input" id="fLocation" style="width:100%" placeholder="例如：Pflugerville ABA"></div>
+    <div class="field"><label>地點</label><input class="input" id="fLocation" style="width:100%" placeholder="例如：Pflugerville ABA"></div>
     <div class="form-grid" style="margin-top:14px">
       <div class="field"><label>開始時間</label><input class="input" id="startTime" type="time" style="width:100%"></div>
       <div class="field"><label>結束時間</label><input class="input" id="endTime" type="time" style="width:100%"></div>
@@ -756,7 +754,6 @@ function initUI(){
   document.getElementById('endTime').onchange = updateDuration;
   document.getElementById('saveRecord').onclick = saveRecord;
   document.getElementById('clearRecord').onclick = clearRecordForm;
-  document.getElementById('openSessionBtn').onclick = ()=>openSessionModal(selectedDate);
   document.getElementById('editSessionBtn').onclick = ()=>openSessionModal(selectedDate);
   document.getElementById('addMatchBtn').onclick = ()=>{ resetMatchModal(); openModal('matchModal'); };
   document.querySelectorAll(".match-type[data-type]").forEach(b=>b.onclick=()=>{ matchType=b.dataset.type; document.querySelectorAll(".match-type[data-type]").forEach(x=>x.classList.toggle("active",x===b)); renderTeamInputs(); });
@@ -945,15 +942,13 @@ function renderDaySummary(dateStr){
   const tags = (s.tags||'').split(',').filter(Boolean);
   document.getElementById('trainingSelectedView').innerHTML = tags.length ? tags.map(t=>`<span class="chip on">${t}</span>`).join('') : '<span class="subtitle" style="font-size:13px">尚未選擇練習內容</span>';
   const hasSession = sessions.some(x=>x.date===dateStr);
-  document.getElementById('openSessionBtn').style.display = hasSession ? 'none' : 'inline-block';
-  document.getElementById('editSessionBtn').style.display = hasSession ? 'inline-block' : 'none';
+  document.getElementById('editSessionBtn').textContent = hasSession ? '✎ 編輯打球紀錄' : '＋ 新增打球紀錄';
   renderMatchList(dateStr);
   renderDayFriends(dateStr);
 }
 function openSessionModal(dateStr){
   const s = getSessionOf(dateStr);
   document.getElementById('sessionModalTitle').textContent = sessions.some(x=>x.date===dateStr) ? '編輯打球紀錄' : '新增打球紀錄';
-  document.getElementById('sessionDateDisplay').value = dateStr;
   document.getElementById('fLocation').value = s.location;
   document.getElementById('startTime').value = s.start;
   document.getElementById('endTime').value = s.end;
