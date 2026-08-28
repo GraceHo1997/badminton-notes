@@ -58,7 +58,7 @@ select{height:43px;padding:0 35px 0 13px}
 .mstat{font-weight:800}.mstat.done{color:var(--green-dark)}.mstat.learning{color:#bd6810}.mstat.todo{color:#9aa39d}
 .calendar-layout{display:grid;grid-template-columns:1.06fr .94fr;gap:20px}.calendar-panel,.record-panel{padding:22px}
 .month-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.month-title{font-size:21px;font-weight:850}.arrow{width:36px;height:36px;border:1px solid #cfeee0;background:#fff;color:var(--green);border-radius:11px;font-size:20px}
-.weekdays,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.weekdays div{text-align:center;color:#6f7f76;font-size:13px;padding:8px}.day{height:83px;border:1px solid var(--line);border-radius:13px;padding:9px;background:#fcfdfc;position:relative}.day:hover{border-color:#a8d8c3}.day.active{border:2px solid var(--green);box-shadow:0 0 0 3px #e7f7ef}.day.today{border:2px solid var(--orange);background:#fff8f0}.day.empty{border:none;background:transparent}.dot{width:7px;height:7px;border-radius:50%;background:var(--green)}.dot.red{background:var(--red)}.dot.blue{background:var(--blue)}.legend{display:flex;gap:16px;margin-top:15px;color:#6f7e75;font-size:12px}.legend i{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+.weekdays,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.weekdays div{text-align:center;color:#6f7f76;font-size:13px;padding:8px}.day{height:83px;border:1px solid var(--line);border-radius:13px;padding:9px;background:#fcfdfc;position:relative}.day:hover{border-color:#a8d8c3}.day.active{border:2px solid var(--green);box-shadow:0 0 0 3px #e7f7ef}.day.today{border:2px solid var(--orange);background:#fff8f0}.day.selected{border:2px solid var(--green);box-shadow:0 0 0 3px rgba(16,165,110,.14);background:var(--green-soft);color:var(--green-dark)}.day.selected b{font-weight:900}.day.empty{border:none;background:transparent}.dot{width:7px;height:7px;border-radius:50%;background:var(--green)}.dot.red{background:var(--red)}.dot.blue{background:var(--blue)}.legend{display:flex;gap:16px;margin-top:15px;color:#6f7e75;font-size:12px}.legend i{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field label{display:block;font-size:13px;color:#6b796f;font-weight:750;margin-bottom:6px}.field.full{grid-column:1/-1}.chips{display:flex;flex-wrap:wrap;gap:7px}.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 11px;color:#65736b}.chip.active{background:var(--green-soft);color:var(--green-dark);border-color:#94d8ba}
 .tag-group{margin-bottom:8px}.tag-group-title{font-size:11px;color:#98a29c;font-weight:800;margin-bottom:5px}
 .moods{display:flex;gap:8px}.mood{width:43px;height:43px;border:1px solid var(--line);background:#fff;border-radius:11px;font-size:21px}.mood.active{background:var(--green-soft);border-color:var(--green)}
@@ -95,6 +95,10 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
 .radar-wrap{display:flex;justify-content:center;align-items:center;min-height:370px}.radar{width:330px;height:330px}
 .skill-bars{display:flex;flex-direction:column;gap:15px}.bar-row .bar-head{display:flex;justify-content:space-between;font-size:13px;font-weight:750;margin-bottom:6px}.bar-track{height:9px;background:#e9efeb;border-radius:99px;overflow:hidden}.bar-fill{height:100%;background:var(--green);border-radius:99px}
 .bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}.mini-chart{height:220px;display:flex;align-items:flex-end;gap:20px;padding:20px 30px}.month-bar{flex:1;background:var(--green);border-radius:10px 10px 2px 2px;min-height:4px;position:relative}.month-bar span{position:absolute;bottom:-25px;left:50%;transform:translateX(-50%);font-size:12px;color:#748178}.top-list{padding:8px 0}.top-item{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)}.top-item:last-child{border:0}.recommend{margin-top:18px;padding:22px}.tip{padding:12px 0;border-bottom:1px solid var(--line);color:#536159}.tip:last-child{border:0}
+.insight{padding:14px 2px;border-bottom:1px solid var(--line);line-height:1.9;font-size:13.5px;color:#4b5951}.insight:last-child{border-bottom:0}.insight strong{display:block;margin-bottom:4px;color:var(--text);font-size:14px}
+.insight-card{display:flex;gap:12px;align-items:flex-start;padding:14px 15px;margin-bottom:10px;border:1px solid #dce9e2;background:#f8fbf9;border-radius:14px;line-height:1.8;color:#4b5951;font-size:13.5px}
+.insight-card:last-child{margin-bottom:0}.insight-card .insight-icon{width:32px;height:32px;flex:0 0 32px;border-radius:10px;background:var(--green-soft);display:grid;place-items:center;font-size:16px}
+.insight-card .insight-copy{flex:1}.insight-card .insight-copy strong{display:block;color:var(--text);margin-bottom:3px;font-size:14px}
 .equip-card{padding:13px;border:1px solid var(--line);border-radius:13px;margin-bottom:9px}.equip-card .etop{display:flex;justify-content:space-between;align-items:center}.equip-card .ename{font-weight:800}.equip-card .emeta{color:var(--muted);font-size:12.5px;margin-top:3px}
 .queue-item{padding:11px 13px;border:1px solid var(--line);border-radius:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}.queue-item:hover{border-color:#a8d8c3}.queue-item small{color:var(--muted);display:block;margin-top:2px}
 .overlay{position:fixed;inset:0;background:rgba(13,25,19,.35);opacity:0;pointer-events:none;transition:.2s;z-index:50}.overlay.open{opacity:1;pointer-events:auto}
@@ -204,12 +208,15 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
             <div class="calendar-head"><button class="arrow" id="prevMonthBtn">‹</button><strong id="monthTitle"></strong><button class="arrow" id="nextMonthBtn">›</button></div>
             <div class="cal"><div class="dow">日</div><div class="dow">一</div><div class="dow">二</div><div class="dow">三</div><div class="dow">四</div><div class="dow">五</div><div class="dow">六</div></div>
             <div class="cal" id="calendarDays" style="margin-top:9px"></div>
-            <div style="margin-top:16px" class="subtitle">🟢 我有打球　🔴 有對戰　🔵 好友有打球</div>
+            <div style="margin-top:16px" class="subtitle">🟢 我有打球　🔴 有對戰</div>
           </div>
           <div class="card detail">
             <div class="match-head-row" style="margin-top:0">
               <div class="date" id="recordDate">-</div>
-              <button class="btn primary" id="editSessionBtn">＋ 新增打球紀錄</button>
+              <div style="display:flex;gap:8px">
+                <button class="btn primary" id="editSessionBtn">＋ 新增打球紀錄</button>
+                <button class="btn" id="deleteSessionBtn" style="display:none;color:var(--red)">刪除</button>
+              </div>
             </div>
             <div class="label">今日打球</div>
             <div id="sessionSummaryBox" class="session-box"></div>
@@ -220,8 +227,6 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
               <button class="btn primary" id="addMatchBtn" style="padding:8px 12px">＋ 新增對戰</button>
             </div>
             <div class="session-box" id="matchList"></div>
-            <div class="label">👥 今天一起打球</div>
-            <div class="chips" id="dayFriendsChips"></div>
           </div>
         </div>
       </section>
@@ -445,7 +450,7 @@ const CAT_NAMES = categories.slice(1).map(c=>c[0]);
 const MOODS = ["😄","🙂","😐","😣","🤕"];
 
 let skills=[], sessions=[], matches=[], equipment=[];
-let myProfile=null, friends=[], incomingRequests=[], friendSessionDates=new Set();
+let myProfile=null, friends=[], incomingRequests=[];
 let activeCat="全部技巧", activeSub="全部";
 let calYear, calMonth, selectedDate=null;
 let selectedSkillKey=null;
@@ -672,7 +677,7 @@ async function onSignedIn(user){
     await loadFriendsData();
     document.getElementById('loadingOverlay').classList.add('hide');
     initUI();
-    selectedDate = today.toISOString().slice(0,10);
+    selectedDate = localDateString(today);
     renderCalendar();
     renderDaySummary(selectedDate);
     renderFriends();
@@ -701,8 +706,24 @@ function initUI(){
     document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
     document.getElementById("page-"+b.dataset.page).classList.add("active");
     if(b.dataset.page==='analysis') renderAnalysis();
-    if(b.dataset.page==='friends') renderFriends();
-    if(b.dataset.page==='calendar') renderCalendar();
+    if(b.dataset.page==='friends'){
+      pendingOpponentName = '';
+      const friendInput = document.getElementById('friendSearchInput');
+      if(friendInput) friendInput.value = '';
+      const friendResults = document.getElementById('friendSearchResults');
+      if(friendResults) friendResults.innerHTML = '';
+      const friendContext = document.getElementById('friendMatchContext');
+      if(friendContext) friendContext.innerHTML = '';
+      renderFriends();
+    }
+    if(b.dataset.page==='calendar'){
+      const today = new Date();
+      calYear = today.getFullYear();
+      calMonth = today.getMonth();
+      selectedDate = localDateString(today);
+      renderCalendar();
+      renderDaySummary(selectedDate);
+    }
   });
   document.getElementById('skillSearch').oninput = renderNotes;
   document.getElementById('difficultyFilter').onchange = renderNotes;
@@ -755,6 +776,7 @@ function initUI(){
   document.getElementById('saveRecord').onclick = saveRecord;
   document.getElementById('clearRecord').onclick = clearRecordForm;
   document.getElementById('editSessionBtn').onclick = ()=>openSessionModal(selectedDate);
+  document.getElementById('deleteSessionBtn').onclick = deleteSessionRecord;
   document.getElementById('addMatchBtn').onclick = ()=>{ resetMatchModal(); openModal('matchModal'); };
   document.querySelectorAll(".match-type[data-type]").forEach(b=>b.onclick=()=>{ matchType=b.dataset.type; document.querySelectorAll(".match-type[data-type]").forEach(x=>x.classList.toggle("active",x===b)); renderTeamInputs(); });
   document.getElementById('addGameBtn').onclick = addGameRow;
@@ -848,37 +870,25 @@ async function deleteSkill(){
 /* ================= Calendar ================= */
 function changeMonth(delta){ calMonth+=delta; if(calMonth<0){calMonth=11;calYear--;} if(calMonth>11){calMonth=0;calYear++;} renderCalendar(); }
 function fmtDate(y,m,d){ return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
-async function refreshFriendMonthDots(){
-  const start = fmtDate(calYear,calMonth,1);
-  const daysInMonth = new Date(calYear,calMonth+1,0).getDate();
-  const end = fmtDate(calYear,calMonth,daysInMonth);
-  friendSessionDates = new Set();
-  if(!friends.length) return;
-  const {data,error} = await sb.rpc('get_friends_sessions_in_range', {start_date:start, end_date:end});
-  if(error){ console.error('friend month dots error', error); return; }
-  (data||[]).forEach(r=>friendSessionDates.add(r.play_date));
-  drawCalendarDots();
-}
+function localDateString(d=new Date()){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
 function renderCalendar(){
   document.getElementById('monthTitle').textContent = `${calYear} 年 ${calMonth+1} 月`;
   drawCalendarDots();
-  refreshFriendMonthDots();
 }
 function drawCalendarDots(){
   const grid = document.getElementById('calendarDays'); grid.innerHTML='';
   const firstDay = new Date(calYear,calMonth,1).getDay();
   const daysInMonth = new Date(calYear,calMonth+1,0).getDate();
-  const todayStr = new Date().toISOString().slice(0,10);
+  const todayStr = localDateString();
   for(let i=0;i<firstDay;i++){ const e=document.createElement('div'); grid.appendChild(e); }
   for(let d=1; d<=daysInMonth; d++){
     const dateStr = fmtDate(calYear,calMonth,d);
     const hasSession = sessions.some(s=>s.date===dateStr);
     const hasMatch = matches.some(m=>m.date===dateStr);
-    const hasFriend = friendSessionDates.has(dateStr);
     const btn = document.createElement('button');
     let c='day'; if(dateStr===todayStr) c+=' today'; if(dateStr===selectedDate) c+=' selected';
     btn.className=c;
-    const dots = (hasSession?'<i class="dot"></i>':'') + (hasMatch?'<i class="dot red"></i>':'') + (hasFriend?'<i class="dot blue"></i>':'');
+    const dots = (hasSession?'<i class="dot"></i>':'') + (hasMatch?'<i class="dot red"></i>':'');
     btn.innerHTML = `<b>${d}</b>${dots?`<div class="dots">${dots}</div>`:''}`;
     btn.onclick = ()=>{ selectedDate=dateStr; drawCalendarDots(); renderDaySummary(dateStr); };
     grid.appendChild(btn);
@@ -937,14 +947,14 @@ function renderDaySummary(dateStr){
     const durTxt = s.duration ? `${Math.floor(s.duration/60)?Math.floor(s.duration/60)+' 小時 ':''}${s.duration%60?s.duration%60+' 分鐘':''}`.trim() : '';
     box.innerHTML = `<strong>🏸 ${s.start||'--'} – ${s.end||'--'}</strong><div class="subtitle" style="margin-top:4px">${s.location||'未填寫地點'}${durTxt?(' · '+durTxt):''}</div>${s.mood||s.injury?`<div class="subtitle" style="margin-top:6px">${s.mood||''} ${s.body||''}${s.injury?(' · 受傷：'+s.injury):''}</div>`:''}${s.note?`<div class="subtitle" style="margin-top:6px">${s.note}</div>`:''}`;
   } else {
-    box.innerHTML = `<span class="subtitle">這天還沒有安排打球，點下方「編輯」或右上角「＋ 新增打球紀錄」開始記錄。</span>`;
+    box.innerHTML = `<span class="subtitle">這天還沒有打球紀錄，點日期右側的「＋ 新增打球紀錄」開始記錄。</span>`;
   }
   const tags = (s.tags||'').split(',').filter(Boolean);
   document.getElementById('trainingSelectedView').innerHTML = tags.length ? tags.map(t=>`<span class="chip on">${t}</span>`).join('') : '<span class="subtitle" style="font-size:13px">尚未選擇練習內容</span>';
   const hasSession = sessions.some(x=>x.date===dateStr);
-  document.getElementById('editSessionBtn').textContent = hasSession ? '✎ 編輯打球紀錄' : '＋ 新增打球紀錄';
+  document.getElementById('editSessionBtn').textContent = hasSession ? '編輯' : '＋ 新增打球紀錄';
+  document.getElementById('deleteSessionBtn').style.display = hasSession ? 'inline-block' : 'none';
   renderMatchList(dateStr);
-  renderDayFriends(dateStr);
 }
 function openSessionModal(dateStr){
   const s = getSessionOf(dateStr);
@@ -962,13 +972,16 @@ function openSessionModal(dateStr){
   document.querySelectorAll('#moods .mood').forEach(el=>el.classList.toggle('active', el.textContent===s.mood));
   openModal('sessionModal');
 }
-function renderDayFriends(dateStr){
-  const box = document.getElementById('dayFriendsChips');
-  const dayMatches = matches.filter(m=>m.date===dateStr);
-  const ids = new Set();
-  dayMatches.forEach(m=>{ [m.teammateId,m.opponentId,m.opponent2Id].forEach(id=>{ if(id) ids.add(id); }); });
-  const names = [...ids].map(id=>{ const f=friends.find(x=>x.id===id); return f?f.name:null; }).filter(Boolean);
-  box.innerHTML = names.length ? names.map(n=>`<span class="chip active">${n}</span>`).join('') : '<span class="subtitle" style="font-size:13px">尚無資料</span>';
+async function deleteSessionRecord(){
+  const dateStr = selectedDate;
+  if(!sessions.some(x=>x.date===dateStr)) return;
+  if(!confirm('確定要刪除這天的打球紀錄嗎？（對戰紀錄不會被刪除）')) return;
+  const {error} = await sb.from('sessions').delete().eq('date', dateStr).eq('user_id', currentUser.id);
+  if(error) return toast('刪除失敗：'+error.message);
+  sessions = sessions.filter(s=>s.date!==dateStr);
+  drawCalendarDots();
+  renderDaySummary(dateStr);
+  toast('已刪除打球紀錄');
 }
 function clearRecordForm(){
   document.getElementById('fLocation').value='';
@@ -989,6 +1002,12 @@ async function saveRecord(){
   const location = document.getElementById('fLocation').value;
   const start = document.getElementById('startTime').value;
   const end = document.getElementById('endTime').value;
+  if(!start || !end){
+    toast('請先填寫開始時間與結束時間');
+    if(!start) document.getElementById('startTime').focus();
+    else document.getElementById('endTime').focus();
+    return;
+  }
   const duration = document.getElementById('durationDisplay').dataset.mins ? parseInt(document.getElementById('durationDisplay').dataset.mins,10) : null;
   const body = document.getElementById('fBody').value;
   const injury = document.getElementById('fInjury').value;
@@ -1125,7 +1144,6 @@ async function createMatch(){
   data.forEach((d,i)=>matches.unshift({id:d.id, date:selectedDate, type:matchType, opponent, teammate, opponent2, score:'', win:rows[i].is_win, note, gameNo:rows[i].game_no, teammateId, opponentId, opponent2Id}));
   closeAll();
   renderMatchList(selectedDate); renderCalendar();
-  renderDayFriends(selectedDate);
   toast(`已新增 ${rows.length} 場對戰紀錄`);
 }
 async function deleteMatch(id){
@@ -1166,7 +1184,7 @@ function renderAnalysis(){
 }
 function renderInsights(sorted, g1, g2, singles, doubles){
   const tips=[];
-  if(!sorted.length){ document.getElementById('insightsBox').innerHTML = `<div class="insight">還沒有對戰紀錄，去「打球日曆」新增第一筆對戰吧。</div>`; return; }
+  if(!sorted.length){ document.getElementById('insightsBox').innerHTML = `<div class="insight-card"><div class="insight-icon">🏸</div><div class="insight-copy"><strong>還沒有足夠資料</strong>去「打球日曆」新增第一筆對戰後，這裡會開始整理你的比賽趨勢。</div></div>`; return; }
   if(g1!==null && g2!==null && Math.abs(g1-g2)>=15){
     if(g1>g2) tips.push(`你最近第一場表現明顯比第二場好（${g1}% vs ${g2}%）。可能是體力隨場次下降，也可能對手在第二場開始適應你的打法，或第二場沒有調整戰術，建議留意這幾個方向。`);
     else tips.push(`你最近第二場表現比第一場好（${g2}% vs ${g1}%）。也許需要暖身時間，第一場還沒進入狀態，可以觀察是否跟賽前準備有關。`);
@@ -1181,7 +1199,7 @@ function renderInsights(sorted, g1, g2, singles, doubles){
     tips.push(singles>doubles ? `目前單打勝率（${singles}%）比雙打（${doubles}%）高，可能雙打的站位或搭檔默契還可以再磨合。` : `目前雙打勝率（${doubles}%）比單打（${singles}%）高，單打可能需要加強體能分配或戰術變化。`);
   }
   if(!tips.length) tips.push('目前對戰資料還不夠多，累積更多紀錄後這裡會出現更明確的趨勢觀察。');
-  document.getElementById('insightsBox').innerHTML = tips.slice(0,4).map(t=>`<div class="insight"><span class="subtitle">${t}</span></div>`).join('');
+  document.getElementById('insightsBox').innerHTML = tips.slice(0,4).map((t,i)=>`<div class="insight-card"><div class="insight-icon">${['📈','🎯','💡','🏸'][i]||'💡'}</div><div class="insight-copy"><strong>${i===0?'近期趨勢':i===1?'值得留意':i===2?'打法觀察':'建議'}</strong>${t}</div></div>`).join('');
 }
 function computeOpponentGroups(){
   // 只計算「對手」角色（opponent_id / opponent2_id），隊友場次不計入。
@@ -1449,7 +1467,6 @@ async function respondRequest(reqId, accept){
   if(error){ toast('操作失敗：'+error.message); return; }
   await loadFriendsData();
   renderFriends();
-  refreshFriendMonthDots();
   // 不會只因為名字相同就自動連結舊對戰；要連結請到「我的好友」或「曾經一起打過的人」用「找這個人」確認。
   toast(accept ? '已加入好友名單' : '已忽略邀請');
 }
@@ -1487,14 +1504,66 @@ function renderFriendHeadToHead(friendId){
     <div class="insight" style="padding:0 0 10px;border:0">依你自己記錄的資料：一起打球 ${together} 次</div>
     <div class="insight" style="padding:0;border:0">對戰 ${against.length} 場 · 你贏 ${wins} 場${against.length?(' · 你的勝率 '+Math.round(wins/against.length*1000)/10+'%'):''}</div>`;
 }
+function normalizePersonName(name){
+  return (name||'').trim().toLowerCase().replace(/[._-]+/g,' ').replace(/\s+/g,' ');
+}
+function personNamePartiallyMatches(recordName, friend){
+  const a = normalizePersonName(recordName);
+  if(!a || !friend) return false;
+  const candidates = [friend.name, friend.username].filter(Boolean).map(normalizePersonName);
+  const aTokens = a.split(' ').filter(Boolean);
+  return candidates.some(b=>{
+    if(!b) return false;
+    if(a===b) return true;
+    const bTokens = b.split(' ').filter(Boolean);
+    return aTokens.some(t=>t.length>=2 && bTokens.includes(t));
+  });
+}
 async function manualLinkMatches(){
   if(!selectedFriendId) return;
   const f = friends.find(x=>x.id===selectedFriendId);
   if(!f) return;
-  const linked = await linkExistingMatchesToFriend(selectedFriendId, f.name, false);
-  if(linked===0) toast('沒有找到可以連結的對戰紀錄');
+
+  const candidates = matches.filter(m=>
+    (!m.teammateId && personNamePartiallyMatches(m.teammate, f)) ||
+    (!m.opponentId && personNamePartiallyMatches(m.opponent, f)) ||
+    (!m.opponent2Id && personNamePartiallyMatches(m.opponent2, f))
+  );
+
+  if(!candidates.length){
+    toast('沒有找到名字部分相符的對戰紀錄');
+    return;
+  }
+
+  const matchedNames = [...new Set(candidates.flatMap(m=>[
+    (!m.teammateId && personNamePartiallyMatches(m.teammate,f)) ? m.teammate : null,
+    (!m.opponentId && personNamePartiallyMatches(m.opponent,f)) ? m.opponent : null,
+    (!m.opponent2Id && personNamePartiallyMatches(m.opponent2,f)) ? m.opponent2 : null
+  ].filter(Boolean)))];
+
+  if(!confirm(`找到 ${candidates.length} 筆可能可連結的舊對戰：\n\n${matchedNames.join('、')}\n\n這些名字和好友「${f.name}」部分相符。確定要連結嗎？`)) return;
+
+  let linked = 0;
+  for(const m of candidates){
+    const updates = {};
+    if(!m.teammateId && personNamePartiallyMatches(m.teammate,f)) updates.teammate_id = f.id;
+    if(!m.opponentId && personNamePartiallyMatches(m.opponent,f)) updates.opponent_id = f.id;
+    if(!m.opponent2Id && personNamePartiallyMatches(m.opponent2,f)) updates.opponent2_id = f.id;
+    if(!Object.keys(updates).length) continue;
+
+    const {error} = await sb.from('matches').update(updates).eq('id',m.id).eq('user_id',currentUser.id);
+    if(!error){
+      if(updates.teammate_id) m.teammateId = f.id;
+      if(updates.opponent_id) m.opponentId = f.id;
+      if(updates.opponent2_id) m.opponent2Id = f.id;
+      linked++;
+    }
+  }
+
+  if(linked) toast(`已連結 ${linked} 筆對戰紀錄`);
   renderFriendHeadToHead(selectedFriendId);
   renderOpponentStats();
+  renderFriends();
 }
 async function removeFriend(){
   if(!selectedFriendId) return;
@@ -1502,7 +1571,7 @@ async function removeFriend(){
   const {error} = await sb.rpc('remove_friend', {target:selectedFriendId});
   if(error){ toast('刪除失敗：'+error.message); return; }
   await loadFriendsData();
-  closeAll(); renderFriends(); refreshFriendMonthDots();
+  closeAll(); renderFriends();
   toast('已刪除好友');
 }
 
