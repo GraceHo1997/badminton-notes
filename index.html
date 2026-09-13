@@ -72,7 +72,9 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
 .detail .date{font-size:25px;font-weight:900}
 .label{color:#76847e;font-size:13px;font-weight:800;margin-top:17px;margin-bottom:7px}
 .session-box{background:#f8fbfa;border:1px solid var(--line);border-radius:14px;padding:13px;margin-top:8px}
-.match-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.match-row:last-child{border-bottom:0}
+.match-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.match-row:last-child{border-bottom:0}
+.match-note{display:block;margin-top:6px;color:var(--muted);font-size:12.5px;line-height:1.65;white-space:normal;overflow-wrap:anywhere;word-break:break-word}
+.match-group{border:1px solid var(--line);border-radius:14px;background:#fff;margin-bottom:10px;overflow:hidden}.match-group:last-child{margin-bottom:0}.match-group-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#f8fbfa;border-bottom:1px solid var(--line);font-size:13px}.match-group-body{padding:0 12px}.match-list-scroll{max-height:420px;overflow-y:auto;padding-right:4px}
 .footer-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .match-type-toggle{display:grid;grid-template-columns:1fr 1fr;gap:9px;background:#f3f6f4;padding:5px;border-radius:13px}.match-type{border:0;background:transparent;border-radius:10px;padding:10px 14px;font-weight:800;color:#6b796f}.match-type.active{background:#fff;color:var(--green-dark);box-shadow:0 3px 10px rgba(34,53,43,.09)}
@@ -135,6 +137,7 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
 .match-head-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:3px}
 .match-head-row .label{margin:0}
 .drop-group-head{padding:7px 14px;font-size:11px;font-weight:800;color:#98a29c;background:#f8faf9}
+.analysis-list{display:flex;flex-direction:column}.analysis-person{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}.analysis-person:last-child{border-bottom:0}.profile-section{padding:18px 0;border-bottom:1px solid var(--line)}.profile-section:last-child{border-bottom:0}.profile-section h3{margin:0 0 12px;font-size:16px}.profile-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0}
 @media(max-width:1000px){.calendar-layout,.overview-grid,.bottom-grid{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,1fr)}.notes-layout{grid-template-columns:1fr}.category-panel{height:auto;position:static}.category-list{display:flex;overflow:auto}.cat{min-width:max-content}.cards{grid-template-columns:1fr}}
 @media(max-width:700px){.app{grid-template-columns:1fr}.sidebar{position:fixed;left:0;right:0;bottom:0;top:auto;height:70px;width:100%;flex-direction:row;padding:7px 10px;border-right:0;border-top:1px solid var(--line)}.logo,.side-bottom{display:none}.nav{flex-direction:row;justify-content:space-around}.nav-btn{flex:1}.nav-btn .icon{font-size:19px}.main{padding-bottom:72px}.topbar{padding:0 16px}.container{padding:18px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.stats-grid{grid-template-columns:1fr 1fr}.page-header{flex-direction:column}.cards{grid-template-columns:1fr}.calendar-panel,.record-panel,.content-panel{padding:16px}.day{height:58px;padding:6px}.weekdays,.days{gap:4px}.inline-action-row{justify-content:stretch}.inline-action-row .btn{flex:1}.friend-row-simple{flex-wrap:wrap}}
 </style>
@@ -164,7 +167,6 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
       <button class="nav-btn" data-page="notes"><span class="icon">📘</span><span>羽球筆記</span></button>
     </div>
     <div class="side-bottom">
-      <button class="nav-btn" id="settingsBtn"><span class="icon">⚙️</span><span>設定</span></button>
       <button class="nav-btn" onclick="signOut()"><span class="icon">🚪</span><span>登出</span></button>
     </div>
   </aside>
@@ -226,7 +228,7 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
               <div class="label">對戰</div>
               <button class="btn primary" id="addMatchBtn" style="padding:8px 12px">＋ 新增對戰</button>
             </div>
-            <div class="session-box" id="matchList"></div>
+            <div class="session-box match-list-scroll" id="matchList"></div>
           </div>
         </div>
       </section>
@@ -281,6 +283,12 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
           </div>
           <div class="panel chart-panel"><h3>💡 系統觀察</h3><div id="insightsBox"></div></div>
         </div>
+        <div class="panel recommend" style="margin-top:18px">
+          <h3 style="margin-top:0">🤝 隊友分析</h3>
+          <div class="subtitle" style="font-size:12.5px;margin:-8px 0 12px">比較你和不同搭檔一起出賽時的勝率。已連結好友會以帳號 ID 合併歷史紀錄。</div>
+          <div id="teammateStatsList" class="analysis-list"></div>
+        </div>
+
         <div class="panel recommend" style="margin-top:18px">
           <h3 style="margin-top:0">👤 對手分析</h3>
           <div class="subtitle" style="font-size:12.5px;margin:-8px 0 12px">比對你和每位好友／對手的所有歷史對戰。已連結好友以帳號 ID 彙整，未連結人物暫時依名字統計。</div>
@@ -397,39 +405,19 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
   </div>
 </div>
 
-<div class="modal" id="settingsModal" style="width:min(640px,92vw)">
-  <div class="modal-head" style="display:flex;justify-content:space-between;align-items:center">
-    <div>設定</div>
-    <button class="close" data-close-modal style="width:34px;height:34px;font-size:18px">×</button>
-  </div>
+<div class="modal" id="profileModal" style="width:min(700px,94vw)">
+  <div class="modal-head" style="display:flex;justify-content:space-between;align-items:center"><div>個人資訊</div><button class="close" data-close-modal style="width:34px;height:34px;font-size:18px">×</button></div>
   <div class="modal-body">
-    <div class="tabs" id="settingsTabs">
-      <button class="tab active" data-tab="equip">我的裝備</button>
-      <button class="tab" data-tab="privacy">隱私設定</button>
-    </div>
-    <div id="settingsPane-equip">
-      <div style="display:flex;justify-content:flex-end;margin-bottom:10px"><button class="btn" id="toggleEquipFormBtn">＋ 新增裝備</button></div>
+    <div class="profile-section" style="padding-top:0"><h3>帳號</h3><div class="profile-row"><span class="subtitle">顯示名稱</span><strong id="profileDisplayName">-</strong></div><div class="profile-row"><span class="subtitle">羽球人帳號</span><strong id="profileUsername">-</strong></div><div class="subtitle" style="font-size:12px">帳號由系統建立，目前不開放修改。</div></div>
+    <div class="profile-section">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px"><h3 style="margin:0">我的裝備</h3><button class="btn" id="toggleEquipFormBtn">＋ 新增裝備</button></div>
       <div id="equipList"></div>
-      <div id="equipForm" style="display:none;margin-top:14px">
-        <div class="form-grid">
-          <div class="field"><label>類型</label><select id="eqType" style="width:100%"><option>球拍</option><option>球鞋</option><option>其他</option></select></div>
-          <div class="field"><label>名稱</label><input class="input" id="eqName" style="width:100%" placeholder="例如：Astrox 100ZZ"></div>
-          <div class="field"><label>品牌／型號</label><input class="input" id="eqBrand" style="width:100%"></div>
-          <div class="field"><label>磅數／尺寸</label><input class="input" id="eqTension" style="width:100%" placeholder="24-26 磅 或 尺寸"></div>
-          <div class="field"><label>購入日期</label><input class="input" id="eqDate" type="date" style="width:100%"></div>
-        </div>
-        <div class="field full"><label>備註</label><input class="input" id="eqNote" style="width:100%"></div>
+      <div id="equipForm" style="display:none;margin-top:14px"><input type="hidden" id="eqEditId">
+        <div class="form-grid"><div class="field"><label>類型</label><select id="eqType" style="width:100%"><option>球拍</option><option>球鞋</option><option>其他</option></select></div><div class="field"><label>名稱</label><input class="input" id="eqName" style="width:100%" placeholder="例如：Astrox 100ZZ"></div><div class="field"><label>品牌／型號</label><input class="input" id="eqBrand" style="width:100%"></div><div class="field"><label>磅數／尺寸</label><input class="input" id="eqTension" style="width:100%" placeholder="24-26 磅 或 尺寸"></div><div class="field"><label>線種</label><input class="input" id="eqStringType" style="width:100%" placeholder="例如：BG80"></div><div class="field"><label>上次穿線日期</label><input class="input" id="eqLastStringDate" type="date" style="width:100%"></div><div class="field"><label>購入日期</label><input class="input" id="eqDate" type="date" style="width:100%"></div><div class="field full"><label>備註</label><input class="input" id="eqNote" style="width:100%"></div></div>
         <div style="display:flex;gap:9px;margin-top:10px"><button class="btn primary" id="addEquipBtn">儲存裝備</button><button class="btn" id="cancelEquipBtn">取消</button></div>
       </div>
     </div>
-    <div id="settingsPane-privacy" style="display:none">
-      <div class="subtitle" style="margin-bottom:14px">決定好友能看到你哪些資訊。第一版無論如何都不會讓好友看到身體狀況、受傷紀錄與私人備註。</div>
-      <div class="field"><label>我的打球狀態（今天有沒有打球）</label><select class="priv-select" id="privStatus" style="width:100%"><option value="friends">好友可見</option><option value="private">僅自己</option></select></div>
-      <div class="field" style="margin-top:14px"><label>我的戰績</label><select class="priv-select" id="privStats" style="width:100%"><option value="friends">好友可見</option><option value="private">僅自己</option></select></div>
-      <div class="field" style="margin-top:14px"><label>我的完整日曆（最近打球紀錄）</label><select class="priv-select" id="privCalendar" style="width:100%"><option value="friends">好友可見</option><option value="private">僅自己</option></select></div>
-      <div class="field" style="margin-top:14px"><label>打球地點</label><select class="priv-select" id="privLocation" style="width:100%"><option value="friends">好友可見</option><option value="private">僅自己</option></select></div>
-      <div style="margin-top:18px"><button class="btn primary" id="savePrivacyBtn">儲存隱私設定</button></div>
-    </div>
+    <div class="profile-section"><h3>好友搜尋與隱私</h3><div class="field"><label>允許其他使用者搜尋到我的帳號</label><select id="privSearchable" style="width:100%"><option value="true">允許搜尋</option><option value="false">不顯示在好友搜尋結果</option></select></div><div class="field" style="margin-top:14px"><label>我的打球狀態</label><select id="privStatus" style="width:100%"><option value="friends">好友可見</option><option value="private">僅自己</option></select></div><div class="field" style="margin-top:14px"><label>我的戰績</label><select id="privStats" style="width:100%"><option value="friends">好友可見</option><option value="private">僅自己</option></select></div><div class="field" style="margin-top:14px"><label>我的最近打球紀錄</label><select id="privCalendar" style="width:100%"><option value="friends">好友可見</option><option value="private">僅自己</option></select></div><div class="field" style="margin-top:14px"><label>打球地點</label><select id="privLocation" style="width:100%"><option value="friends">好友可見</option><option value="private">僅自己</option></select></div><button class="btn primary" id="savePrivacyBtn" style="margin-top:12px">儲存隱私設定</button><div class="subtitle" style="font-size:12px;margin-top:10px">「允許搜尋」只影響其他人能否在好友搜尋找到你；不會自動公開私人備註、受傷資訊或完整個人資料。</div></div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -584,11 +572,11 @@ async function loadAll(){
 
   let {data:ms, error:e3} = await sb.from('matches').select('*').order('match_date',{ascending:false});
   if(e3) throw e3;
-  matches = (ms||[]).map(m=>({id:m.id, date:m.match_date, type:m.type, opponent:m.opponent, teammate:m.teammate_name||'', opponent2:m.opponent2_name||'', score:m.score, win:m.is_win, note:m.note||'', gameNo:m.game_no||1, teammateId:m.teammate_id||null, opponentId:m.opponent_id||null, opponent2Id:m.opponent2_id||null}));
+  matches = (ms||[]).map(m=>({id:m.id, date:m.match_date, type:m.type, opponent:m.opponent, teammate:m.teammate_name||'', opponent2:m.opponent2_name||'', score:m.score, win:m.is_win, note:m.note||'', gameNo:m.game_no||1, groupId:m.match_group_id||null, teammateId:m.teammate_id||null, opponentId:m.opponent_id||null, opponent2Id:m.opponent2_id||null}));
 
   let {data:eq, error:e5} = await sb.from('equipment').select('*').order('created_at',{ascending:true});
   if(e5) throw e5;
-  equipment = (eq||[]).map(e=>({id:e.id, name:e.name, type:e.type||'球拍', brand:e.brand_model||'', tension:e.string_tension||'', purchaseDate:e.purchase_date||'', notes:e.notes||'', active:e.is_active}));
+  equipment = (eq||[]).map(e=>({id:e.id, name:e.name, type:e.type||'球拍', brand:e.brand_model||'', tension:e.string_tension||'', stringType:e.string_type||'', lastStringDate:e.last_string_date||'', purchaseDate:e.purchase_date||'', notes:e.notes||'', active:e.is_active}));
 }
 
 /* ================= Profiles / Friends ================= */
@@ -735,13 +723,7 @@ function initUI(){
   document.getElementById('newSkillCat').innerHTML = categories.slice(1).map(x=>`<option>${x[0]}</option>`).join("");
   document.getElementById('saveSkill').onclick = createSkill;
 
-  document.getElementById('settingsBtn').onclick = openSettingsModal;
-  document.getElementById('userMenuBtn').onclick = openSettingsModal;
-  document.querySelectorAll('#settingsTabs .tab').forEach(b=>b.onclick=()=>{
-    document.querySelectorAll('#settingsTabs .tab').forEach(x=>x.classList.toggle('active',x===b));
-    document.getElementById('settingsPane-equip').style.display = b.dataset.tab==='equip'?'block':'none';
-    document.getElementById('settingsPane-privacy').style.display = b.dataset.tab==='privacy'?'block':'none';
-  });
+  document.getElementById('userMenuBtn').onclick = openProfileModal;
   document.getElementById('savePrivacyBtn').onclick = savePrivacy;
 
   document.getElementById('copyUsernameBtn').onclick = copyMyUsername;
@@ -1119,12 +1101,16 @@ function matchItemHTML(m){
   const mySide = m.type==='雙打' ? `我 / ${m.teammate||'?'}` : '我';
   const oppSide = m.type==='雙打' ? `${m.opponent} / ${m.opponent2||'?'}` : m.opponent;
   const gameLabel = m.gameNo ? `第 ${m.gameNo} 場` : '';
-  return `<div class="match-row"><span><b>${m.type}${gameLabel?('・'+gameLabel):''}</b><br><small class="subtitle">${mySide} vs ${oppSide}${m.note?(' · '+m.note):''}</small></span><span style="display:flex;align-items:center;gap:8px"><span class="badge ${m.win?'win':'loss'}">${m.win?'勝利':'落敗'}</span><button class="close" style="width:26px;height:26px;font-size:14px" onclick="deleteMatch(${m.id})">×</button></span></div>`;
+  return `<div class="match-row"><span style="min-width:0"><b>${gameLabel||m.type}</b><br><small class="subtitle">${mySide} vs ${oppSide}</small>${m.note?`<span class="match-note">${m.note}</span>`:''}</span><span style="display:flex;align-items:center;gap:8px;flex:none"><span class="badge ${m.win?'win':'loss'}">${m.win?'勝利':'落敗'}</span><button class="close" style="width:26px;height:26px;font-size:14px" onclick="deleteMatch(${m.id})">×</button></span></div>`;
 }
+function matchFallbackGroupKey(m){ return ['legacy',m.date,m.type,m.teammate||'',m.opponent||'',m.opponent2||'',m.note||''].join('|'); }
 function renderMatchList(dateStr){
-  const list = matches.filter(m=>m.date===dateStr);
+  const list = matches.filter(m=>m.date===dateStr).sort((a,b)=>(a.gameNo||1)-(b.gameNo||1) || Number(a.id||0)-Number(b.id||0));
   const box = document.getElementById('matchList');
-  box.innerHTML = list.length ? list.map(matchItemHTML).join('') : '<div class="subtitle" style="text-align:center;padding:14px 0">當天無對戰紀錄</div>';
+  if(!list.length){ box.innerHTML='<div class="subtitle" style="text-align:center;padding:14px 0">當天無對戰紀錄</div>'; return; }
+  const groupMap=new Map(); list.forEach(m=>{const key=m.groupId||matchFallbackGroupKey(m); if(!groupMap.has(key))groupMap.set(key,[]); groupMap.get(key).push(m);});
+  const groups=[...groupMap.values()].sort((a,b)=>Number(a[0].id||0)-Number(b[0].id||0));
+  box.innerHTML=groups.map((g,idx)=>{g.sort((a,b)=>(a.gameNo||1)-(b.gameNo||1)); const first=g[0]; const mySide=first.type==='雙打'?`我 / ${first.teammate||'?'}`:'我'; const oppSide=first.type==='雙打'?`${first.opponent} / ${first.opponent2||'?'}`:first.opponent; return `<div class="match-group"><div class="match-group-head"><strong>${first.type} · 對戰 ${idx+1}</strong><span class="subtitle">${mySide} vs ${oppSide}</span></div><div class="match-group-body">${g.map(matchItemHTML).join('')}</div></div>`;}).join('');
 }
 async function createMatch(){
   const count = matchType==='雙打' ? 2 : 1;
@@ -1138,10 +1124,11 @@ async function createMatch(){
   if(count===2 && !teammate) return toast('請輸入隊友名字');
   if(count===2 && !opponent2) return toast('請輸入第二位對手名字');
   const note = document.getElementById('matchNote').value.trim();
-  const rows = gameRows.map((g,i)=>({match_date:selectedDate, type:matchType, opponent, teammate_name:teammate, opponent2_name:opponent2, teammate_id:teammateId, opponent_id:opponentId, opponent2_id:opponent2Id, score:'', is_win:g.result==='win', note, game_no:i+1, user_id:currentUser.id}));
+  const groupId = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('grp_'+Date.now()+'_'+Math.random().toString(36).slice(2));
+  const rows = gameRows.map((g,i)=>({match_date:selectedDate, type:matchType, opponent, teammate_name:teammate, opponent2_name:opponent2, teammate_id:teammateId, opponent_id:opponentId, opponent2_id:opponent2Id, score:'', is_win:g.result==='win', note, game_no:i+1, match_group_id:groupId, user_id:currentUser.id}));
   const {data,error} = await sb.from('matches').insert(rows).select();
   if(error) return toast('新增失敗：'+error.message);
-  data.forEach((d,i)=>matches.unshift({id:d.id, date:selectedDate, type:matchType, opponent, teammate, opponent2, score:'', win:rows[i].is_win, note, gameNo:rows[i].game_no, teammateId, opponentId, opponent2Id}));
+  data.forEach((d,i)=>matches.push({id:d.id, date:selectedDate, type:matchType, opponent, teammate, opponent2, score:'', win:rows[i].is_win, note, gameNo:rows[i].game_no, groupId, teammateId, opponentId, opponent2Id}));
   closeAll();
   renderMatchList(selectedDate); renderCalendar();
   toast(`已新增 ${rows.length} 場對戰紀錄`);
@@ -1165,12 +1152,10 @@ function renderAnalysis(){
     <div class="stat"><div>✕</div><div class="value">${losses}</div><div class="label">負場</div></div>
     <div class="stat"><div>🔥</div><div class="value">${winRate}%</div><div class="label">勝率</div></div>`;
 
-  const sorted = [...matches].sort((a,b)=> a.date===b.date ? a.gameNo-b.gameNo : a.date.localeCompare(b.date));
-  const last5 = sorted.slice(-5), last10 = sorted.slice(-10);
-  const formIcons = last5.map(m=>m.win?'✓':'✕').join(' ') || '-';
-  document.getElementById('recentFormBox').innerHTML = `
-    <div class="insight" style="padding:0 0 15px;border:0"><strong>最近 5 場　${formIcons}</strong><span class="subtitle">最近 5 場勝率 ${winRateOf(last5)===null?'-':winRateOf(last5)+'%'}</span></div>
-    <div class="insight" style="padding:0;border:0"><strong>最近 10 場</strong><span class="subtitle">勝率 ${winRateOf(last10)===null?'-':winRateOf(last10)+'%'}（共 ${last10.length} 場）</span></div>`;
+  const sorted=[...matches].sort((a,b)=>a.date===b.date?(a.gameNo||1)-(b.gameNo||1):a.date.localeCompare(b.date));
+  const latestDate=sorted.length?sorted[sorted.length-1].date:null;
+  const latestMatches=latestDate?sorted.filter(m=>m.date===latestDate).sort((a,b)=>(a.gameNo||1)-(b.gameNo||1)):[];
+  if(latestDate){const dateWins=latestMatches.filter(m=>m.win).length;const dateRate=Math.round(dateWins/latestMatches.length*1000)/10;const labels=latestMatches.length===2?['上場','下場']:latestMatches.map((_,i)=>`第 ${i+1} 場`);document.getElementById('recentFormBox').innerHTML=`<div class="insight" style="padding:0 0 14px;border:0"><strong>最新對戰日：${latestDate}</strong><span class="subtitle">當天 ${latestMatches.length} 場 · ${dateWins} 勝 ${latestMatches.length-dateWins} 負 · 勝率 ${dateRate}%</span></div><div style="display:flex;gap:8px;flex-wrap:wrap">${latestMatches.map((m,i)=>`<span class="badge ${m.win?'win':'loss'}">${labels[i]} · ${m.win?'勝':'負'}</span>`).join('')}</div>`;}else{document.getElementById('recentFormBox').innerHTML='<div class="subtitle">尚無對戰紀錄</div>';}
 
   const byGame = n=> matches.filter(m=>m.gameNo===n);
   const g1=winRateOf(byGame(1)), g2=winRateOf(byGame(2)), g3=winRateOf(byGame(3));
@@ -1179,6 +1164,7 @@ function renderAnalysis(){
   document.getElementById('analysisBars').innerHTML = barRow('第一場勝率',g1)+barRow('第二場勝率',g2)+barRow('第三場勝率',g3)+barRow('單打勝率',singles)+barRow('雙打勝率',doubles);
 
   renderInsights(sorted, g1, g2, singles, doubles);
+  renderTeammateStats();
   renderOpponentStats();
   renderEquipment();
 }
@@ -1201,6 +1187,8 @@ function renderInsights(sorted, g1, g2, singles, doubles){
   if(!tips.length) tips.push('目前對戰資料還不夠多，累積更多紀錄後這裡會出現更明確的趨勢觀察。');
   document.getElementById('insightsBox').innerHTML = tips.slice(0,4).map((t,i)=>`<div class="insight-card"><div class="insight-icon">${['📈','🎯','💡','🏸'][i]||'💡'}</div><div class="insight-copy"><strong>${i===0?'近期趨勢':i===1?'值得留意':i===2?'打法觀察':'建議'}</strong>${t}</div></div>`).join('');
 }
+function computeTeammateGroups(){const groups=new Map();matches.filter(m=>m.type==='雙打'&&(m.teammate||m.teammateId)).forEach(m=>{const name=(m.teammate||'').trim();const key=m.teammateId?('id:'+m.teammateId):('name:'+name.toLowerCase());if(!groups.has(key))groups.set(key,{id:m.teammateId||null,name,matches:[]});const g=groups.get(key);if(name&&name.length>(g.name||'').length)g.name=name;g.matches.push(m);});return [...groups.values()];}
+function renderTeammateStats(){const groups=computeTeammateGroups().map(g=>{const total=g.matches.length,wins=g.matches.filter(m=>m.win).length;const rate=total?Math.round(wins/total*1000)/10:0;const friendObj=g.id?friends.find(f=>f.id===g.id):null;return {...g,total,wins,losses:total-wins,rate,friendObj};}).sort((a,b)=>b.rate-a.rate||b.total-a.total);const box=document.getElementById('teammateStatsList');if(!box)return;box.innerHTML=groups.length?groups.map((g,i)=>{const display=g.friendObj?g.friendObj.name:g.name;const tag=g.friendObj?`@${g.friendObj.username||''} · 好友`:(g.id?'已連結帳號':'未連結');return `<div class="analysis-person"><span><b>${i===0?'🏆 ':''}${display}</b><br><small class="subtitle">${tag} · 搭檔 ${g.total} 場 · ${g.wins} 勝 ${g.losses} 負</small></span><b>${g.rate}%</b></div>`;}).join(''):'<div class="subtitle" style="padding:10px 0">尚無雙打搭檔紀錄</div>';}
 function computeOpponentGroups(){
   // 只計算「對手」角色（opponent_id / opponent2_id），隊友場次不計入。
   // 已連結好友一律用 user_id 彙整（即使歷史名字不同）；未連結才 fallback 用正規化名字。
@@ -1268,28 +1256,16 @@ function openOpponentDetail(id, name){
 function equipIcon(type){ return type==='球鞋' ? '👟' : type==='其他' ? '🎒' : '🏸'; }
 function renderEquipment(){
   const box=document.getElementById('equipList');
-  if(!equipment.length){ box.innerHTML='<div style="color:var(--muted);padding:8px 0">還沒有新增裝備</div>'; return; }
-  box.innerHTML = equipment.map(e=>`<div class="equip-card"><div class="etop"><span class="ename">${equipIcon(e.type)} ${e.name} ${e.active?'<span class="badge beginner">使用中</span>':''}</span><button class="close" style="width:28px;height:28px;font-size:15px" onclick="deleteEquipment(${e.id})">×</button></div><div class="emeta">${e.type}${e.brand?(' · '+e.brand):''}${e.tension?(' · '+e.tension):''}${e.purchaseDate?(' · 購入 '+e.purchaseDate):''}</div>${e.notes?`<div class="emeta">${e.notes}</div>`:''}</div>`).join('');
+  if(!equipment.length){box.innerHTML='<div style="color:var(--muted);padding:8px 0">還沒有新增裝備</div>';return;}
+  box.innerHTML=equipment.map(e=>`<div class="equip-card"><div class="etop"><span class="ename">${equipIcon(e.type)} ${e.name} ${e.active?'<span class="badge beginner">使用中</span>':''}</span><span style="display:flex;gap:6px"><button class="btn" style="padding:6px 9px" onclick="editEquipment(${e.id})">編輯</button><button class="close" style="width:28px;height:28px;font-size:15px" onclick="deleteEquipment(${e.id})">×</button></span></div><div class="emeta">${e.type}${e.brand?(' · '+e.brand):''}${e.tension?(' · '+e.tension):''}${e.stringType?(' · '+e.stringType):''}${e.lastStringDate?(' · 上次穿線 '+e.lastStringDate):''}${e.purchaseDate?(' · 購入 '+e.purchaseDate):''}</div>${e.notes?`<div class="emeta">${e.notes}</div>`:''}</div>`).join('');
 }
 function clearEquipForm(){
+  document.getElementById('eqEditId').value='';
   document.getElementById('eqType').value='球拍';
-  document.getElementById('eqName').value=''; document.getElementById('eqBrand').value=''; document.getElementById('eqTension').value=''; document.getElementById('eqDate').value=''; document.getElementById('eqNote').value='';
+  document.getElementById('eqName').value=''; document.getElementById('eqBrand').value=''; document.getElementById('eqTension').value=''; document.getElementById('eqStringType').value=''; document.getElementById('eqLastStringDate').value=''; document.getElementById('eqDate').value=''; document.getElementById('eqNote').value='';
 }
-async function createEquipment(){
-  const name=document.getElementById('eqName').value.trim();
-  if(!name) return toast('請輸入裝備名稱');
-  const type=document.getElementById('eqType').value;
-  const brand=document.getElementById('eqBrand').value.trim();
-  const tension=document.getElementById('eqTension').value.trim();
-  const purchaseDate=document.getElementById('eqDate').value;
-  const notes=document.getElementById('eqNote').value.trim();
-  const {data,error} = await sb.from('equipment').insert({name, type, brand_model:brand, string_tension:tension, purchase_date:purchaseDate||null, notes, is_active:true, user_id:currentUser.id}).select().single();
-  if(error) return toast('新增失敗：'+error.message);
-  equipment.push({id:data.id, name, type, brand, tension, purchaseDate, notes, active:true});
-  clearEquipForm();
-  document.getElementById('equipForm').style.display='none';
-  renderEquipment(); toast('裝備已新增');
-}
+function editEquipment(id){const e=equipment.find(x=>x.id===id);if(!e)return;document.getElementById('eqEditId').value=id;document.getElementById('eqType').value=e.type||'球拍';document.getElementById('eqName').value=e.name||'';document.getElementById('eqBrand').value=e.brand||'';document.getElementById('eqTension').value=e.tension||'';document.getElementById('eqStringType').value=e.stringType||'';document.getElementById('eqLastStringDate').value=e.lastStringDate||'';document.getElementById('eqDate').value=e.purchaseDate||'';document.getElementById('eqNote').value=e.notes||'';document.getElementById('equipForm').style.display='block';document.getElementById('addEquipBtn').textContent='更新裝備';}
+async function createEquipment(){const id=document.getElementById('eqEditId').value;const name=document.getElementById('eqName').value.trim();if(!name)return toast('請輸入裝備名稱');const type=document.getElementById('eqType').value;const brand=document.getElementById('eqBrand').value.trim();const tension=document.getElementById('eqTension').value.trim();const stringType=document.getElementById('eqStringType').value.trim();const lastStringDate=document.getElementById('eqLastStringDate').value;const purchaseDate=document.getElementById('eqDate').value;const notes=document.getElementById('eqNote').value.trim();const payload={name,type,brand_model:brand,string_tension:tension,string_type:stringType,last_string_date:lastStringDate||null,purchase_date:purchaseDate||null,notes,is_active:true,user_id:currentUser.id};let data,error;if(id){const r=await sb.from('equipment').update(payload).eq('id',id).eq('user_id',currentUser.id).select().single();data=r.data;error=r.error;}else{const r=await sb.from('equipment').insert(payload).select().single();data=r.data;error=r.error;}if(error)return toast((id?'更新':'新增')+'失敗：'+error.message);const item={id:data.id,name,type,brand,tension,stringType,lastStringDate,purchaseDate,notes,active:true};if(id){const idx=equipment.findIndex(e=>String(e.id)===String(id));if(idx>=0)equipment[idx]=item;}else equipment.push(item);clearEquipForm();document.getElementById('equipForm').style.display='none';document.getElementById('addEquipBtn').textContent='儲存裝備';renderEquipment();toast(id?'裝備已更新':'裝備已新增');}
 async function deleteEquipment(id){
   const {error} = await sb.from('equipment').delete().eq('id',id).eq('user_id', currentUser.id);
   if(error) return toast('刪除失敗：'+error.message);
@@ -1376,8 +1352,9 @@ function renderFriends(){
   renderMyAccount();
   const pending = pendingFriendLinks();
   const box = document.getElementById('friendGrid');
-  document.getElementById('friendCountText').textContent = friends.length ? `${friends.length} 位` : '';
-  box.innerHTML = friends.length ? friends.map(f=>{
+  const sortedFriends=[...friends].sort((a,b)=>{const da=lastPlayedTogether(a.id)||''; const db=lastPlayedTogether(b.id)||''; if(da!==db)return db.localeCompare(da); return (a.name||'').localeCompare(b.name||'');});
+  document.getElementById('friendCountText').textContent = sortedFriends.length ? `${sortedFriends.length} 位` : '';
+  box.innerHTML = sortedFriends.length ? sortedFriends.map(f=>{
     const oldName = pending[f.id];
     const linkedCount = matches.filter(m=>m.teammateId===f.id||m.opponentId===f.id||m.opponent2Id===f.id).length;
     const lastDate = lastPlayedTogether(f.id);
@@ -1406,10 +1383,11 @@ async function searchFriends(){
   box.innerHTML = '<div class="subtitle" style="padding:8px 0">搜尋中…</div>';
   const {data, error} = await sb.from('profiles').select('*').or(`username.ilike.%${q}%,display_name.ilike.%${q}%`).neq('id', currentUser.id).limit(10);
   if(error){ box.innerHTML = `<div class="subtitle">搜尋失敗：${error.message}</div>`; return; }
-  if(!data || !data.length){ box.innerHTML = '<div class="subtitle" style="padding:8px 0">找不到符合的使用者</div>'; return; }
+  const visibleData=(data||[]).filter(p=>!p.privacy||p.privacy.searchable!==false);
+  if(!visibleData.length){ box.innerHTML = '<div class="subtitle" style="padding:8px 0">找不到符合的使用者</div>'; return; }
   const {data:outReqs} = await sb.from('friend_requests').select('to_user').eq('from_user', currentUser.id).eq('status','pending');
   const pendingIds = new Set((outReqs||[]).map(r=>r.to_user));
-  box.innerHTML = data.map(p=>{
+  box.innerHTML = visibleData.map(p=>{
     const name = p.display_name||p.username||'使用者';
     const isFriend = friends.some(f=>f.id===p.id);
     let actionBtn;
@@ -1445,15 +1423,16 @@ async function linkExistingMatchesToFriend(friendId, friendName, silent){
   let linked=0;
   for(const m of candidates){
     const updates={};
-    if(!m.teammateId && (m.teammate||'').trim().toLowerCase()===lname) updates.teammate_id=friendId;
-    if(!m.opponentId && (m.opponent||'').trim().toLowerCase()===lname) updates.opponent_id=friendId;
-    if(!m.opponent2Id && (m.opponent2||'').trim().toLowerCase()===lname) updates.opponent2_id=friendId;
+    const friendObj=friends.find(f=>f.id===friendId); const canonicalName=friendObj?friendObj.name:friendName;
+    if(!m.teammateId && (m.teammate||'').trim().toLowerCase()===lname){updates.teammate_id=friendId;updates.teammate_name=canonicalName;}
+    if(!m.opponentId && (m.opponent||'').trim().toLowerCase()===lname){updates.opponent_id=friendId;updates.opponent=canonicalName;}
+    if(!m.opponent2Id && (m.opponent2||'').trim().toLowerCase()===lname){updates.opponent2_id=friendId;updates.opponent2_name=canonicalName;}
     if(Object.keys(updates).length){
       const {error} = await sb.from('matches').update(updates).eq('id', m.id).eq('user_id', currentUser.id);
       if(!error){
-        if(updates.teammate_id) m.teammateId=friendId;
-        if(updates.opponent_id) m.opponentId=friendId;
-        if(updates.opponent2_id) m.opponent2Id=friendId;
+        if(updates.teammate_id){m.teammateId=friendId;if(updates.teammate_name)m.teammate=updates.teammate_name;}
+        if(updates.opponent_id){m.opponentId=friendId;if(updates.opponent)m.opponent=updates.opponent;}
+        if(updates.opponent2_id){m.opponent2Id=friendId;if(updates.opponent2_name)m.opponent2=updates.opponent2_name;}
         linked++;
       }
     }
@@ -1546,16 +1525,16 @@ async function manualLinkMatches(){
   let linked = 0;
   for(const m of candidates){
     const updates = {};
-    if(!m.teammateId && personNamePartiallyMatches(m.teammate,f)) updates.teammate_id = f.id;
-    if(!m.opponentId && personNamePartiallyMatches(m.opponent,f)) updates.opponent_id = f.id;
-    if(!m.opponent2Id && personNamePartiallyMatches(m.opponent2,f)) updates.opponent2_id = f.id;
+    if(!m.teammateId && personNamePartiallyMatches(m.teammate,f)){updates.teammate_id=f.id;updates.teammate_name=f.name;}
+    if(!m.opponentId && personNamePartiallyMatches(m.opponent,f)){updates.opponent_id=f.id;updates.opponent=f.name;}
+    if(!m.opponent2Id && personNamePartiallyMatches(m.opponent2,f)){updates.opponent2_id=f.id;updates.opponent2_name=f.name;}
     if(!Object.keys(updates).length) continue;
 
     const {error} = await sb.from('matches').update(updates).eq('id',m.id).eq('user_id',currentUser.id);
     if(!error){
-      if(updates.teammate_id) m.teammateId = f.id;
-      if(updates.opponent_id) m.opponentId = f.id;
-      if(updates.opponent2_id) m.opponent2Id = f.id;
+      if(updates.teammate_id){m.teammateId=f.id;m.teammate=f.name;}
+      if(updates.opponent_id){m.opponentId=f.id;m.opponent=f.name;}
+      if(updates.opponent2_id){m.opponent2Id=f.id;m.opponent2=f.name;}
       linked++;
     }
   }
@@ -1576,16 +1555,10 @@ async function removeFriend(){
 }
 
 /* ================= Settings (裝備 / 隱私) ================= */
-function openSettingsModal(){
-  document.getElementById('privStatus').value = (myProfile&&myProfile.privacy&&myProfile.privacy.status) || 'friends';
-  document.getElementById('privStats').value = (myProfile&&myProfile.privacy&&myProfile.privacy.stats) || 'friends';
-  document.getElementById('privCalendar').value = (myProfile&&myProfile.privacy&&myProfile.privacy.calendar) || 'friends';
-  document.getElementById('privLocation').value = (myProfile&&myProfile.privacy&&myProfile.privacy.location) || 'friends';
-  renderEquipment();
-  openModal('settingsModal');
-}
+function openProfileModal(){document.getElementById('profileDisplayName').textContent=(myProfile&&myProfile.display_name)||document.getElementById('userNameTxt').textContent||'-';document.getElementById('profileUsername').textContent=myProfile&&myProfile.username?('@'+myProfile.username):'-';const privacy=(myProfile&&myProfile.privacy)||{};document.getElementById('privSearchable').value=privacy.searchable===false?'false':'true';document.getElementById('privStatus').value=privacy.status||'friends';document.getElementById('privStats').value=privacy.stats||'friends';document.getElementById('privCalendar').value=privacy.calendar||'friends';document.getElementById('privLocation').value=privacy.location||'friends';clearEquipForm();document.getElementById('equipForm').style.display='none';document.getElementById('addEquipBtn').textContent='儲存裝備';renderEquipment();openModal('profileModal');}
 async function savePrivacy(){
   const privacy = {
+    searchable: document.getElementById('privSearchable').value === 'true',
     status: document.getElementById('privStatus').value,
     stats: document.getElementById('privStats').value,
     calendar: document.getElementById('privCalendar').value,
