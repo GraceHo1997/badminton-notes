@@ -140,7 +140,7 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
 
 .star-rating{display:inline-flex;gap:2px;align-items:center}.star-btn{border:0;background:transparent;padding:0 1px;font-size:18px;line-height:1;color:#cbd5cf}.star-btn.filled{color:#f2a72b}.star-btn:hover{transform:scale(1.08)}
 .practice-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;margin-top:8px}.practice-row .practice-name{font-weight:750;min-width:0}.practice-row .practice-meta{font-size:11px;color:var(--muted)}
-.gender-wrap{display:grid;grid-template-columns:46px 1fr;gap:8px;align-items:center}.gender-select{height:43px;border:1px solid var(--line);border-radius:12px;background:#fbfcfb;padding:0 7px;font-weight:900;text-align:center;color:#58675f}.gender-select:focus{border-color:#68c8a4;box-shadow:0 0 0 3px #e7f7ef;outline:none}
+.gender-wrap{display:grid;grid-template-columns:46px 1fr;gap:8px;align-items:center}.gender-fixed{height:43px;border:1px solid var(--line);border-radius:12px;background:#f3f6f4;display:grid;place-items:center;font-size:20px;font-weight:900;color:#58675f}.self-player{height:43px;border:1px solid var(--line);border-radius:12px;background:#f3f6f4;color:#66756d;display:flex;align-items:center;padding:0 14px;font-weight:750}.gender-select{height:43px;border:1px solid var(--line);border-radius:12px;background:#fbfcfb;padding:0 7px;font-weight:900;text-align:center;color:#58675f}.gender-select:focus{border-color:#68c8a4;box-shadow:0 0 0 3px #e7f7ef;outline:none}
 .match-subtype-wrap{display:none;margin-top:10px}.match-subtype-wrap.show{display:block}.match-subtype-toggle{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#f3f6f4;padding:5px;border-radius:13px}.match-subtype{border:0;background:transparent;border-radius:9px;padding:9px 6px;font-weight:800;color:#6b796f}.match-subtype.active{background:#fff;color:var(--green-dark);box-shadow:0 3px 10px rgba(34,53,43,.09)}
 .match-group-head-actions{display:flex;align-items:center;gap:8px}.match-edit-btn{padding:6px 9px;font-size:12px}
 .skill-rating-line{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}.skill-rating-label{font-size:12px;color:var(--muted);font-weight:700}
@@ -422,10 +422,33 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
   </div>
 </div>
 
+
+<div class="modal" id="onboardingModal" style="width:min(460px,92vw);z-index:90">
+  <div class="modal-head">
+    <div>
+      <div>歡迎加入羽球人 🏸</div>
+      <div class="subtitle" style="font-size:13px;font-weight:400;margin-top:4px">先設定基本資料，之後新增對戰時會自動套用。</div>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="field"><label>顯示名稱</label><input class="input" id="onboardingName" style="width:100%" maxlength="40" placeholder="例如：Grace"></div>
+    <div class="field" style="margin-top:14px"><label>性別</label><div class="match-type-toggle"><button type="button" class="match-type onboarding-gender" data-gender="男">♂ 男生</button><button type="button" class="match-type onboarding-gender" data-gender="女">♀ 女生</button></div></div>
+    <div class="subtitle" style="font-size:12.5px;line-height:1.7;margin-top:10px">性別會用來決定雙打分類：男生可記錄男雙／混雙，女生可記錄女雙／混雙。之後可在右上角「個人資訊」修改。</div>
+  </div>
+  <div class="modal-foot"><button class="btn primary" id="saveOnboardingBtn" style="width:100%">開始使用</button></div>
+</div>
+
 <div class="modal" id="profileModal" style="width:min(700px,94vw)">
   <div class="modal-head" style="display:flex;justify-content:space-between;align-items:center"><div>個人資訊</div><button class="close" data-close-modal style="width:34px;height:34px;font-size:18px">×</button></div>
   <div class="modal-body">
-    <div class="profile-section" style="padding-top:0"><h3>帳號</h3><div class="profile-row"><span class="subtitle">顯示名稱</span><strong id="profileDisplayName">-</strong></div><div class="profile-row"><span class="subtitle">羽球人帳號</span><strong id="profileUsername">-</strong></div><div class="subtitle" style="font-size:12px">帳號由系統建立，目前不開放修改。</div></div>
+    <div class="profile-section" style="padding-top:0">
+      <h3>基本資料</h3>
+      <div class="field"><label>顯示名稱</label><input class="input" id="profileDisplayNameInput" style="width:100%" maxlength="40" placeholder="輸入你的名字"></div>
+      <div class="field" style="margin-top:12px"><label>性別</label><select id="profileGender" style="width:100%"><option value="男">♂ 男生</option><option value="女">♀ 女生</option></select></div>
+      <div class="profile-row"><span class="subtitle">羽球人帳號</span><strong id="profileUsername">-</strong></div>
+      <button class="btn primary" id="saveProfileBtn" style="margin-top:10px">儲存基本資料</button>
+      <div class="subtitle" style="font-size:12px;margin-top:8px">顯示名稱與性別可以修改；羽球人帳號由系統建立，無法修改。</div>
+    </div>
     <div class="profile-section">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px"><h3 style="margin:0">我的裝備</h3><button class="btn" id="toggleEquipFormBtn">＋ 新增裝備</button></div>
       <div id="equipList"></div>
@@ -621,7 +644,7 @@ async function ensureProfile(user){
     await sb.from('profiles').update({display_name:displayName, avatar_url:avatarUrl}).eq('id', user.id);
   }
   const {data:mine} = await sb.from('profiles').select('*').eq('id', user.id).maybeSingle();
-  myProfile = mine || {id:user.id, username:'', display_name:displayName, avatar_url:avatarUrl, privacy:{status:'friends',stats:'friends',calendar:'friends',location:'friends'}};
+  myProfile = mine || {id:user.id, username:'', display_name:displayName, gender:null, avatar_url:avatarUrl, privacy:{status:'friends',stats:'friends',calendar:'friends',location:'friends'}};
 }
 async function loadFriendsData(){
   // 主要來源：get_friends_today RPC（含今天打球狀態與隱私判斷）
@@ -643,6 +666,15 @@ async function loadFriendsData(){
     }
   }catch(err){ console.warn('accepted friend fallback unavailable', err); }
   friends = [...friendMap.values()];
+  // 補上好友的 profile 性別，混雙選人時可使用。
+  if(friends.length){
+    try{
+      const ids=friends.map(f=>f.id);
+      const {data:fps}=await sb.from('profiles').select('id,gender').in('id',ids);
+      const gm=new Map((fps||[]).map(p=>[p.id,p.gender||'']));
+      friends.forEach(f=>f.gender=gm.get(f.id)||'');
+    }catch(e){ console.warn('friend gender load unavailable',e); }
+  }
 
   const {data:reqs, error:reqErr} = await sb.from('friend_requests').select('*').eq('to_user', currentUser.id).eq('status','pending');
   if(reqErr) console.error('friend_requests error', reqErr);
@@ -690,6 +722,9 @@ async function onSignedIn(user){
     renderCalendar();
     renderDaySummary(selectedDate);
     renderFriends();
+    if(!myProfile || !myProfile.gender){
+      setTimeout(()=>openOnboarding(),50);
+    }
   }catch(err){
     console.error(err);
     showLoadError((err&&err.message)?err.message:String(err));
@@ -746,6 +781,11 @@ function initUI(){
 
   document.getElementById('userMenuBtn').onclick = openProfileModal;
   document.getElementById('savePrivacyBtn').onclick = savePrivacy;
+  document.getElementById('saveProfileBtn').onclick = saveProfileBasics;
+  document.querySelectorAll('.onboarding-gender').forEach(b=>b.onclick=()=>{
+    document.querySelectorAll('.onboarding-gender').forEach(x=>x.classList.toggle('active',x===b));
+  });
+  document.getElementById('saveOnboardingBtn').onclick = saveOnboarding;
 
   document.getElementById('copyUsernameBtn').onclick = copyMyUsername;
   document.getElementById('friendSearchBtn').onclick = searchFriends;
@@ -782,7 +822,7 @@ function initUI(){
   document.getElementById('deleteSessionBtn').onclick = deleteSessionRecord;
   document.getElementById('addMatchBtn').onclick = ()=>{ resetMatchModal(); openModal('matchModal'); };
   document.querySelectorAll(".match-type[data-type]").forEach(b=>b.onclick=()=>{ matchType=b.dataset.type; document.querySelectorAll(".match-type[data-type]").forEach(x=>x.classList.toggle("active",x===b)); document.getElementById('matchSubtypeWrap').classList.toggle('show',matchType==='雙打'); renderTeamInputs(); });
-  document.querySelectorAll('.match-subtype').forEach(b=>b.onclick=()=>{doublesSubtype=b.dataset.subtype;document.querySelectorAll('.match-subtype').forEach(x=>x.classList.toggle('active',x===b));});
+  document.querySelectorAll('.match-subtype').forEach(b=>b.onclick=()=>{doublesSubtype=b.dataset.subtype;document.querySelectorAll('.match-subtype').forEach(x=>x.classList.toggle('active',x===b));renderTeamInputs();});
   document.getElementById('addGameBtn').onclick = addGameRow;
   document.getElementById('saveMatch').onclick = createMatch;
   document.getElementById('toggleEquipFormBtn').onclick = ()=>{
@@ -1081,19 +1121,65 @@ function inferKnownGender(friendId,name){
   }
   return '';
 }
-function teamInputHTML(side, idx, placeholder){
-  return `<div class="gender-wrap"><select class="gender-select team-gender" data-side="${side}" data-idx="${idx}" title="性別"><option value="">?</option><option value="女">♀</option><option value="男">♂</option></select><div style="position:relative"><input class="input team-name-input" data-side="${side}" data-idx="${idx}" style="width:100%" placeholder="${placeholder}" autocomplete="off"><div class="drop-list" style="display:none"></div></div></div>`;
+function plainTeamInputHTML(side, idx, placeholder){
+  return `<div style="position:relative"><span class="name-ico">👤</span><input class="input team-name-input" data-side="${side}" data-idx="${idx}" style="width:100%;padding-left:36px" placeholder="${placeholder}" autocomplete="off"><div class="drop-list" style="display:none"></div></div>`;
+}
+function mixedTeamInputHTML(side, idx, placeholder, gender){
+  const symbol=gender==='男'?'♂':'♀';
+  return `<div class="gender-wrap"><div class="gender-fixed" title="${gender}">${symbol}</div><div style="position:relative"><input class="input team-name-input" data-side="${side}" data-idx="${idx}" data-fixed-gender="${gender}" style="width:100%" placeholder="${placeholder}" autocomplete="off"><div class="drop-list" style="display:none"></div></div></div>`;
+}
+function selfPlayerHTML(gender){
+  const symbol=gender==='男'?'♂':'♀';
+  return `<div class="gender-wrap"><div class="gender-fixed">${symbol}</div><div class="self-player">我</div></div>`;
+}
+function configureDoublesSubtypeOptions(preferred){
+  const gender=(myProfile&&myProfile.gender)||'';
+  document.querySelectorAll('.match-subtype').forEach(btn=>{
+    const t=btn.dataset.subtype;
+    const allowed=t==='混雙' || (gender==='男'&&t==='男雙') || (gender==='女'&&t==='女雙');
+    btn.style.display=allowed?'block':'none';
+  });
+  const allowedTypes=gender==='男'?['男雙','混雙']:gender==='女'?['女雙','混雙']:['混雙'];
+  if(preferred && allowedTypes.includes(preferred)) doublesSubtype=preferred;
+  if(!allowedTypes.includes(doublesSubtype)) doublesSubtype='混雙';
+  document.querySelectorAll('.match-subtype').forEach(x=>x.classList.toggle('active',x.dataset.subtype===doublesSubtype));
 }
 function renderTeamInputs(){
   const count = matchType==='雙打' ? 2 : 1;
   document.getElementById('team1Label').textContent = `我方（${count} 人）`;
   document.getElementById('team2Label').textContent = `對手（${count} 人）`;
-  let t1 = `<div style="position:relative"><span class="name-ico">👤</span><input class="input" value="我" disabled style="width:100%;padding-left:36px;background:#f3f6f4;color:#8a958e"></div>`;
-  if(count===2) t1 += teamInputHTML('team1',1,'隊友姓名（可從好友選）');
-  document.getElementById('team1Inputs').innerHTML = t1;
-  document.getElementById('team2Inputs').innerHTML = Array.from({length:count}).map((_,i)=>teamInputHTML('team2',i,count===2?`對手 ${i+1} 姓名（可從好友選）`:'對手姓名（可從好友選）')).join('');
+
   team1Friend={1:null}; team2Friend={0:null,1:null};
   team1Gender={1:''}; team2Gender={0:'',1:''};
+
+  if(matchType==='單打'){
+    document.getElementById('team1Inputs').innerHTML = `<div class="self-player">我</div>`;
+    document.getElementById('team2Inputs').innerHTML = plainTeamInputHTML('team2',0,'對手姓名（可從好友選）');
+  }else if(doublesSubtype==='混雙'){
+    const myGender=(myProfile&&myProfile.gender)||'';
+    const partnerGender=myGender==='男'?'女':'男';
+    const myIsMale=myGender==='男';
+
+    // 混雙固定：上面男生、下面女生。
+    document.getElementById('team1Inputs').innerHTML = myIsMale
+      ? selfPlayerHTML('男') + mixedTeamInputHTML('team1',1,'女隊友姓名（可從好友選）','女')
+      : mixedTeamInputHTML('team1',1,'男隊友姓名（可從好友選）','男') + selfPlayerHTML('女');
+
+    document.getElementById('team2Inputs').innerHTML =
+      mixedTeamInputHTML('team2',0,'男對手姓名（可從好友選）','男') +
+      mixedTeamInputHTML('team2',1,'女對手姓名（可從好友選）','女');
+
+    team1Gender[1]=partnerGender;
+    team2Gender[0]='男';
+    team2Gender[1]='女';
+  }else{
+    // 男雙 / 女雙不需要顯示性別欄位。
+    document.getElementById('team1Inputs').innerHTML =
+      `<div class="self-player">我</div>` + plainTeamInputHTML('team1',1,'隊友姓名（可從好友選）');
+    document.getElementById('team2Inputs').innerHTML =
+      plainTeamInputHTML('team2',0,'對手 1 姓名（可從好友選）') +
+      plainTeamInputHTML('team2',1,'對手 2 姓名（可從好友選）');
+  }
   wireTeamInputs();
 }
 function wireTeamInputs(){
@@ -1101,7 +1187,6 @@ function wireTeamInputs(){
     inp.oninput = ()=>{ setLinkedFriend(inp.dataset.side, +inp.dataset.idx, null); showNameDropdown(inp); };
     inp.onfocus = ()=>showNameDropdown(inp);
   });
-  document.querySelectorAll('.team-gender').forEach(sel=>sel.onchange=()=>setTeamGender(sel.dataset.side,+sel.dataset.idx,sel.value));
 }
 function setLinkedFriend(side, idx, friendId){
   const store = side==='team1' ? team1Friend : team2Friend;
@@ -1122,7 +1207,8 @@ function showNameDropdown(inp){
   const dd=inp.parentElement.querySelector('.drop-list');
   const q=inp.value.trim().toLowerCase();
   const selected=currentSelectedPlayers(inp);
-  const friendMatches=friends.filter(f=>!selected.ids.has(f.id)&&!selected.names.has((f.name||'').trim().toLowerCase())&&(!q||f.name.toLowerCase().includes(q)||(f.username&&f.username.toLowerCase().includes(q)))).slice(0,6);
+  const requiredGender=inp.dataset.fixedGender||'';
+  const friendMatches=friends.filter(f=>!selected.ids.has(f.id)&&!selected.names.has((f.name||'').trim().toLowerCase())&&(!requiredGender||!f.gender||f.gender===requiredGender)&&(!q||f.name.toLowerCase().includes(q)||(f.username&&f.username.toLowerCase().includes(q)))).slice(0,6);
   const nameMatches=knownPlayerNames().filter(n=>!selected.names.has(n.trim().toLowerCase())&&(!q||n.toLowerCase().includes(q))).slice(0,5);
   if(!friendMatches.length&&!nameMatches.length){dd.style.display='none';dd.innerHTML='';return;}
   let html='';
@@ -1132,8 +1218,10 @@ function showNameDropdown(inp){
   dd.querySelectorAll('.drop-item').forEach(el=>el.onclick=()=>{
     inp.value=el.dataset.name;
     const fid=el.dataset.fid||null; setLinkedFriend(inp.dataset.side,+inp.dataset.idx,fid);
-    const gender=inferKnownGender(fid,el.dataset.name); setTeamGender(inp.dataset.side,+inp.dataset.idx,gender);
-    const sel=inp.closest('.gender-wrap').querySelector('.team-gender'); if(sel) sel.value=gender;
+    const fixedGender=inp.dataset.fixedGender||'';
+    const friendObj=fid?friends.find(f=>f.id===fid):null;
+    const gender=fixedGender || (friendObj&&friendObj.gender) || inferKnownGender(fid,el.dataset.name);
+    setTeamGender(inp.dataset.side,+inp.dataset.idx,gender);
     dd.style.display='none';
   });
 }
@@ -1168,11 +1256,11 @@ function addGameRow(){ gameRows.push({result:'win'}); renderGameRows(); }
 function resetMatchModal(){
   editingMatchGroupKey=null;
   matchType='雙打'; doublesSubtype='混雙';
+  configureDoublesSubtypeOptions('混雙');
   document.getElementById('matchModalTitle').textContent='新增對戰紀錄';
   document.getElementById('saveMatch').textContent='儲存紀錄';
   document.querySelectorAll('.match-type[data-type]').forEach(x=>x.classList.toggle('active',x.dataset.type==='雙打'));
   document.getElementById('matchSubtypeWrap').classList.add('show');
-  document.querySelectorAll('.match-subtype').forEach(x=>x.classList.toggle('active',x.dataset.subtype==='混雙'));
   renderTeamInputs(); gameRows=[{result:'win'},{result:'win'}]; renderGameRows(); document.getElementById('matchNote').value='';
 }
 function matchItemHTML(m){
@@ -1192,8 +1280,9 @@ function renderMatchList(dateStr){
 }
 function setTeamInputValue(side,idx,name,fid,gender){
   const inp=document.querySelector(`.team-name-input[data-side="${side}"][data-idx="${idx}"]`); if(inp) inp.value=name||'';
-  setLinkedFriend(side,idx,fid||null); setTeamGender(side,idx,gender||'');
-  const sel=document.querySelector(`.team-gender[data-side="${side}"][data-idx="${idx}"]`); if(sel) sel.value=gender||'';
+  setLinkedFriend(side,idx,fid||null);
+  const fixed=inp?inp.dataset.fixedGender||'':'';
+  setTeamGender(side,idx,fixed||gender||'');
 }
 function openEditMatchGroup(key){
   const group=matches.filter(m=>(m.groupId||matchFallbackGroupKey(m))===key).sort((a,b)=>(a.gameNo||1)-(b.gameNo||1));
@@ -1202,7 +1291,7 @@ function openEditMatchGroup(key){
   document.getElementById('matchModalTitle').textContent='編輯對戰紀錄'; document.getElementById('saveMatch').textContent='儲存修改';
   document.querySelectorAll('.match-type[data-type]').forEach(x=>x.classList.toggle('active',x.dataset.type===matchType));
   document.getElementById('matchSubtypeWrap').classList.toggle('show',matchType==='雙打');
-  document.querySelectorAll('.match-subtype').forEach(x=>x.classList.toggle('active',x.dataset.subtype===doublesSubtype));
+  configureDoublesSubtypeOptions(doublesSubtype);
   renderTeamInputs();
   if(matchType==='雙打') setTeamInputValue('team1',1,first.teammate,first.teammateId,first.teammateGender);
   setTeamInputValue('team2',0,first.opponent,first.opponentId,first.opponentGender);
@@ -1217,9 +1306,10 @@ async function createMatch(){
   const teammateId = count===2 ? getTeamFriendId('team1',1) : null;
   const opponentId = getTeamFriendId('team2',0);
   const opponent2Id = count===2 ? getTeamFriendId('team2',1) : null;
-  const teammateGender = count===2 ? getTeamGender('team1',1) : '';
-  const opponentGender = getTeamGender('team2',0);
-  const opponent2Gender = count===2 ? getTeamGender('team2',1) : '';
+  const isMixed = matchType==='雙打' && doublesSubtype==='混雙';
+  const teammateGender = isMixed ? getTeamGender('team1',1) : '';
+  const opponentGender = isMixed ? getTeamGender('team2',0) : '';
+  const opponent2Gender = isMixed ? getTeamGender('team2',1) : '';
   if(!opponent) return toast('請輸入對手名字');
   if(count===2 && !teammate) return toast('請輸入隊友名字');
   if(count===2 && !opponent2) return toast('請輸入第二位對手名字');
@@ -1263,12 +1353,19 @@ function renderAnalysis(){
   if(latestDate){const dateWins=latestMatches.filter(m=>m.win).length;const dateRate=Math.round(dateWins/latestMatches.length*1000)/10;const labels=latestMatches.length===2?['上場','下場']:latestMatches.map((_,i)=>`第 ${i+1} 場`);document.getElementById('recentFormBox').innerHTML=`<div class="insight" style="padding:0 0 14px;border:0"><strong>最新對戰日：${latestDate}</strong><span class="subtitle">當天 ${latestMatches.length} 場 · ${dateWins} 勝 ${latestMatches.length-dateWins} 負 · 勝率 ${dateRate}%</span></div><div style="display:flex;gap:8px;flex-wrap:wrap">${latestMatches.map((m,i)=>`<span class="badge ${m.win?'win':'loss'}">${labels[i]} · ${m.win?'勝':'負'}</span>`).join('')}</div>`;}else{document.getElementById('recentFormBox').innerHTML='<div class="subtitle">尚無對戰紀錄</div>';}
 
   const byGame = n=> matches.filter(m=>m.gameNo===n);
-  const g1=winRateOf(byGame(1)), g2=winRateOf(byGame(2)), g3=winRateOf(byGame(3));
-  const singles=winRateOf(matches.filter(m=>m.type==='單打')), doubles=winRateOf(matches.filter(m=>m.type==='雙打'));
-  const barRow = (label,v)=>`<div class="bar-row"><div class="bar-head"><span>${label}</span><span>${v===null?'尚無資料':v+'%'}</span></div><div class="bar-track"><div class="bar-fill" style="width:${v||0}%"></div></div></div>`;
-    let typeHtml = barRow('第一場勝率',g1)+barRow('第二場勝率',g2)+barRow('第三場勝率',g3)+barRow('單打勝率',singles)+barRow('雙打勝率',doubles);
-  ['女雙','混雙','男雙'].forEach(t=>{ const list=matches.filter(m=>m.type==='雙打'&&m.doublesSubtype===t); if(list.length) typeHtml+=barRow(t+'勝率',winRateOf(list)); });
-  document.getElementById('analysisBars').innerHTML = typeHtml;
+  const g1=winRateOf(byGame(1)), g2=winRateOf(byGame(2));
+  const singleList=matches.filter(m=>m.type==='單打');
+  const doubleList=matches.filter(m=>m.type==='雙打');
+  const singles=winRateOf(singleList), doubles=winRateOf(doubleList);
+  const barRow = (label,v,count)=>`<div class="bar-row"><div class="bar-head"><span>${label}${count!==undefined?`（${count} 場）`:''}</span><span>${v===null?'尚無資料':v+'%'}</span></div><div class="bar-track"><div class="bar-fill" style="width:${v||0}%"></div></div></div>`;
+  let typeHtml='';
+  if(singleList.length) typeHtml+=barRow('單打',singles,singleList.length);
+  if(doubleList.length) typeHtml+=barRow('雙打總計',doubles,doubleList.length);
+  ['男雙','女雙','混雙'].forEach(t=>{
+    const list=doubleList.filter(m=>m.doublesSubtype===t);
+    if(list.length) typeHtml+=barRow(t,winRateOf(list),list.length);
+  });
+  document.getElementById('analysisBars').innerHTML = typeHtml || '<div class="subtitle">尚無可分析的對戰紀錄</div>';
 
   renderInsights(sorted, g1, g2, singles, doubles);
   renderTeammateStats();
@@ -1662,7 +1759,55 @@ async function removeFriend(){
 }
 
 /* ================= Settings (裝備 / 隱私) ================= */
-function openProfileModal(){document.getElementById('profileDisplayName').textContent=(myProfile&&myProfile.display_name)||document.getElementById('userNameTxt').textContent||'-';document.getElementById('profileUsername').textContent=myProfile&&myProfile.username?('@'+myProfile.username):'-';const privacy=(myProfile&&myProfile.privacy)||{};document.getElementById('privSearchable').value=privacy.searchable===false?'false':'true';document.getElementById('privStatus').value=privacy.status||'friends';document.getElementById('privStats').value=privacy.stats||'friends';document.getElementById('privCalendar').value=privacy.calendar||'friends';document.getElementById('privLocation').value=privacy.location||'friends';clearEquipForm();document.getElementById('equipForm').style.display='none';document.getElementById('addEquipBtn').textContent='儲存裝備';renderEquipment();openModal('profileModal');}
+function openOnboarding(){
+  const modal=document.getElementById('onboardingModal');
+  document.getElementById('onboardingName').value=(myProfile&&myProfile.display_name)||document.getElementById('userNameTxt').textContent||'';
+  document.querySelectorAll('.onboarding-gender').forEach(x=>x.classList.remove('active'));
+  document.getElementById('overlay').classList.add('open');
+  modal.classList.add('open');
+}
+async function saveOnboarding(){
+  const name=document.getElementById('onboardingName').value.trim();
+  const genderBtn=document.querySelector('.onboarding-gender.active');
+  const gender=genderBtn?genderBtn.dataset.gender:'';
+  if(!name) return toast('請輸入顯示名稱');
+  if(!gender) return toast('請選擇性別');
+  const {error}=await sb.from('profiles').update({display_name:name,gender}).eq('id',currentUser.id);
+  if(error) return toast('儲存失敗：'+error.message);
+  myProfile.display_name=name; myProfile.gender=gender;
+  document.getElementById('userNameTxt').textContent=name;
+  document.getElementById('userAvatar').textContent=(name[0]||'?').toUpperCase();
+  closeAll();
+  toast('基本資料已設定');
+}
+function openProfileModal(){
+  document.getElementById('profileDisplayNameInput').value=(myProfile&&myProfile.display_name)||document.getElementById('userNameTxt').textContent||'';
+  document.getElementById('profileGender').value=(myProfile&&myProfile.gender)||'男';
+  document.getElementById('profileUsername').textContent=myProfile&&myProfile.username?('@'+myProfile.username):'-';
+  const privacy=(myProfile&&myProfile.privacy)||{};
+  document.getElementById('privSearchable').value=privacy.searchable===false?'false':'true';
+  document.getElementById('privStatus').value=privacy.status||'friends';
+  document.getElementById('privStats').value=privacy.stats||'friends';
+  document.getElementById('privCalendar').value=privacy.calendar||'friends';
+  document.getElementById('privLocation').value=privacy.location||'friends';
+  clearEquipForm();
+  document.getElementById('equipForm').style.display='none';
+  document.getElementById('addEquipBtn').textContent='儲存裝備';
+  renderEquipment();
+  openModal('profileModal');
+}
+async function saveProfileBasics(){
+  const name=document.getElementById('profileDisplayNameInput').value.trim();
+  const gender=document.getElementById('profileGender').value;
+  if(!name) return toast('請輸入顯示名稱');
+  if(!['男','女'].includes(gender)) return toast('請選擇性別');
+  const {error}=await sb.from('profiles').update({display_name:name,gender}).eq('id',currentUser.id);
+  if(error) return toast('儲存失敗：'+error.message);
+  myProfile.display_name=name; myProfile.gender=gender;
+  document.getElementById('userNameTxt').textContent=name;
+  document.getElementById('userAvatar').textContent=(name[0]||'?').toUpperCase();
+  toast('基本資料已更新');
+}
 async function savePrivacy(){
   const privacy = {
     searchable: document.getElementById('privSearchable').value === 'true',
