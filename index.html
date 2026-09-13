@@ -141,7 +141,7 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
 .star-rating{display:inline-flex;gap:2px;align-items:center}.star-btn{border:0;background:transparent;padding:0 1px;font-size:18px;line-height:1;color:#cbd5cf}.star-btn.filled{color:#f2a72b}.star-btn:hover{transform:scale(1.08)}
 .practice-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;margin-top:8px}.practice-row .practice-name{font-weight:750;min-width:0}.practice-row .practice-meta{font-size:11px;color:var(--muted)}
 .gender-wrap{display:grid;grid-template-columns:46px 1fr;gap:8px;align-items:center}.gender-fixed{height:43px;border:1px solid var(--line);border-radius:12px;background:#f3f6f4;display:grid;place-items:center;font-size:20px;font-weight:900;color:#58675f}.self-player{height:43px;border:1px solid var(--line);border-radius:12px;background:#f3f6f4;color:#66756d;display:flex;align-items:center;padding:0 14px;font-weight:750}.gender-select{height:43px;border:1px solid var(--line);border-radius:12px;background:#fbfcfb;padding:0 7px;font-weight:900;text-align:center;color:#58675f}.gender-select:focus{border-color:#68c8a4;box-shadow:0 0 0 3px #e7f7ef;outline:none}
-.match-subtype-wrap{display:none;margin-top:10px}.match-subtype-wrap.show{display:block}.match-subtype-toggle{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#f3f6f4;padding:5px;border-radius:13px}.match-subtype{border:0;background:transparent;border-radius:9px;padding:9px 6px;font-weight:800;color:#6b796f}.match-subtype.active{background:#fff;color:var(--green-dark);box-shadow:0 3px 10px rgba(34,53,43,.09)}
+.match-subtype-wrap{display:none;margin-top:10px}.match-subtype-wrap.show{display:block}.match-subtype-toggle{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;background:#f3f6f4;padding:5px;border-radius:13px}.match-subtype{border:0;background:transparent;border-radius:10px;padding:10px 14px;font-weight:800;color:#6b796f}.match-subtype.active{background:#fff;color:var(--green-dark);box-shadow:0 3px 10px rgba(34,53,43,.09)}
 .match-group-head-actions{display:flex;align-items:center;gap:8px}.match-edit-btn{padding:6px 9px;font-size:12px}
 .skill-rating-line{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}.skill-rating-label{font-size:12px;color:var(--muted);font-weight:700}
 .analysis-type-section{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
@@ -187,7 +187,7 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
     <div class="container">
       <section class="page" id="page-notes">
         <div class="page-header">
-          <div><h1>羽球筆記</h1><div class="subtitle">整理技巧、記錄學習重點，建立自己的羽球知識庫</div></div>
+          <div><h1>羽球筆記</h1></div>
         </div>
         <div class="notes-layout">
           <aside class="panel category-panel">
@@ -203,7 +203,6 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
               <div class="search-wrap"><span>⌕</span><input class="input search" id="skillSearch" placeholder="搜尋技巧名稱或內容…"></div>
               <select id="difficultyFilter"><option>全部難度</option><option>初階</option><option>中階</option><option>進階</option></select>
             </div>
-            <div class="tabs" id="subTabs"></div>
             <div class="cards" id="skillCards"></div>
           </div>
         </div>
@@ -246,8 +245,7 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
           <div class="page-header" style="margin-bottom:6px">
             <div>
               <h1>好友</h1>
-              <div class="subtitle">加好友後，新增對戰時可以直接從好友名單選人。</div>
-              <div class="friend-account-line">我的帳號 <span class="handle" id="myUsernameText">@載入中</span><button class="btn" id="copyUsernameBtn" style="padding:6px 10px">複製帳號</button><span>帳號由系統建立，無法修改</span></div>
+                            <div class="friend-account-line">我的帳號 <span class="handle" id="myUsernameText">@載入中</span><button class="btn" id="copyUsernameBtn" style="padding:6px 10px">複製帳號</button><span>帳號由系統建立，無法修改</span></div>
             </div>
           </div>
 
@@ -272,7 +270,7 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
           </div>
 
           <div class="friend-section">
-            <div class="friend-section-head"><div><h3>曾經一起打過的人</h3><div class="subtitle" style="font-size:12.5px;margin-top:4px">從過去對戰紀錄中的「隊友／對手」名字自動整理，尚未連結到好友帳號。確認後可把舊對戰連到同一個好友帳號。</div></div></div>
+            <div class="friend-section-head"><div><h3>曾經一起打過的人</h3></div></div>
             <div class="friend-list-simple" id="pastOpponentList"></div>
           </div>
         </div>
@@ -280,7 +278,7 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
 
       <section class="page" id="page-analysis">
         <div class="page-header">
-          <div><h1>戰績分析</h1><div class="subtitle">從你的實際對戰紀錄，找出打球趨勢與值得注意的對手</div></div>
+          <div><h1>戰績分析</h1></div>
         </div>
         <div class="stats-grid" id="analysisStatsGrid"></div>
         <div class="overview-grid">
@@ -293,16 +291,13 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
         </div>
         <div class="panel recommend" style="margin-top:18px">
           <h3 style="margin-top:0">🤝 隊友分析</h3>
-          <div class="subtitle" style="font-size:12.5px;margin:-8px 0 12px">比較你和不同搭檔一起出賽時的勝率。已連結好友會以帳號 ID 合併歷史紀錄。</div>
-          <div id="teammateStatsList" class="analysis-list"></div>
+                    <div id="teammateStatsList" class="analysis-list"></div>
         </div>
 
         <div class="panel recommend" style="margin-top:18px">
           <h3 style="margin-top:0">👤 對手分析</h3>
-          <div class="subtitle" style="font-size:12.5px;margin:-8px 0 12px">比對你和每位好友／對手的所有歷史對戰。已連結好友以帳號 ID 彙整，未連結人物暫時依名字統計。</div>
-          <div id="opponentStatsList"></div>
-          <p class="subtitle" style="font-size:12px">※ 只計算該人物出現在「對手」位置的比賽；作為隊友的場次不計入對手戰績。勝率以實際對戰場次計算，不是單純輸贏次數。</p>
-        </div>
+                    <div id="opponentStatsList"></div>
+                  </div>
       </section>
     </div>
   </main>
@@ -351,8 +346,7 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
     </div>
     <div class="field" style="margin-top:14px">
       <label>練習技巧</label>
-      <div class="subtitle" style="font-size:12px;margin:-2px 0 8px">可新增多個技巧，並為每個技巧自評 1–5 顆星。</div>
-      <div style="position:relative">
+            <div style="position:relative">
         <input class="input" id="trainingInput" placeholder="搜尋並加入技巧…" style="width:100%" autocomplete="off">
         <div id="trainingDropdown" class="drop-list" style="top:47px;display:none"></div>
       </div>
@@ -374,16 +368,14 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
   <div class="modal-head" style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
     <div>
       <div id="matchModalTitle">新增對戰紀錄</div>
-      <div class="subtitle" style="font-size:13px;font-weight:400;margin-top:4px">記錄本次對戰的隊伍、對手與結果。</div>
-    </div>
+          </div>
     <button class="close" data-close-modal style="width:34px;height:34px;font-size:18px;flex:none">×</button>
   </div>
   <div class="modal-body">
     <div class="field full" style="margin-bottom:18px"><label>對戰類型</label>
       <div class="match-type-toggle"><button class="match-type" data-type="單打">單打</button><button class="match-type active" data-type="雙打">雙打</button></div>
       <div class="match-subtype-wrap show" id="matchSubtypeWrap">
-        <div class="subtitle" style="font-size:12px;margin:9px 0 6px">雙打分類</div>
-        <div class="match-subtype-toggle">
+                <div class="match-subtype-toggle">
           <button type="button" class="match-subtype" data-subtype="男雙">♂ 男雙</button>
           <button type="button" class="match-subtype" data-subtype="女雙">♀ 女雙</button>
           <button type="button" class="match-subtype active" data-subtype="混雙">♀♂ 混雙</button>
@@ -397,8 +389,7 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
     </div>
     <div class="field full" style="margin-bottom:18px">
       <label>對戰結果</label>
-      <div class="subtitle" style="margin:-2px 0 10px">可新增多場對戰，記錄每場的勝負結果。</div>
-      <div id="gameRows" style="display:flex;flex-direction:column;gap:9px"></div>
+            <div id="gameRows" style="display:flex;flex-direction:column;gap:9px"></div>
       <button type="button" class="btn" id="addGameBtn" style="width:100%;margin-top:9px;border-style:dashed;color:var(--green-dark)">＋ 新增一場對戰</button>
     </div>
     <div class="field full"><label>備註（選填）</label><textarea id="matchNote" placeholder="記錄對戰過程、表現或其他心得…" maxlength="500"></textarea></div>
@@ -427,14 +418,12 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
   <div class="modal-head">
     <div>
       <div>歡迎加入羽球人 🏸</div>
-      <div class="subtitle" style="font-size:13px;font-weight:400;margin-top:4px">先設定基本資料，之後新增對戰時會自動套用。</div>
-    </div>
+          </div>
   </div>
   <div class="modal-body">
     <div class="field"><label>顯示名稱</label><input class="input" id="onboardingName" style="width:100%" maxlength="40" placeholder="例如：Grace"></div>
     <div class="field" style="margin-top:14px"><label>性別</label><div class="match-type-toggle"><button type="button" class="match-type onboarding-gender" data-gender="男">♂ 男生</button><button type="button" class="match-type onboarding-gender" data-gender="女">♀ 女生</button></div></div>
-    <div class="subtitle" style="font-size:12.5px;line-height:1.7;margin-top:10px">性別會用來決定雙打分類：男生可記錄男雙／混雙，女生可記錄女雙／混雙。之後可在右上角「個人資訊」修改。</div>
-  </div>
+      </div>
   <div class="modal-foot"><button class="btn primary" id="saveOnboardingBtn" style="width:100%">開始使用</button></div>
 </div>
 
@@ -447,8 +436,7 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
       <div class="field" style="margin-top:12px"><label>性別</label><select id="profileGender" style="width:100%"><option value="男">♂ 男生</option><option value="女">♀ 女生</option></select></div>
       <div class="profile-row"><span class="subtitle">羽球人帳號</span><strong id="profileUsername">-</strong></div>
       <button class="btn primary" id="saveProfileBtn" style="margin-top:10px">儲存基本資料</button>
-      <div class="subtitle" style="font-size:12px;margin-top:8px">顯示名稱與性別可以修改；羽球人帳號由系統建立，無法修改。</div>
-    </div>
+          </div>
     <div class="profile-section">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px"><h3 style="margin:0">我的裝備</h3><button class="btn" id="toggleEquipFormBtn">＋ 新增裝備</button></div>
       <div id="equipList"></div>
@@ -457,7 +445,7 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
         <div style="display:flex;gap:9px;margin-top:10px"><button class="btn primary" id="addEquipBtn">儲存裝備</button><button class="btn" id="cancelEquipBtn">取消</button></div>
       </div>
     </div>
-    <div class="profile-section"><h3>好友搜尋與隱私</h3><div class="field"><label>允許其他使用者搜尋到我的帳號</label><select id="privSearchable" style="width:100%"><option value="true">允許搜尋</option><option value="false">不顯示在好友搜尋結果</option></select></div><div class="field" style="margin-top:14px"><label>我的打球狀態</label><select id="privStatus" style="width:100%"><option value="friends">好友可見</option><option value="private">僅自己</option></select></div><div class="field" style="margin-top:14px"><label>我的戰績</label><select id="privStats" style="width:100%"><option value="friends">好友可見</option><option value="private">僅自己</option></select></div><div class="field" style="margin-top:14px"><label>我的最近打球紀錄</label><select id="privCalendar" style="width:100%"><option value="friends">好友可見</option><option value="private">僅自己</option></select></div><div class="field" style="margin-top:14px"><label>打球地點</label><select id="privLocation" style="width:100%"><option value="friends">好友可見</option><option value="private">僅自己</option></select></div><button class="btn primary" id="savePrivacyBtn" style="margin-top:12px">儲存隱私設定</button><div class="subtitle" style="font-size:12px;margin-top:10px">「允許搜尋」只影響其他人能否在好友搜尋找到你；不會自動公開私人備註、受傷資訊或完整個人資料。</div></div>
+    <div class="profile-section"><h3>好友搜尋與隱私</h3><div class="field"><label>允許其他使用者搜尋到我的帳號</label><select id="privSearchable" style="width:100%"><option value="true">允許搜尋</option><option value="false">不顯示在好友搜尋結果</option></select></div><div class="field" style="margin-top:14px"><label>我的打球狀態</label><select id="privStatus" style="width:100%"><option value="friends">好友可見</option><option value="private">僅自己</option></select></div><div class="field" style="margin-top:14px"><label>我的戰績</label><select id="privStats" style="width:100%"><option value="friends">好友可見</option><option value="private">僅自己</option></select></div><div class="field" style="margin-top:14px"><label>我的最近打球紀錄</label><select id="privCalendar" style="width:100%"><option value="friends">好友可見</option><option value="private">僅自己</option></select></div><div class="field" style="margin-top:14px"><label>打球地點</label><select id="privLocation" style="width:100%"><option value="friends">好友可見</option><option value="private">僅自己</option></select></div><button class="btn primary" id="savePrivacyBtn" style="margin-top:12px">儲存隱私設定</button></div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -493,6 +481,7 @@ let editingMatchGroupKey=null;
 let pendingOpponentName='';
 
 function cls(l){return l==="初階"?"beginner":l==="中階"?"medium":"advanced"}
+function currentDisplayName(){ return (myProfile&&myProfile.display_name)||document.getElementById('userNameTxt')?.textContent||'使用者'; }
 
 /* ================= Load ================= */
 const RAW_TECHNIQUES = [
@@ -844,11 +833,8 @@ function renderCategories(){
   }).join("");
   document.querySelectorAll(".cat").forEach(b=>b.onclick=()=>{ activeCat=b.dataset.cat; activeSub="全部"; renderNotes(); });
 }
-function renderTabs(){
-  const arr = activeCat==="全部技巧" ? ["全部"] : ["全部", ...new Set(skills.filter(s=>s.cat===activeCat).map(s=>s.sub))];
-  document.getElementById('subTabs').innerHTML = arr.map(x=>`<button class="tab ${x===activeSub?"active":""}" data-sub="${x}">${x}</button>`).join("");
-  document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{ activeSub=b.dataset.sub; renderNotes(); });
-}
+function renderTabs(){ activeSub='全部'; }
+
 function starHTML(rating,key,context='card'){
   const r=Number(rating||0);
   return `<div class="star-rating" data-skill-key="${key}" data-context="${context}">${[1,2,3,4,5].map(n=>`<button type="button" class="star-btn ${n<=r?'filled':''}" data-rating="${n}" title="${n} 顆星">${n<=r?'★':'☆'}</button>`).join('')}</div>`;
@@ -872,10 +858,10 @@ function wireSkillStars(root=document){
 function renderNotes(){
   renderCategories(); renderTabs();
   const q=document.getElementById('skillSearch').value.toLowerCase(), d=document.getElementById('difficultyFilter').value;
-  const data = skills.filter(s=>(activeCat==="全部技巧"||s.cat===activeCat)&&(activeSub==="全部"||s.sub===activeSub)&&(d==="全部難度"||s.level===d)&&(!q||(s.name+s.desc).toLowerCase().includes(q)));
+  const data = skills.filter(s=>(activeCat==="全部技巧"||s.cat===activeCat)&&(d==="全部難度"||s.level===d)&&(!q||(s.name+s.desc).toLowerCase().includes(q)));
   document.getElementById('notesTitle').textContent = activeCat;
   document.getElementById('notesCount').textContent = `共 ${data.length} 個技巧`;
-  document.getElementById('skillCards').innerHTML = data.map(s=>`<article class="skill-card" data-key="${s.key}"><span class="badge ${cls(s.level)}">${s.level}</span><div class="skill-name">${s.name}</div><div class="skill-desc">${s.desc}</div><div class="skill-rating-line"><span class="skill-rating-label">我的程度</span>${starHTML(s.rating,s.key,'card')}</div><div class="meta"><span>${s.cat}</span><span>·</span><span>${s.sub}</span></div></article>`).join("");
+  document.getElementById('skillCards').innerHTML = data.map(s=>`<article class="skill-card" data-key="${s.key}"><span class="badge ${cls(s.level)}">${s.level}</span><div class="skill-name">${s.name}</div><div class="skill-desc">${s.desc}</div><div class="skill-rating-line"><span class="skill-rating-label">我的程度</span>${starHTML(s.rating,s.key,'card')}</div><div class="meta"><span>${s.cat}</span></div></article>`).join("");
   document.querySelectorAll(".skill-card").forEach(c=>c.onclick=()=>openSkill(c.dataset.key));
   wireSkillStars(document.getElementById('skillCards'));
 }
@@ -883,7 +869,7 @@ function getSkill(key){ return skills.find(s=>s.key===key); }
 function openSkill(key){
   selectedSkillKey = key;
   const s = getSkill(key); if(!s) return;
-  document.getElementById('detailBreadcrumb').textContent = `${s.cat} / ${s.sub}`;
+  document.getElementById('detailBreadcrumb').textContent = s.cat;
   document.getElementById('detailTitle').textContent = s.name;
   document.getElementById('detailLevel').textContent = s.level;
   document.getElementById('detailLevel').className = `badge ${cls(s.level)}`;
@@ -1130,7 +1116,7 @@ function mixedTeamInputHTML(side, idx, placeholder, gender){
 }
 function selfPlayerHTML(gender){
   const symbol=gender==='男'?'♂':'♀';
-  return `<div class="gender-wrap"><div class="gender-fixed">${symbol}</div><div class="self-player">我</div></div>`;
+  return `<div class="gender-wrap"><div class="gender-fixed">${symbol}</div><div class="self-player">${currentDisplayName()}</div></div>`;
 }
 function configureDoublesSubtypeOptions(preferred){
   const gender=(myProfile&&myProfile.gender)||'';
@@ -1153,7 +1139,7 @@ function renderTeamInputs(){
   team1Gender={1:''}; team2Gender={0:'',1:''};
 
   if(matchType==='單打'){
-    document.getElementById('team1Inputs').innerHTML = `<div class="self-player">我</div>`;
+    document.getElementById('team1Inputs').innerHTML = `<div class="self-player">${currentDisplayName()}</div>`;
     document.getElementById('team2Inputs').innerHTML = plainTeamInputHTML('team2',0,'對手姓名（可從好友選）');
   }else if(doublesSubtype==='混雙'){
     const myGender=(myProfile&&myProfile.gender)||'';
@@ -1175,7 +1161,7 @@ function renderTeamInputs(){
   }else{
     // 男雙 / 女雙不需要顯示性別欄位。
     document.getElementById('team1Inputs').innerHTML =
-      `<div class="self-player">我</div>` + plainTeamInputHTML('team1',1,'隊友姓名（可從好友選）');
+      `<div class="self-player">${currentDisplayName()}</div>` + plainTeamInputHTML('team1',1,'隊友姓名（可從好友選）');
     document.getElementById('team2Inputs').innerHTML =
       plainTeamInputHTML('team2',0,'對手 1 姓名（可從好友選）') +
       plainTeamInputHTML('team2',1,'對手 2 姓名（可從好友選）');
@@ -1264,7 +1250,7 @@ function resetMatchModal(){
   renderTeamInputs(); gameRows=[{result:'win'},{result:'win'}]; renderGameRows(); document.getElementById('matchNote').value='';
 }
 function matchItemHTML(m){
-  const mySide = m.type==='雙打' ? `我 / ${m.teammate||'?'}` : '我';
+  const me=currentDisplayName(); const mySide = m.type==='雙打' ? `${me} / ${m.teammate||'?'}` : me;
   const oppSide = m.type==='雙打' ? `${m.opponent} / ${m.opponent2||'?'}` : m.opponent;
   const gameLabel = m.gameNo ? `第 ${m.gameNo} 場` : '';
   return `<div class="match-row"><span style="min-width:0"><b>${gameLabel||m.type}</b><br><small class="subtitle">${mySide} vs ${oppSide}</small>${m.note?`<span class="match-note">${m.note}</span>`:''}</span><span style="display:flex;align-items:center;gap:8px;flex:none"><span class="badge ${m.win?'win':'loss'}">${m.win?'勝利':'落敗'}</span><button class="close" style="width:26px;height:26px;font-size:14px" onclick="deleteMatch(${m.id})">×</button></span></div>`;
@@ -1276,7 +1262,7 @@ function renderMatchList(dateStr){
   if(!list.length){ box.innerHTML='<div class="subtitle" style="text-align:center;padding:14px 0">當天無對戰紀錄</div>'; return; }
   const groupMap=new Map(); list.forEach(m=>{const key=m.groupId||matchFallbackGroupKey(m); if(!groupMap.has(key))groupMap.set(key,[]); groupMap.get(key).push(m);});
   const groups=[...groupMap.values()].sort((a,b)=>Number(a[0].id||0)-Number(b[0].id||0));
-  box.innerHTML=groups.map((g,idx)=>{g.sort((a,b)=>(a.gameNo||1)-(b.gameNo||1)); const first=g[0]; const mySide=first.type==='雙打'?`我 / ${first.teammate||'?'}`:'我'; const oppSide=first.type==='雙打'?`${first.opponent} / ${first.opponent2||'?'}`:first.opponent; return `<div class="match-group"><div class="match-group-head"><span><strong>${first.type==='雙打'?(first.doublesSubtype||'雙打'):first.type} · 對戰 ${idx+1}</strong><br><span class="subtitle">${mySide} vs ${oppSide}</span></span><div class="match-group-head-actions"><button class="btn match-edit-btn" onclick='openEditMatchGroup(${JSON.stringify(first.groupId||matchFallbackGroupKey(first))})'>編輯</button></div></div><div class="match-group-body">${g.map(matchItemHTML).join('')}</div></div>`;}).join('');
+  box.innerHTML=groups.map((g,idx)=>{g.sort((a,b)=>(a.gameNo||1)-(b.gameNo||1)); const first=g[0]; const me=currentDisplayName(); const mySide=first.type==='雙打'?`${me} / ${first.teammate||'?'}`:me; const oppSide=first.type==='雙打'?`${first.opponent} / ${first.opponent2||'?'}`:first.opponent; return `<div class="match-group"><div class="match-group-head"><span><strong>${first.type==='雙打'?(first.doublesSubtype||'雙打'):first.type} · 對戰 ${idx+1}</strong><br><span class="subtitle">${mySide} vs ${oppSide}</span></span><div class="match-group-head-actions"><button class="btn match-edit-btn" onclick='openEditMatchGroup(${JSON.stringify(first.groupId||matchFallbackGroupKey(first))})'>編輯</button></div></div><div class="match-group-body">${g.map(matchItemHTML).join('')}</div></div>`;}).join('');
 }
 function setTeamInputValue(side,idx,name,fid,gender){
   const inp=document.querySelector(`.team-name-input[data-side="${side}"][data-idx="${idx}"]`); if(inp) inp.value=name||'';
@@ -1352,10 +1338,10 @@ function renderAnalysis(){
   const latestMatches=latestDate?sorted.filter(m=>m.date===latestDate).sort((a,b)=>(a.gameNo||1)-(b.gameNo||1)):[];
   if(latestDate){const dateWins=latestMatches.filter(m=>m.win).length;const dateRate=Math.round(dateWins/latestMatches.length*1000)/10;const labels=latestMatches.length===2?['上場','下場']:latestMatches.map((_,i)=>`第 ${i+1} 場`);document.getElementById('recentFormBox').innerHTML=`<div class="insight" style="padding:0 0 14px;border:0"><strong>最新對戰日：${latestDate}</strong><span class="subtitle">當天 ${latestMatches.length} 場 · ${dateWins} 勝 ${latestMatches.length-dateWins} 負 · 勝率 ${dateRate}%</span></div><div style="display:flex;gap:8px;flex-wrap:wrap">${latestMatches.map((m,i)=>`<span class="badge ${m.win?'win':'loss'}">${labels[i]} · ${m.win?'勝':'負'}</span>`).join('')}</div>`;}else{document.getElementById('recentFormBox').innerHTML='<div class="subtitle">尚無對戰紀錄</div>';}
 
-  const byGame = n=> matches.filter(m=>m.gameNo===n);
+  const byGame = n=> latestMatches.filter(m=>m.gameNo===n);
   const g1=winRateOf(byGame(1)), g2=winRateOf(byGame(2));
-  const singleList=matches.filter(m=>m.type==='單打');
-  const doubleList=matches.filter(m=>m.type==='雙打');
+  const singleList=latestMatches.filter(m=>m.type==='單打');
+  const doubleList=latestMatches.filter(m=>m.type==='雙打');
   const singles=winRateOf(singleList), doubles=winRateOf(doubleList);
   const barRow = (label,v,count)=>`<div class="bar-row"><div class="bar-head"><span>${label}${count!==undefined?`（${count} 場）`:''}</span><span>${v===null?'尚無資料':v+'%'}</span></div><div class="bar-track"><div class="bar-fill" style="width:${v||0}%"></div></div></div>`;
   let typeHtml='';
@@ -1365,7 +1351,7 @@ function renderAnalysis(){
     const list=doubleList.filter(m=>m.doublesSubtype===t);
     if(list.length) typeHtml+=barRow(t,winRateOf(list),list.length);
   });
-  document.getElementById('analysisBars').innerHTML = typeHtml || '<div class="subtitle">尚無可分析的對戰紀錄</div>';
+  document.getElementById('analysisBars').innerHTML = typeHtml || '';
 
   renderInsights(sorted, g1, g2, singles, doubles);
   renderTeammateStats();
@@ -1392,7 +1378,21 @@ function renderInsights(sorted, g1, g2, singles, doubles){
   document.getElementById('insightsBox').innerHTML = tips.slice(0,4).map((t,i)=>`<div class="insight-card"><div class="insight-icon">${['📈','🎯','💡','🏸'][i]||'💡'}</div><div class="insight-copy"><strong>${i===0?'近期趨勢':i===1?'值得留意':i===2?'打法觀察':'建議'}</strong>${t}</div></div>`).join('');
 }
 function computeTeammateGroups(){const groups=new Map();matches.filter(m=>m.type==='雙打'&&(m.teammate||m.teammateId)).forEach(m=>{const name=(m.teammate||'').trim();const key=m.teammateId?('id:'+m.teammateId):('name:'+name.toLowerCase());if(!groups.has(key))groups.set(key,{id:m.teammateId||null,name,matches:[]});const g=groups.get(key);if(name&&name.length>(g.name||'').length)g.name=name;g.matches.push(m);});return [...groups.values()];}
-function renderTeammateStats(){const groups=computeTeammateGroups().map(g=>{const total=g.matches.length,wins=g.matches.filter(m=>m.win).length;const rate=total?Math.round(wins/total*1000)/10:0;const friendObj=g.id?friends.find(f=>f.id===g.id):null;return {...g,total,wins,losses:total-wins,rate,friendObj};}).sort((a,b)=>b.rate-a.rate||b.total-a.total);const box=document.getElementById('teammateStatsList');if(!box)return;box.innerHTML=groups.length?groups.map((g,i)=>{const display=g.friendObj?g.friendObj.name:g.name;const tag=g.friendObj?`@${g.friendObj.username||''} · 好友`:(g.id?'已連結帳號':'未連結');return `<div class="analysis-person"><span><b>${i===0?'🏆 ':''}${display}</b><br><small class="subtitle">${tag} · 搭檔 ${g.total} 場 · ${g.wins} 勝 ${g.losses} 負</small></span><b>${g.rate}%</b></div>`;}).join(''):'<div class="subtitle" style="padding:10px 0">尚無雙打搭檔紀錄</div>';}
+function renderTeammateStats(){
+  const groups=computeTeammateGroups().map(g=>{
+    const total=g.matches.length,wins=g.matches.filter(m=>m.win).length;
+    const rate=total?Math.round(wins/total*1000)/10:0;
+    const friendObj=g.id?friends.find(f=>f.id===g.id):null;
+    const lastDate=g.matches.reduce((mx,m)=>m.date>mx?m.date:mx,'');
+    return {...g,total,wins,losses:total-wins,rate,friendObj,lastDate};
+  }).sort((a,b)=>b.lastDate.localeCompare(a.lastDate)||b.total-a.total);
+  const box=document.getElementById('teammateStatsList'); if(!box)return;
+  box.innerHTML=groups.length?groups.map(g=>{
+    const display=g.friendObj?g.friendObj.name:g.name;
+    const tag=g.friendObj?`@${g.friendObj.username||''} · 好友`:(g.id?'已連結帳號':'未連結');
+    return `<div class="analysis-person"><span><b>${display}</b><br><small class="subtitle">${tag} · ${g.lastDate} · ${g.total} 場 · ${g.wins} 勝 ${g.losses} 負</small></span><b>${g.rate}%</b></div>`;
+  }).join(''):'';
+}
 function computeOpponentGroups(){
   // 只計算「對手」角色（opponent_id / opponent2_id），隊友場次不計入。
   // 已連結好友一律用 user_id 彙整（即使歷史名字不同）；未連結才 fallback 用正規化名字。
@@ -1425,14 +1425,15 @@ function renderOpponentStats(){
     const total=g.matches.length, wins=g.matches.filter(m=>m.win).length, losses=total-wins;
     const rate = total ? Math.round(wins/total*1000)/10 : 0;
     const friendObj = g.id ? friends.find(f=>f.id===g.id) : null;
-    return {...g, total, wins, losses, rate, friendObj};
-  }).sort((a,b)=>b.total-a.total);
+    const lastDate=g.matches.reduce((mx,m)=>m.date>mx?m.date:mx,'');
+    return {...g, total, wins, losses, rate, friendObj, lastDate};
+  }).sort((a,b)=>b.lastDate.localeCompare(a.lastDate)||b.total-a.total);
   const box = document.getElementById('opponentStatsList');
   box.innerHTML = groups.length ? groups.map(o=>{
     const displayName = o.friendObj ? o.friendObj.name : o.name;
     const tag = o.friendObj ? `@${o.friendObj.username||''} · 好友` : (o.id ? '已連結帳號' : '未連結');
     const nameArg = JSON.stringify(o.name);
-    return `<div class="opp-row"><span><b>${displayName}</b><br><small class="subtitle">${tag} · 對戰 ${o.total} 場 · 勝 ${o.wins} · 負 ${o.losses}</small></span><span style="display:flex;align-items:center;gap:10px"><b>${o.rate}%</b><button class="btn" onclick='openOpponentDetail(${o.id?`"${o.id}"`:'null'},${nameArg})'>查看</button></span></div>`;
+    return `<div class="opp-row"><span><b>${displayName}</b><br><small class="subtitle">${tag} · ${o.lastDate} · ${o.total} 場 · 勝 ${o.wins} · 負 ${o.losses}</small></span><span style="display:flex;align-items:center;gap:10px"><b>${o.rate}%</b><button class="btn" onclick='openOpponentDetail(${o.id?`"${o.id}"`:'null'},${nameArg})'>查看</button></span></div>`;
   }).join('') : '<div class="subtitle" style="padding:10px 0">還沒有對戰紀錄</div>';
 }
 function openOpponentDetail(id, name){
@@ -1564,7 +1565,7 @@ function renderFriends(){
     const lastDate = lastPlayedTogether(f.id);
     const statusTxt = linkedCount ? `最近一起打球 ${fmtShort(lastDate)} · 共 ${linkedCount} 場` : '尚未有一起打球的紀錄';
     return `<div class="friend-row-simple"><div class="avatar">${(f.name[0]||'?').toUpperCase()}</div><div class="friend-info"><strong>${f.name}</strong><div class="status">${f.username?'@'+f.username+' · ':''}${statusTxt}</div></div><div class="friend-actions">${oldName?`<button class="btn primary" onclick='linkPastOpponentToFriend("${f.id}",${JSON.stringify(oldName)})'>連結「${oldName}」紀錄</button>`:''}<button class="btn" onclick="openFriendProfile('${f.id}')">查看</button></div></div>`;
-  }).join('') : '<div class="subtitle" style="padding:8px 0">還沒有好友。可以搜尋帳號，或從下方「曾經一起打過的人」開始找。</div>';
+  }).join('') : '<div class="subtitle" style="padding:8px 0">還沒有好友</div>';
 
   const reqBox = document.getElementById('incomingReqList');
   const reqSection = document.getElementById('incomingReqSection');
@@ -1578,7 +1579,7 @@ function renderFriends(){
 
   const past = unresolvedPastPlayers();
   const pastBox = document.getElementById('pastOpponentList');
-  pastBox.innerHTML = past.length ? past.map(p=>`<div class="friend-row-simple"><div class="avatar">${(p.name[0]||'?').toUpperCase()}</div><div class="friend-info"><strong>${p.name}</strong><div class="status">出現在 ${p.count} 場舊對戰</div></div><span class="past-opponent-badge">過去對手／隊友</span><button class="btn" onclick='beginFindPastOpponent(${JSON.stringify(p.name)})'>找這個人</button></div>`).join('') : '<div class="subtitle" style="padding:8px 0">目前沒有尚未連結的過去對手／隊友。</div>';
+  pastBox.innerHTML = past.length ? past.map(p=>`<div class="friend-row-simple"><div class="avatar">${(p.name[0]||'?').toUpperCase()}</div><div class="friend-info"><strong>${p.name}</strong><div class="status">出現在 ${p.count} 場舊對戰</div></div><span class="past-opponent-badge">過去對手／隊友</span><button class="btn" onclick='beginFindPastOpponent(${JSON.stringify(p.name)})'>找這個人</button></div>`).join('') : '<div class="subtitle" style="padding:8px 0">沒有待連結的人</div>';
 }
 async function searchFriends(){
   const q = document.getElementById('friendSearchInput').value.trim().replace(/^@/,'');
@@ -1750,11 +1751,32 @@ async function manualLinkMatches(){
 }
 async function removeFriend(){
   if(!selectedFriendId) return;
+  const targetId=selectedFriendId;
   if(!confirm('確定要刪除這位好友嗎？')) return;
-  const {error} = await sb.rpc('remove_friend', {target:selectedFriendId});
+
+  const {error} = await sb.rpc('remove_friend', {target:targetId});
   if(error){ toast('刪除失敗：'+error.message); return; }
+
+  // 清掉 friend_requests fallback，避免刪除後又被 loadFriendsData 加回名單。
+  // 先走安全的 cleanup RPC；若尚未執行 v5 SQL，再嘗試一般 delete。
+  try{
+    const cleanup = await sb.rpc('cleanup_friend_request', {target:targetId});
+    if(cleanup.error){
+      await sb.from('friend_requests').delete().eq('from_user',currentUser.id).eq('to_user',targetId);
+      await sb.from('friend_requests').delete().eq('from_user',targetId).eq('to_user',currentUser.id);
+    }
+  }catch(e){ console.warn('friend request cleanup unavailable',e); }
+
+  friends = friends.filter(f=>f.id!==targetId);
+  incomingRequests = incomingRequests.filter(r=>r.fromUser!==targetId);
+  clearPendingFriendLink(targetId);
+  selectedFriendId=null;
+  closeAll();
+  renderFriends();
+
+  // 再向後端重新確認一次；若 RPC / RLS 有問題，SQL v5 會修正 remove_friend。
   await loadFriendsData();
-  closeAll(); renderFriends();
+  renderFriends();
   toast('已刪除好友');
 }
 
