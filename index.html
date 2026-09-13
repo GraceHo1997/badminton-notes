@@ -145,7 +145,7 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
 .match-group-head-actions{display:flex;align-items:center;gap:8px}.match-edit-btn{padding:6px 9px;font-size:12px}
 .skill-rating-line{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}.skill-rating-label{font-size:12px;color:var(--muted);font-weight:700}
 .analysis-type-section{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
-.analysis-list{display:flex;flex-direction:column}.analysis-person{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}.analysis-person:last-child{border-bottom:0}.profile-section{padding:18px 0;border-bottom:1px solid var(--line)}.profile-section:last-child{border-bottom:0}.profile-section h3{margin:0 0 12px;font-size:16px}.profile-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0}
+.analysis-list{display:flex;flex-direction:column}.analysis-person{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}.analysis-person:last-child{border-bottom:0}.profile-section{padding:18px 0;border-bottom:1px solid var(--line)}.profile-section:last-child{border-bottom:0}.profile-section h3{margin:0 0 12px;font-size:16px}.notification-btn{position:relative;border:0;background:transparent;width:40px;height:40px;border-radius:12px;font-size:20px;display:grid;place-items:center}.notification-btn:hover{background:#f2f6f3}.notification-badge{position:absolute;right:1px;top:0;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--red);color:#fff;font-size:10px;font-weight:900;line-height:18px;text-align:center}.notification-item{padding:14px 0;border-bottom:1px solid var(--line)}.notification-item:last-child{border-bottom:0}.notification-item-head{display:flex;align-items:flex-start;gap:10px}.notification-copy{flex:1;line-height:1.55}.notification-actions{display:flex;gap:8px;margin-top:10px;justify-content:flex-end}.profile-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0}
 @media(max-width:1000px){.calendar-layout,.overview-grid,.bottom-grid{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,1fr)}.notes-layout{grid-template-columns:1fr}.category-panel{height:auto;position:static}.category-list{display:flex;overflow:auto}.cat{min-width:max-content}.cards{grid-template-columns:1fr}}
 @media(max-width:700px){.app{grid-template-columns:1fr}.sidebar{position:fixed;left:0;right:0;bottom:0;top:auto;height:70px;width:100%;flex-direction:row;padding:7px 10px;border-right:0;border-top:1px solid var(--line)}.logo,.side-bottom{display:none}.nav{flex-direction:row;justify-content:space-around}.nav-btn{flex:1}.nav-btn .icon{font-size:19px}.main{padding-bottom:72px}.topbar{padding:0 16px}.container{padding:18px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.stats-grid{grid-template-columns:1fr 1fr}.page-header{flex-direction:column}.cards{grid-template-columns:1fr}.calendar-panel,.record-panel,.content-panel{padding:16px}.day{height:58px;padding:6px}.weekdays,.days{gap:4px}.inline-action-row{justify-content:stretch}.inline-action-row .btn{flex:1}.friend-row-simple{flex-wrap:wrap}}
 </style>
@@ -182,7 +182,10 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
   <main class="main">
     <header class="topbar">
       <div class="brand">羽球人</div>
-      <div class="user-mini" id="userMenuBtn" style="cursor:pointer"><span id="userNameTxt">Grace</span><div class="avatar" id="userAvatar">G</div></div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="notification-btn" id="notificationBtn" title="通知">🔔<span class="notification-badge" id="notificationBadge" style="display:none">0</span></button>
+        <div class="user-mini" id="userMenuBtn" style="cursor:pointer"><span id="userNameTxt">Grace</span><div class="avatar" id="userAvatar">G</div></div>
+      </div>
     </header>
     <div class="container">
       <section class="page" id="page-notes">
@@ -217,7 +220,7 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
             <div class="calendar-head"><button class="arrow" id="prevMonthBtn">‹</button><strong id="monthTitle"></strong><button class="arrow" id="nextMonthBtn">›</button></div>
             <div class="cal"><div class="dow">日</div><div class="dow">一</div><div class="dow">二</div><div class="dow">三</div><div class="dow">四</div><div class="dow">五</div><div class="dow">六</div></div>
             <div class="cal" id="calendarDays" style="margin-top:9px"></div>
-            <div style="margin-top:16px" class="subtitle">🟢 我有打球　🔴 有對戰</div>
+            <div style="margin-top:16px" class="subtitle">🟢 有打球　🔴 有對戰</div>
           </div>
           <div class="card detail">
             <div class="match-head-row" style="margin-top:0">
@@ -229,7 +232,7 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
             </div>
             <div class="label">今日打球</div>
             <div id="sessionSummaryBox" class="session-box"></div>
-            <div class="label">練習內容</div>
+            <div class="label">練習技巧</div>
             <div class="chips" id="trainingSelectedView"></div>
             <div class="match-head-row">
               <div class="label">對戰</div>
@@ -326,7 +329,7 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
   <div class="drawer-head"><button class="close" id="closeFriendDrawer">×</button><div class="subtitle" id="friendDrawerUsername"></div><h2 id="friendDrawerName" style="font-size:26px;margin:8px 0 4px"></h2></div>
   <div class="drawer-body">
     <div class="section" style="margin-top:0"><h3>戰績摘要</h3><div class="detail-box" id="friendStatsBox"></div></div>
-    <div class="section"><h3>最近打球</h3><div id="friendRecentSessions"></div></div>
+    <div class="section"><h3>最近一起打球</h3><div id="friendRecentSessions"></div></div>
     <div class="section"><h3>與我的對戰紀錄</h3><div id="friendHeadToHead"></div><button class="btn" id="linkMatchesBtn" style="margin-top:10px;width:100%">🔗 檢查可連結的對戰紀錄</button></div>
   </div>
   <div class="drawer-foot"><button class="btn" style="color:var(--red)" id="removeFriendBtn">刪除好友</button></div>
@@ -347,7 +350,7 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
     <div class="field" style="margin-top:14px">
       <label>練習技巧</label>
             <div style="position:relative">
-        <input class="input" id="trainingInput" placeholder="搜尋並加入技巧…" style="width:100%" autocomplete="off">
+        <input class="input" id="trainingInput" placeholder="搜尋羽球筆記裡技巧…" style="width:100%" autocomplete="off">
         <div id="trainingDropdown" class="drop-list" style="top:47px;display:none"></div>
       </div>
       <div id="trainingSelected" style="margin-top:8px"></div>
@@ -427,6 +430,15 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
   <div class="modal-foot"><button class="btn primary" id="saveOnboardingBtn" style="width:100%">開始使用</button></div>
 </div>
 
+
+<div class="modal" id="notificationModal" style="width:min(520px,92vw)">
+  <div class="modal-head" style="display:flex;justify-content:space-between;align-items:center">
+    <div>通知</div>
+    <button class="close" data-close-modal style="width:34px;height:34px;font-size:18px">×</button>
+  </div>
+  <div class="modal-body" id="notificationList"><div class="subtitle">沒有新通知</div></div>
+</div>
+
 <div class="modal" id="profileModal" style="width:min(700px,94vw)">
   <div class="modal-head" style="display:flex;justify-content:space-between;align-items:center"><div>個人資訊</div><button class="close" data-close-modal style="width:34px;height:34px;font-size:18px">×</button></div>
   <div class="modal-body">
@@ -466,7 +478,7 @@ const CAT_NAMES = categories.slice(1).map(c=>c[0]);
 const MOODS = ["😄","🙂","😐","😣","🤕"];
 
 let skills=[], sessions=[], matches=[], equipment=[];
-let myProfile=null, friends=[], incomingRequests=[];
+let myProfile=null, friends=[], incomingRequests=[], matchInvites=[];
 let activeCat="全部技巧", activeSub="全部";
 let calYear, calMonth, selectedDate=null;
 let selectedSkillKey=null;
@@ -605,7 +617,7 @@ async function loadAll(){
 
   let {data:ms, error:e3} = await sb.from('matches').select('*').order('match_date',{ascending:false});
   if(e3) throw e3;
-  matches = (ms||[]).map(m=>({id:m.id, date:m.match_date, type:m.type, opponent:m.opponent, teammate:m.teammate_name||'', opponent2:m.opponent2_name||'', score:m.score, win:m.is_win, note:m.note||'', gameNo:m.game_no||1, groupId:m.match_group_id||null, doublesSubtype:m.doubles_type||'', teammateGender:m.teammate_gender||'', opponentGender:m.opponent_gender||'', opponent2Gender:m.opponent2_gender||'', teammateId:m.teammate_id||null, opponentId:m.opponent_id||null, opponent2Id:m.opponent2_id||null}));
+  matches = (ms||[]).map(m=>({id:m.id, date:m.match_date, type:m.type, opponent:m.opponent, teammate:m.teammate_name||'', opponent2:m.opponent2_name||'', score:m.score, win:m.is_win, note:m.note||'', gameNo:m.game_no||1, groupId:m.match_group_id||null, matchOrder:m.match_order||null, doublesSubtype:m.doubles_type||'', teammateGender:m.teammate_gender||'', opponentGender:m.opponent_gender||'', opponent2Gender:m.opponent2_gender||'', teammateId:m.teammate_id||null, opponentId:m.opponent_id||null, opponent2Id:m.opponent2_id||null}));
 
   let {data:eq, error:e5} = await sb.from('equipment').select('*').order('created_at',{ascending:true});
   if(e5) throw e5;
@@ -711,6 +723,8 @@ async function onSignedIn(user){
     renderCalendar();
     renderDaySummary(selectedDate);
     renderFriends();
+    await refreshNotifications(false);
+    if(!window.__notificationTimer) window.__notificationTimer=setInterval(()=>refreshNotifications(false),30000);
     if(!myProfile || !myProfile.gender){
       setTimeout(()=>openOnboarding(),50);
     }
@@ -769,6 +783,7 @@ function initUI(){
   document.getElementById('saveSkill').onclick = createSkill;
 
   document.getElementById('userMenuBtn').onclick = openProfileModal;
+  document.getElementById('notificationBtn').onclick = openNotifications;
   document.getElementById('savePrivacyBtn').onclick = savePrivacy;
   document.getElementById('saveProfileBtn').onclick = saveProfileBasics;
   document.querySelectorAll('.onboarding-gender').forEach(b=>b.onclick=()=>{
@@ -959,7 +974,7 @@ function updateDuration(){
 }
 function renderTrainingSelected(){
   const box=document.getElementById('trainingSelected');
-  box.innerHTML=selectedPracticeSkills.length?selectedPracticeSkills.map((item,i)=>`<div class="practice-row"><div><div class="practice-name">${item.name}</div><div class="practice-meta">自評程度</div></div><div class="star-rating practice-stars" data-index="${i}">${[1,2,3,4,5].map(n=>`<button type="button" class="star-btn ${n<=Number(item.rating||0)?'filled':''}" data-rating="${n}">${n<=Number(item.rating||0)?'★':'☆'}</button>`).join('')}</div><button type="button" class="close" data-remove-practice="${i}" style="width:30px;height:30px;font-size:14px">×</button></div>`).join(''):'<div class="subtitle" style="font-size:12.5px;padding:4px 0">尚未加入練習技巧</div>';
+  box.innerHTML=selectedPracticeSkills.length?selectedPracticeSkills.map((item,i)=>`<div class="practice-row"><div><div class="practice-name">${item.name}</div><div class="practice-meta">自評程度</div></div><div class="star-rating practice-stars" data-index="${i}">${[1,2,3,4,5].map(n=>`<button type="button" class="star-btn ${n<=Number(item.rating||0)?'filled':''}" data-rating="${n}">${n<=Number(item.rating||0)?'★':'☆'}</button>`).join('')}</div><button type="button" class="close" data-remove-practice="${i}" style="width:30px;height:30px;font-size:14px">×</button></div>`).join(''):'';
   box.querySelectorAll('.practice-stars .star-btn').forEach(btn=>btn.onclick=()=>{
     const idx=Number(btn.closest('.practice-stars').dataset.index);
     selectedPracticeSkills[idx].rating=Number(btn.dataset.rating);
@@ -1006,7 +1021,7 @@ function renderDaySummary(dateStr){
     box.innerHTML = `<span class="subtitle">這天還沒有打球紀錄，點日期右側的「＋ 新增打球紀錄」開始記錄。</span>`;
   }
   const practice = Array.isArray(s.practiceSkills)&&s.practiceSkills.length ? s.practiceSkills : (s.tags||'').split(',').filter(Boolean).map(name=>({name,rating:0}));
-  document.getElementById('trainingSelectedView').innerHTML = practice.length ? practice.map(t=>`<span class="chip on">${t.name} · ${'★'.repeat(Number(t.rating||0))}${'☆'.repeat(5-Number(t.rating||0))}</span>`).join('') : '<span class="subtitle" style="font-size:13px">尚未選擇練習技巧</span>';
+  document.getElementById('trainingSelectedView').innerHTML = practice.length ? practice.map(t=>`<span class="chip on">${t.name} · ${'★'.repeat(Number(t.rating||0))}${'☆'.repeat(5-Number(t.rating||0))}</span>`).join('') : '';
   const hasSession = sessions.some(x=>x.date===dateStr);
   document.getElementById('editSessionBtn').textContent = hasSession ? '編輯' : '＋ 新增打球紀錄';
   document.getElementById('deleteSessionBtn').style.display = hasSession ? 'inline-block' : 'none';
@@ -1083,6 +1098,123 @@ async function saveRecord(){
   drawCalendarDots();
   renderDaySummary(dateStr);
   toast(`打球紀錄已儲存（${start||'--'}–${end||'--'}）`);
+}
+
+
+/* ================= Notifications / Match Invites ================= */
+async function loadMatchInvites(){
+  if(!currentUser){ matchInvites=[]; return; }
+  const {data,error}=await sb.from('match_invites').select('*').eq('recipient_user_id',currentUser.id).eq('status','pending').order('created_at',{ascending:false});
+  if(error){ console.warn('match invite load error',error); matchInvites=[]; return; }
+  matchInvites=data||[];
+}
+function updateNotificationBadge(){
+  const count=(incomingRequests||[]).length+(matchInvites||[]).length;
+  const badge=document.getElementById('notificationBadge');
+  if(!badge) return;
+  badge.textContent=count>99?'99+':String(count);
+  badge.style.display=count?'block':'none';
+}
+async function refreshNotifications(renderOpen=true){
+  try{ await loadFriendsData(); }catch(e){ console.warn(e); }
+  await loadMatchInvites();
+  updateNotificationBadge();
+  if(renderOpen && document.getElementById('notificationModal')?.classList.contains('open')) renderNotificationList();
+}
+function renderNotificationList(){
+  const box=document.getElementById('notificationList');
+  const parts=[];
+  (incomingRequests||[]).forEach(r=>{
+    const p=r.profile||{}, name=p.display_name||p.username||'使用者';
+    parts.push(`<div class="notification-item"><div class="notification-item-head"><div class="avatar">${(name[0]||'?').toUpperCase()}</div><div class="notification-copy"><strong>${name}</strong><div class="subtitle">想加你好友</div></div></div><div class="notification-actions"><button class="btn" onclick="respondNotificationFriend(${r.id},false)">忽略</button><button class="btn primary" onclick="respondNotificationFriend(${r.id},true)">接受</button></div></div>`);
+  });
+  (matchInvites||[]).forEach(inv=>{
+    const payload=inv.payload||{};
+    const sender=payload.senderName||'好友';
+    const kind=payload.type==='雙打'?(payload.doublesSubtype||'雙打'):'單打';
+    parts.push(`<div class="notification-item"><div class="notification-item-head"><div class="avatar">🏸</div><div class="notification-copy"><strong>${sender} 新增了一筆包含你的對戰</strong><div class="subtitle">${inv.match_date||payload.date||''} · ${kind} · ${(payload.games||[]).length||1} 場</div></div></div><div class="notification-actions"><button class="btn" onclick="respondMatchInvite(${inv.id},false)">取消</button><button class="btn primary" onclick="respondMatchInvite(${inv.id},true)">加入我的紀錄</button></div></div>`);
+  });
+  box.innerHTML=parts.length?parts.join(''):'<div class="subtitle">沒有新通知</div>';
+}
+async function openNotifications(){
+  await refreshNotifications(false);
+  renderNotificationList();
+  openModal('notificationModal');
+}
+async function respondNotificationFriend(requestId,accept){
+  await respondRequest(requestId,accept);
+  await refreshNotifications(false);
+  renderNotificationList();
+}
+function makeInvitePayload({groupId,matchType,doublesSubtype,teammate,opponent,opponent2,teammateId,opponentId,opponent2Id,teammateGender,opponentGender,opponent2Gender,note,rows}){
+  return {
+    senderId:currentUser.id,
+    senderName:currentDisplayName(),
+    senderGender:(myProfile&&myProfile.gender)||'',
+    groupId,date:selectedDate,type:matchType,doublesSubtype:matchType==='雙打'?doublesSubtype:'',
+    teammate:{id:teammateId,name:teammate,gender:teammateGender||''},
+    opponent1:{id:opponentId,name:opponent,gender:opponentGender||''},
+    opponent2:{id:opponent2Id,name:opponent2,gender:opponent2Gender||''},
+    note,
+    games:rows.map(r=>({gameNo:r.game_no,win:!!r.is_win}))
+  };
+}
+async function createMatchInvites(payload){
+  const ids=[payload.teammate?.id,payload.opponent1?.id,payload.opponent2?.id].filter(id=>id&&id!==currentUser.id);
+  const recipients=[...new Set(ids)];
+  if(!recipients.length) return;
+  const rows=recipients.map(uid=>({sender_user_id:currentUser.id,recipient_user_id:uid,sender_group_id:payload.groupId,match_date:payload.date,payload,status:'pending'}));
+  const {error}=await sb.from('match_invites').upsert(rows,{onConflict:'sender_user_id,recipient_user_id,sender_group_id'});
+  if(error) console.warn('create match invite error',error);
+}
+function nextMatchOrderForDate(dateStr){
+  const vals=matches.filter(m=>m.date===dateStr).map(m=>Number(m.matchOrder||0)).filter(Boolean);
+  return (vals.length?Math.max(...vals):0)+1;
+}
+async function respondMatchInvite(inviteId,accept){
+  const inv=matchInvites.find(x=>String(x.id)===String(inviteId));
+  if(!inv) return;
+  if(!accept){
+    const {error}=await sb.from('match_invites').update({status:'declined',responded_at:new Date().toISOString()}).eq('id',inviteId).eq('recipient_user_id',currentUser.id);
+    if(error) return toast('操作失敗：'+error.message);
+    matchInvites=matchInvites.filter(x=>String(x.id)!==String(inviteId));
+    updateNotificationBadge(); renderNotificationList(); toast('已取消');
+    return;
+  }
+  const p=inv.payload||{}, myId=currentUser.id;
+  let teammate='',teammateId=null,teammateGender='',opponent='',opponentId=null,opponentGender='',opponent2='',opponent2Id=null,opponent2Gender='',invert=false;
+  if(p.type==='單打'){
+    opponent=p.senderName||'對手'; opponentId=p.senderId||null; opponentGender=p.senderGender||''; invert=true;
+  }else if(p.teammate?.id===myId){
+    teammate=p.senderName||''; teammateId=p.senderId||null; teammateGender=p.senderGender||'';
+    opponent=p.opponent1?.name||''; opponentId=p.opponent1?.id||null; opponentGender=p.opponent1?.gender||'';
+    opponent2=p.opponent2?.name||''; opponent2Id=p.opponent2?.id||null; opponent2Gender=p.opponent2?.gender||'';
+  }else if(p.opponent1?.id===myId){
+    teammate=p.opponent2?.name||''; teammateId=p.opponent2?.id||null; teammateGender=p.opponent2?.gender||'';
+    opponent=p.senderName||''; opponentId=p.senderId||null; opponentGender=p.senderGender||'';
+    opponent2=p.teammate?.name||''; opponent2Id=p.teammate?.id||null; opponent2Gender=p.teammate?.gender||''; invert=true;
+  }else if(p.opponent2?.id===myId){
+    teammate=p.opponent1?.name||''; teammateId=p.opponent1?.id||null; teammateGender=p.opponent1?.gender||'';
+    opponent=p.senderName||''; opponentId=p.senderId||null; opponentGender=p.senderGender||'';
+    opponent2=p.teammate?.name||''; opponent2Id=p.teammate?.id||null; opponent2Gender=p.teammate?.gender||''; invert=true;
+  }else return toast('這筆通知找不到你的隊伍位置');
+
+  const groupId=`invite_${inviteId}`, matchOrder=nextMatchOrderForDate(inv.match_date||p.date);
+  const games=(p.games&&p.games.length)?p.games:[{gameNo:1,win:false}];
+  const rows=games.map((g,i)=>({
+    match_date:inv.match_date||p.date,type:p.type||'雙打',doubles_type:p.type==='雙打'?(p.doublesSubtype||null):null,
+    opponent,teammate_name:teammate,opponent2_name:opponent2,teammate_id:teammateId,opponent_id:opponentId,opponent2_id:opponent2Id,
+    teammate_gender:teammateGender||null,opponent_gender:opponentGender||null,opponent2_gender:opponent2Gender||null,
+    score:'',is_win:invert?!g.win:!!g.win,note:p.note||'',game_no:g.gameNo||i+1,match_group_id:groupId,match_order:matchOrder,user_id:currentUser.id,source_invite_id:inviteId
+  }));
+  const {data,error}=await sb.from('matches').insert(rows).select();
+  if(error) return toast('加入對戰失敗：'+error.message);
+  data.forEach(d=>matches.push({id:d.id,date:d.match_date,type:d.type,doublesSubtype:d.doubles_type||'',opponent:d.opponent||'',teammate:d.teammate_name||'',opponent2:d.opponent2_name||'',score:d.score||'',win:!!d.is_win,note:d.note||'',gameNo:d.game_no||1,groupId:d.match_group_id||groupId,matchOrder:d.match_order||matchOrder,teammateGender:d.teammate_gender||'',opponentGender:d.opponent_gender||'',opponent2Gender:d.opponent2_gender||'',teammateId:d.teammate_id||null,opponentId:d.opponent_id||null,opponent2Id:d.opponent2_id||null}));
+  await sb.from('match_invites').update({status:'accepted',responded_at:new Date().toISOString()}).eq('id',inviteId).eq('recipient_user_id',currentUser.id);
+  matchInvites=matchInvites.filter(x=>String(x.id)!==String(inviteId));
+  updateNotificationBadge(); renderNotificationList(); renderCalendar();
+  if(selectedDate===(inv.match_date||p.date)) renderDaySummary(selectedDate);
+  toast('已加入你的對戰紀錄');
 }
 
 /* ================= Matches ================= */
@@ -1261,7 +1393,10 @@ function renderMatchList(dateStr){
   const box = document.getElementById('matchList');
   if(!list.length){ box.innerHTML='<div class="subtitle" style="text-align:center;padding:14px 0">當天無對戰紀錄</div>'; return; }
   const groupMap=new Map(); list.forEach(m=>{const key=m.groupId||matchFallbackGroupKey(m); if(!groupMap.has(key))groupMap.set(key,[]); groupMap.get(key).push(m);});
-  const groups=[...groupMap.values()].sort((a,b)=>Number(a[0].id||0)-Number(b[0].id||0));
+  const groups=[...groupMap.values()].sort((a,b)=>{
+    const ao=a[0].matchOrder??Number(a[0].id||0), bo=b[0].matchOrder??Number(b[0].id||0);
+    return ao-bo;
+  });
   box.innerHTML=groups.map((g,idx)=>{g.sort((a,b)=>(a.gameNo||1)-(b.gameNo||1)); const first=g[0]; const me=currentDisplayName(); const mySide=first.type==='雙打'?`${me} / ${first.teammate||'?'}`:me; const oppSide=first.type==='雙打'?`${first.opponent} / ${first.opponent2||'?'}`:first.opponent; return `<div class="match-group"><div class="match-group-head"><span><strong>${first.type==='雙打'?(first.doublesSubtype||'雙打'):first.type} · 對戰 ${idx+1}</strong><br><span class="subtitle">${mySide} vs ${oppSide}</span></span><div class="match-group-head-actions"><button class="btn match-edit-btn" onclick='openEditMatchGroup(${JSON.stringify(first.groupId||matchFallbackGroupKey(first))})'>編輯</button></div></div><div class="match-group-body">${g.map(matchItemHTML).join('')}</div></div>`;}).join('');
 }
 function setTeamInputValue(side,idx,name,fid,gender){
@@ -1301,7 +1436,11 @@ async function createMatch(){
   if(count===2 && !opponent2) return toast('請輸入第二位對手名字');
   const note = document.getElementById('matchNote').value.trim();
   let groupId = editingMatchGroupKey && !editingMatchGroupKey.startsWith('legacy|') ? editingMatchGroupKey : ((crypto && crypto.randomUUID) ? crypto.randomUUID() : ('grp_'+Date.now()+'_'+Math.random().toString(36).slice(2)));
-  const rows = gameRows.map((g,i)=>({match_date:selectedDate, type:matchType, doubles_type:matchType==='雙打'?doublesSubtype:null, opponent, teammate_name:teammate, opponent2_name:opponent2, teammate_id:teammateId, opponent_id:opponentId, opponent2_id:opponent2Id, teammate_gender:teammateGender||null, opponent_gender:opponentGender||null, opponent2_gender:opponent2Gender||null, score:'', is_win:g.result==='win', note, game_no:i+1, match_group_id:groupId, user_id:currentUser.id}));
+  const oldEditingGroup = editingMatchGroupKey ? matches.filter(m=>(m.groupId||matchFallbackGroupKey(m))===editingMatchGroupKey) : [];
+  const preservedOrder = oldEditingGroup.length ? (oldEditingGroup[0].matchOrder ?? Number(oldEditingGroup[0].id||0)) : null;
+  const dayOrders = matches.filter(m=>m.date===selectedDate && !oldEditingGroup.includes(m)).map(m=>Number(m.matchOrder||0)).filter(Boolean);
+  const nextOrder = preservedOrder ?? ((dayOrders.length?Math.max(...dayOrders):0)+1);
+  const rows = gameRows.map((g,i)=>({match_date:selectedDate, type:matchType, doubles_type:matchType==='雙打'?doublesSubtype:null, opponent, teammate_name:teammate, opponent2_name:opponent2, teammate_id:teammateId, opponent_id:opponentId, opponent2_id:opponent2Id, teammate_gender:teammateGender||null, opponent_gender:opponentGender||null, opponent2_gender:opponent2Gender||null, score:'', is_win:g.result==='win', note, game_no:i+1, match_group_id:groupId, match_order:nextOrder, user_id:currentUser.id}));
   if(editingMatchGroupKey){
     const oldGroup=matches.filter(m=>(m.groupId||matchFallbackGroupKey(m))===editingMatchGroupKey);
     const oldIds=oldGroup.map(m=>m.id);
@@ -1310,8 +1449,13 @@ async function createMatch(){
   }
   const {data,error} = await sb.from('matches').insert(rows).select();
   if(error) return toast((editingMatchGroupKey?'更新':'新增')+'失敗：'+error.message);
-  data.forEach((d,i)=>matches.push({id:d.id,date:selectedDate,type:matchType,doublesSubtype:matchType==='雙打'?doublesSubtype:'',opponent,teammate,opponent2,score:'',win:rows[i].is_win,note,gameNo:rows[i].game_no,groupId,teammateGender,opponentGender,opponent2Gender,teammateId,opponentId,opponent2Id}));
-  const wasEditing=!!editingMatchGroupKey; editingMatchGroupKey=null; closeAll(); renderMatchList(selectedDate); renderCalendar();
+  data.forEach((d,i)=>matches.push({id:d.id,date:selectedDate,type:matchType,doublesSubtype:matchType==='雙打'?doublesSubtype:'',opponent,teammate,opponent2,score:'',win:rows[i].is_win,note,gameNo:rows[i].game_no,groupId,matchOrder:nextOrder,teammateGender,opponentGender,opponent2Gender,teammateId,opponentId,opponent2Id}));
+  const wasEditing=!!editingMatchGroupKey;
+  if(!wasEditing){
+    const payload=makeInvitePayload({groupId,matchType,doublesSubtype,teammate,opponent,opponent2,teammateId,opponentId,opponent2Id,teammateGender,opponentGender,opponent2Gender,note,rows});
+    await createMatchInvites(payload);
+  }
+  editingMatchGroupKey=null; closeAll(); renderMatchList(selectedDate); renderCalendar();
   toast(wasEditing?'對戰紀錄已更新':`已新增 ${rows.length} 場對戰紀錄`);
 }
 async function deleteMatch(id){
@@ -1672,10 +1816,17 @@ async function openFriendProfile(friendId){
     ? `對戰 ${st.total} 場 · 勝 ${st.wins} · 負 ${st.losses} · 勝率 ${st.win_rate}%`
     : '這位好友還沒有戰績資料，或設定為不公開。';
 
-  const {data:recent} = await sb.rpc('get_friend_recent_sessions', {target:friendId, limit_count:5});
-  document.getElementById('friendRecentSessions').innerHTML = (recent&&recent.length)
-    ? recent.map(r=>`<div class="record-item"><span>${r.play_date}</span><span class="subtitle">${r.location||''}</span></div>`).join('')
-    : '<div class="subtitle">沒有可顯示的打球紀錄</div>';
+  const shared = matches
+    .filter(m=>m.teammateId===friendId || m.opponentId===friendId || m.opponent2Id===friendId)
+    .sort((a,b)=> b.date.localeCompare(a.date) || (a.matchOrder??Number(a.id||0))-(b.matchOrder??Number(b.id||0)) || (a.gameNo||1)-(b.gameNo||1))
+    .slice(0,8);
+  document.getElementById('friendRecentSessions').innerHTML = shared.length
+    ? shared.map(m=>{
+        const role=m.teammateId===friendId?'隊友':'對手';
+        const kind=m.type==='雙打'?(m.doublesSubtype||'雙打'):'單打';
+        return `<div class="record-item"><span><b>${m.date}</b><br><small>${kind} · ${role}</small></span><span class="badge ${m.win?'win':'loss'}">${m.win?'勝':'負'}</span></div>`;
+      }).join('')
+    : '<div class="subtitle">尚無一起打球紀錄</div>';
 
   renderFriendHeadToHead(friendId);
 }
