@@ -148,7 +148,152 @@ textarea{width:100%;min-height:82px;padding:12px;resize:vertical}.match-section{
 .analysis-list{display:flex;flex-direction:column}.analysis-person{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}.analysis-person:last-child{border-bottom:0}.profile-section{padding:18px 0;border-bottom:1px solid var(--line)}.profile-section:last-child{border-bottom:0}.profile-section h3{margin:0 0 12px;font-size:16px}.notification-btn{position:relative;border:0;background:transparent;width:40px;height:40px;border-radius:12px;font-size:20px;display:grid;place-items:center}.notification-btn:hover{background:#f2f6f3}.notification-badge{position:absolute;right:1px;top:0;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--red);color:#fff;font-size:10px;font-weight:900;line-height:18px;text-align:center}.notification-item{padding:14px 0;border-bottom:1px solid var(--line)}.notification-item:last-child{border-bottom:0}.notification-item-head{display:flex;align-items:flex-start;gap:10px}.notification-copy{flex:1;line-height:1.55}.notification-actions{display:flex;gap:8px;margin-top:10px;justify-content:flex-end}.profile-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0}
 @media(max-width:1000px){.calendar-layout,.overview-grid,.bottom-grid{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,1fr)}.notes-layout{grid-template-columns:1fr}.category-panel{height:auto;position:static}.category-list{display:flex;overflow:auto}.cat{min-width:max-content}.cards{grid-template-columns:1fr}}
 @media(max-width:700px){.app{grid-template-columns:1fr}.sidebar{position:fixed;left:0;right:0;bottom:0;top:auto;height:70px;width:100%;flex-direction:row;padding:7px 10px;border-right:0;border-top:1px solid var(--line)}.logo,.side-bottom{display:none}.nav{flex-direction:row;justify-content:space-around}.nav-btn{flex:1}.nav-btn .icon{font-size:19px}.main{padding-bottom:72px}.topbar{padding:0 16px}.container{padding:18px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.stats-grid{grid-template-columns:1fr 1fr}.page-header{flex-direction:column}.cards{grid-template-columns:1fr}.calendar-panel,.record-panel,.content-panel{padding:16px}.day{height:58px;padding:6px}.weekdays,.days{gap:4px}.inline-action-row{justify-content:stretch}.inline-action-row .btn{flex:1}.friend-row-simple{flex-wrap:wrap}}
+
+/* ================= PWA / Mobile ================= */
+html,body{max-width:100%;overflow-x:hidden}
+body{padding-bottom:env(safe-area-inset-bottom)}
+.topbar{padding-top:max(12px,env(safe-area-inset-top))}
+@media (max-width: 768px){
+  body{background:#f7faf8}
+  .app-shell,.layout,.main-layout{display:block!important}
+  .sidebar{
+    position:fixed!important;
+    left:0;right:0;bottom:0;top:auto!important;
+    width:auto!important;height:auto!important;
+    z-index:80;
+    display:flex!important;
+    flex-direction:row!important;
+    justify-content:space-around;
+    gap:2px;
+    padding:7px 8px calc(7px + env(safe-area-inset-bottom))!important;
+    border-right:0!important;
+    border-top:1px solid var(--line);
+    background:rgba(255,255,255,.96);
+    backdrop-filter:blur(14px);
+  }
+  .sidebar .logo,.sidebar .brand,.sidebar-title,.sidebar-footer{display:none!important}
+  .nav-btn{
+    flex:1;
+    min-width:0;
+    margin:0!important;
+    padding:8px 4px!important;
+    border-radius:11px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:3px!important;
+    font-size:11px!important;
+    line-height:1.15!important;
+  }
+  .nav-btn .icon{font-size:18px!important;margin:0!important}
+  .topbar{
+    position:sticky;top:0;z-index:70;
+    padding-left:14px!important;padding-right:14px!important;
+    min-height:58px!important;
+    background:rgba(255,255,255,.96);
+    backdrop-filter:blur(14px);
+  }
+  .topbar .brand{font-size:20px!important}
+  .user-mini span#userNameTxt{display:none}
+  .container,.content,.main{
+    width:100%!important;max-width:none!important;
+    margin:0!important;
+    padding:14px 12px 92px!important;
+  }
+  .page-header{align-items:flex-start!important;gap:10px!important;flex-wrap:wrap!important}
+  .page-header h1{font-size:24px!important}
+  .notes-layout,.overview-grid,.grid2,.two,.form-grid,.calendar-layout{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:12px!important;
+  }
+  .category-panel{
+    overflow-x:auto;
+    padding:10px!important;
+  }
+  .category-list{
+    display:flex!important;
+    gap:8px!important;
+    min-width:max-content;
+  }
+  .category-list .category-btn,.category-list button{
+    white-space:nowrap;
+    width:auto!important;
+  }
+  .content-panel,.panel,.card,.detail{border-radius:16px!important}
+  .stats-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:10px!important;
+  }
+  .stat{padding:14px 10px!important}
+  .stat .value{font-size:24px!important}
+  .calendar-wrap,.calendar-card{width:100%!important}
+  .calendar-grid{gap:4px!important}
+  .day{min-height:46px!important;padding:5px!important;border-radius:10px!important}
+  .match-head-row{align-items:center!important;gap:8px!important}
+  .match-head-row .date{font-size:18px!important}
+  .match-list-scroll{max-height:330px!important}
+  .match-group-head{align-items:flex-start!important;gap:8px!important}
+  .match-group-head-actions{flex:none}
+  .friend-row-simple,.person,.record-item{
+    align-items:flex-start!important;
+    gap:9px!important;
+  }
+  .friend-actions{
+    display:flex!important;
+    flex-wrap:wrap!important;
+    justify-content:flex-end!important;
+    gap:6px!important;
+  }
+  .friend-search-bar{display:grid!important;grid-template-columns:1fr auto!important;gap:8px!important}
+  .drawer{
+    width:100%!important;
+    max-width:none!important;
+    border-radius:20px 20px 0 0!important;
+    left:0!important;right:0!important;top:auto!important;bottom:0!important;
+    max-height:88vh!important;
+  }
+  .modal{
+    width:calc(100vw - 20px)!important;
+    max-width:none!important;
+    max-height:90vh!important;
+    overflow:auto!important;
+    border-radius:18px!important;
+  }
+  .modal-body{padding:16px!important}
+  .modal-foot{
+    position:sticky;bottom:0;
+    background:#fff;
+    padding-bottom:calc(12px + env(safe-area-inset-bottom))!important;
+  }
+  input,select,textarea,.input{font-size:16px!important} /* prevent iOS zoom */
+  textarea{min-height:96px}
+  .match-type-toggle,.match-subtype-toggle{width:100%!important}
+  .game-row{
+    grid-template-columns:1fr!important;
+    gap:8px!important;
+  }
+  .game-row>div:first-child{min-width:0!important}
+  .session-box,.detail-box{overflow-wrap:anywhere}
+  .equip-card .etop{align-items:flex-start!important;gap:8px!important}
+}
+@media (max-width: 390px){
+  .container,.content,.main{padding-left:10px!important;padding-right:10px!important}
+  .nav-btn{font-size:10px!important}
+  .stats-grid{gap:8px!important}
+  .day{min-height:42px!important}
+}
+
 </style>
+
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#10a56e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="羽球人">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+
 </head>
 <body>
 
@@ -2072,5 +2217,14 @@ function exportData(){
   const a = document.createElement('a'); a.href=url; a.download=`羽球筆記備份_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url);
 }
 </script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(err => console.warn('Service worker registration failed', err));
+  });
+}
+</script>
+
 </body>
 </html>
