@@ -345,6 +345,92 @@ body{padding-bottom:env(safe-area-inset-bottom)}
   .gender-wrap{display:block!important}
 }
 
+
+/* v10: mobile viewport / overlay fix */
+@media (max-width:768px){
+  html,body{height:100%;min-height:100%;overscroll-behavior-y:none}
+  body{min-height:100dvh}
+
+  /* When a modal/drawer is open, it must sit above both the sticky top bar
+     and the fixed bottom navigation. */
+  .overlay{
+    z-index:190!important;
+    inset:0!important;
+  }
+  .drawer{
+    z-index:200!important;
+    top:max(8px,env(safe-area-inset-top))!important;
+    bottom:max(8px,env(safe-area-inset-bottom))!important;
+    height:auto!important;
+    max-height:none!important;
+    width:calc(100vw - 16px)!important;
+    right:8px!important;
+    border-radius:20px!important;
+    overflow:hidden!important;
+  }
+  .drawer-head{
+    flex:0 0 auto;
+    padding:18px 18px 14px!important;
+    background:#fff;
+  }
+  .drawer-body{
+    flex:1 1 auto;
+    min-height:0!important;
+    overflow-y:auto!important;
+    -webkit-overflow-scrolling:touch;
+    padding:16px 18px!important;
+  }
+  .drawer-foot{
+    flex:0 0 auto;
+    padding:12px 18px calc(12px + env(safe-area-inset-bottom))!important;
+    background:#fff;
+  }
+
+  .modal{
+    z-index:210!important;
+    left:10px!important;
+    right:10px!important;
+    top:max(8px,env(safe-area-inset-top))!important;
+    bottom:max(8px,env(safe-area-inset-bottom))!important;
+    width:auto!important;
+    max-width:none!important;
+    height:auto!important;
+    max-height:none!important;
+    margin:0!important;
+    transform:none!important;
+    border-radius:20px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    overflow:hidden!important;
+  }
+  .modal.open{transform:none!important}
+  .modal-head{
+    flex:0 0 auto;
+    padding:17px 18px!important;
+    background:#fff;
+  }
+  .modal-body{
+    flex:1 1 auto;
+    min-height:0!important;
+    overflow-y:auto!important;
+    -webkit-overflow-scrolling:touch;
+    padding:16px 18px!important;
+  }
+  .modal-foot{
+    flex:0 0 auto;
+    position:static!important;
+    padding:12px 18px calc(12px + env(safe-area-inset-bottom))!important;
+    background:#fff;
+  }
+
+  /* Internal app chrome should never cover an open surface. */
+  .topbar{z-index:70!important}
+  .sidebar{z-index:80!important}
+}
+
+
+#profileLogoutBtn{font-weight:800}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -685,6 +771,10 @@ body{padding-bottom:env(safe-area-inset-bottom)}
       <div class="field"><label>允許其他使用者搜尋到我的帳號</label><select id="privSearchable" style="width:100%"><option value="true">允許搜尋</option><option value="false">不顯示在好友搜尋結果</option></select></div>
       <div class="field" style="margin-top:14px"><label>我的打球/對戰紀錄</label><select id="privRecords" style="width:100%"><option value="friends">好友可見</option><option value="private">僅自己</option></select></div>
       <button class="btn primary" id="savePrivacyBtn" style="margin-top:12px">儲存隱私設定</button>
+    </div>
+
+    <div class="profile-section">
+      <button class="btn" id="profileLogoutBtn" style="width:100%;color:var(--red);border-color:#f0c6cc;background:#fff">登出</button>
     </div>
   </div>
 </div>
@@ -1030,6 +1120,7 @@ function initUI(){
   document.getElementById('notificationBtn').onclick = openNotifications;
   document.getElementById('savePrivacyBtn').onclick = savePrivacy;
   document.getElementById('saveProfileBtn').onclick = saveProfileBasics;
+  document.getElementById('profileLogoutBtn').onclick = ()=>{ if(confirm('確定要登出嗎？')) signOut(); };
   document.querySelectorAll('.onboarding-gender').forEach(b=>b.onclick=()=>{
     document.querySelectorAll('.onboarding-gender').forEach(x=>x.classList.toggle('active',x===b));
   });
@@ -2344,7 +2435,7 @@ async function savePrivacy(){
   const {error} = await sb.from('profiles').update({privacy}).eq('id', currentUser.id);
   if(error){ toast('儲存失敗：'+error.message); return; }
   myProfile.privacy = privacy;
-  toast('隱私設定已儲存'); 
+  toast('隱私設定已儲存');
 }
 
 /* ================= Export (manual backup) ================= */
