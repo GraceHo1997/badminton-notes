@@ -456,6 +456,30 @@ body{padding-bottom:env(safe-area-inset-bottom)}
 .ability-chart-wrap{overflow:visible!important}
 .ability-chart-wrap svg{width:min(100%,390px)!important;overflow:visible}
 @media(max-width:768px){.ability-chart-wrap{min-height:300px!important;padding:4px 8px 10px}.ability-chart-wrap svg{width:min(100%,350px)!important}}
+
+/* v14: mobile bottom navigation reliability */
+@media (max-width:768px){
+  .sidebar{
+    z-index:300!important;
+    pointer-events:auto!important;
+    isolation:isolate;
+  }
+  .sidebar .nav,
+  .sidebar .nav-btn{
+    pointer-events:auto!important;
+  }
+  .nav-btn{
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:transparent;
+    user-select:none;
+  }
+  /* Keep overlays below the bottom navigation so the user can always escape
+     to another main page. Modals/drawers still stay above the overlay. */
+  .overlay{z-index:190!important}
+  .drawer{z-index:310!important}
+  .modal{z-index:320!important}
+}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -967,6 +991,35 @@ async function loadAll(){
   }
   skills = (techs||[]).map(t=>({key:t.id, name:t.name, cat:t.category||'基礎動作', sub:t.sub_category||'其他', level:t.level||'初階', desc:t.content||'', mistakes:t.common_mistakes||'', notes:t.my_notes||'', rating:Number(t.self_rating||0)}));
 
+  // 舊帳號可能是在「偷後場」加入預設清單前就建立，
+  // 因此 techniques 不會重新 seed。缺少時自動補上。
+  if(!skills.some(s=>s.name==='偷後場')){
+    const flick = {
+      id:'seed_flick_serve',
+      name:'偷後場',
+      category:'發球與接發球',
+      sub_category:'發球',
+      level:'中階',
+      content:'以和短發球相近的準備動作，在對手站位偏前時突然把球送到後場，製造落差與突襲效果。',
+      tags:'',
+      key_points:'',
+      common_mistakes:'動作提示太明顯、出手過早露出長球意圖，或球速與落點不足讓對手仍能輕鬆後退處理。',
+      my_notes:'',
+      self_rating:0,
+      mastery:'待學習',
+      next_practice:false,
+      is_custom:false,
+      sort_order:26,
+      user_id:currentUser.id
+    };
+    const {error:flickErr}=await sb.from('techniques').insert(flick);
+    if(!flickErr){
+      skills.push({key:flick.id,name:flick.name,cat:flick.category,sub:flick.sub_category,level:flick.level,desc:flick.content,mistakes:flick.common_mistakes,notes:'',rating:0});
+    }else{
+      console.warn('補上偷後場技巧失敗',flickErr);
+    }
+  }
+
   let {data:sess, error:e2} = await sb.from('sessions').select('*');
   if(e2) throw e2;
   sessions = (sess||[]).map(s=>({date:s.date, location:s.location||'', start:s.start_time||'', end:s.end_time||'', duration:s.duration_minutes||null, tags:s.tags||'', practiceSkills:Array.isArray(s.practice_skills)?s.practice_skills:[], mood:s.mood||'', body:s.body_condition||'狀況良好', injury:s.injury||'', note:s.note||''}));
@@ -1100,6 +1153,16 @@ async function onSignedIn(user){
     appInitialized=false;
   }
 }
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'){
+    // Remove a stale backdrop only when no actual modal/drawer is open.
+    const surfaceOpen =
+      document.querySelector('.modal.open') ||
+      document.querySelector('.drawer.open');
+    if(!surfaceOpen) document.getElementById('overlay')?.classList.remove('open');
+  }
+});
+
 window.addEventListener('DOMContentLoaded', async ()=>{
   if(typeof supabase==='undefined'){ showLoadError('Supabase JS SDK 沒有載入成功，請檢查網路連線後重新整理頁面。'); return; }
   sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -1114,29 +1177,48 @@ window.addEventListener('DOMContentLoaded', async ()=>{
 
 /* ================= UI wiring (runs once after first sign-in) ================= */
 function initUI(){
-  document.querySelectorAll(".nav-btn[data-page]").forEach(b=>b.onclick=()=>{
-    document.querySelectorAll(".nav-btn[data-page]").forEach(x=>x.classList.toggle("active",x===b));
-    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-    document.getElementById("page-"+b.dataset.page).classList.add("active");
-    if(b.dataset.page==='analysis') renderAnalysis();
-    if(b.dataset.page==='friends'){
-      pendingOpponentName = '';
-      const friendInput = document.getElementById('friendSearchInput');
-      if(friendInput) friendInput.value = '';
-      const friendResults = document.getElementById('friendSearchResults');
-      if(friendResults) friendResults.innerHTML = '';
-      const friendContext = document.getElementById('friendMatchContext');
-      if(friendContext) friendContext.innerHTML = '';
-      renderFriends();
-    }
-    if(b.dataset.page==='calendar'){
-      const today = new Date();
-      calYear = today.getFullYear();
-      calMonth = today.getMonth();
-      selectedDate = localDateString(today);
-      renderCalendar();
-      renderDaySummary(selectedDate);
-    }
+  document.querySelectorAll(".nav-btn[data-page]").forEach(b=>{
+    const switchPage=()=>{
+      // Always clear any stale overlay/modal/drawer state first.
+      closeAll();
+      document.getElementById('overlay')?.classList.remove('open');
+
+      document.querySelectorAll(".nav-btn[data-page]").forEach(x=>x.classList.toggle("active",x===b));
+      document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+      const page=document.getElementById("page-"+b.dataset.page);
+      if(page) page.classList.add("active");
+
+      // Reset viewport after changing the main page, which is more reliable in iOS PWA.
+      requestAnimationFrame(()=>window.scrollTo({top:0,left:0,behavior:'auto'}));
+
+      if(b.dataset.page==='analysis') renderAnalysis();
+      if(b.dataset.page==='friends'){
+        pendingOpponentName = '';
+        const friendInput = document.getElementById('friendSearchInput');
+        if(friendInput) friendInput.value = '';
+        const friendResults = document.getElementById('friendSearchResults');
+        if(friendResults) friendResults.innerHTML = '';
+        const friendContext = document.getElementById('friendMatchContext');
+        if(friendContext) friendContext.innerHTML = '';
+        renderFriends();
+      }
+      if(b.dataset.page==='calendar'){
+        const today = new Date();
+        calYear = today.getFullYear();
+        calMonth = today.getMonth();
+        selectedDate = localDateString(today);
+        renderCalendar();
+        renderDaySummary(selectedDate);
+      }
+    };
+
+    // Click remains the primary event. touchend fallback helps iOS/PWA when
+    // a fixed element occasionally misses the synthetic click.
+    b.onclick=switchPage;
+    b.addEventListener('touchend',e=>{
+      e.preventDefault();
+      switchPage();
+    },{passive:false});
   });
   document.getElementById('skillSearch').oninput = renderNotes;
   document.getElementById('difficultyFilter').onchange = renderNotes;
@@ -1274,7 +1356,13 @@ function openSkill(key){
   document.getElementById('overlay').classList.add("open");
   document.getElementById('skillDrawer').classList.add("open");
 }
-function closeAll(){ document.getElementById('overlay').classList.remove("open"); document.getElementById('skillDrawer').classList.remove("open"); document.getElementById('friendDrawer').classList.remove("open"); document.querySelectorAll(".modal").forEach(m=>m.classList.remove("open")); }
+function closeAll(){
+  document.getElementById('overlay')?.classList.remove("open");
+  document.getElementById('skillDrawer')?.classList.remove("open");
+  document.getElementById('friendDrawer')?.classList.remove("open");
+  document.querySelectorAll(".modal").forEach(m=>m.classList.remove("open"));
+  document.body.classList.remove('modal-open','drawer-open');
+}
 function openModal(id){ document.getElementById('overlay').classList.add("open"); document.getElementById(id).classList.add("open"); }
 async function createSkill(){
   const name = document.getElementById('newSkillName').value.trim();
@@ -1983,18 +2071,18 @@ function renderAnalysis(){
     document.getElementById('recentFormBox').innerHTML='<div class="subtitle">這個期間沒有對戰紀錄</div>';
   }
 
-  const singleList=scopedMatches.filter(m=>m.type==='單打');
-  const doubleList=scopedMatches.filter(m=>m.type==='雙打');
-  const singles=winRateOf(singleList), doubles=winRateOf(doubleList);
+  // 類型戰況使用全部歷史紀錄；只要該類型有紀錄就固定顯示，
+  // 不受「最新對戰日 / 本月 / 今年」篩選影響。
+  const allSingles=matches.filter(m=>m.type==='單打');
+  const allDoubles=matches.filter(m=>m.type==='雙打');
   const barRow=(label,v,count)=>`<div class="bar-row"><div class="bar-head"><span>${label}（${count} 場）</span><span>${v===null?'尚無資料':v+'%'}</span></div><div class="bar-track"><div class="bar-fill" style="width:${v||0}%"></div></div></div>`;
   let typeHtml='';
-  if(singleList.length) typeHtml+=barRow('單打',singles,singleList.length);
-  if(doubleList.length) typeHtml+=barRow('雙打總計',doubles,doubleList.length);
+  if(allSingles.length) typeHtml+=barRow('單打',winRateOf(allSingles),allSingles.length);
   ['男雙','女雙','混雙'].forEach(t=>{
-    const list=doubleList.filter(m=>m.doublesSubtype===t);
+    const list=allDoubles.filter(m=>m.doublesSubtype===t);
     if(list.length) typeHtml+=barRow(t,winRateOf(list),list.length);
   });
-  document.getElementById('analysisBars').innerHTML=typeHtml;
+  document.getElementById('analysisBars').innerHTML=typeHtml || '<div class="subtitle">尚無分類戰況資料</div>';
 
   renderInsightsByDay();
   renderAbilityChart();
@@ -2057,7 +2145,7 @@ function renderTeammateStats(){
   box.innerHTML=groups.length?groups.map(g=>{
     const display=g.friendObj?g.friendObj.name:g.name;
     const tag=g.friendObj?`@${g.friendObj.username||''} · 好友`:(g.id?'已連結帳號':'未連結');
-    return `<div class="analysis-person"><span><b>${display}</b><br><small class="subtitle">${tag} · ${g.lastDate} · ${g.total} 場 · ${g.wins} 勝 ${g.losses} 負</small></span><b>${g.rate}%</b></div>`;
+    return `<div class="analysis-person"><span><b>${display}</b><br><small class="subtitle">${tag} · ${g.total} 場 · ${g.wins} 勝 ${g.losses} 負</small></span><b>${g.rate}%</b></div>`;
   }).join(''):`<div class="subtitle" style="padding:10px 0">目前尚無隊友分析資料</div>`;
 }
 function computeOpponentGroups(){
@@ -2100,7 +2188,7 @@ function renderOpponentStats(){
     const displayName = o.friendObj ? o.friendObj.name : o.name;
     const tag = o.friendObj ? `@${o.friendObj.username||''} · 好友` : (o.id ? '已連結帳號' : '未連結');
     const nameArg = JSON.stringify(o.name);
-    return `<div class="opp-row"><span><b>${displayName}</b><br><small class="subtitle">${tag} · ${o.lastDate} · ${o.total} 場 · 勝 ${o.wins} · 負 ${o.losses}</small></span><span style="display:flex;align-items:center;gap:10px"><b>${o.rate}%</b><button class="btn" onclick='openOpponentDetail(${o.id?`"${o.id}"`:'null'},${nameArg})'>查看</button></span></div>`;
+    return `<div class="opp-row"><span><b>${displayName}</b><br><small class="subtitle">${tag} · ${o.total} 場 · 勝 ${o.wins} · 負 ${o.losses}</small></span><span style="display:flex;align-items:center;gap:10px"><b>${o.rate}%</b><button class="btn" onclick='openOpponentDetail(${o.id?`"${o.id}"`:'null'},${nameArg})'>查看</button></span></div>`;
   }).join('') : '<div class="subtitle" style="padding:10px 0">目前尚無對手分析資料</div>';
 }
 function openOpponentDetail(id, name){
