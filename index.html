@@ -480,6 +480,27 @@ body{padding-bottom:env(safe-area-inset-bottom)}
   .modal{z-index:320!important}
 }
 
+
+/* v15: analysis date-range layout */
+@media (max-width:768px){
+  #recentStatusTitle{
+    width:100%;
+  }
+  #recentStatusTitle + .analysis-range-toggle{
+    width:100%;
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:6px;
+    margin-top:2px;
+  }
+  #recentStatusTitle + .analysis-range-toggle .analysis-range-btn{
+    width:100%;
+    padding:8px 5px;
+    text-align:center;
+    white-space:nowrap;
+  }
+}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -2050,39 +2071,46 @@ function analysisMatchesForRange(){
   return {list:matches.filter(m=>m.date&&m.date.startsWith(prefix)),label:`${now.getFullYear()} 年`};
 }
 function renderAnalysis(){
-  const total = matches.length, wins = matches.filter(m=>m.win).length, losses=total-wins;
-  const winRate = total? Math.round(wins/total*1000)/10 : 0;
+  const scoped=analysisMatchesForRange();
+  const scopedMatches=[...scoped.list].sort((a,b)=>a.date===b.date?(a.matchOrder??0)-(b.matchOrder??0)||(a.gameNo||1)-(b.gameNo||1):a.date.localeCompare(b.date));
+  document.getElementById('recentStatusTitle').textContent=scoped.label;
+
+  // 上方總戰績也跟著「最新對戰日 / 本月 / 今年」切換。
+  const total=scopedMatches.length;
+  const wins=scopedMatches.filter(m=>m.win).length;
+  const losses=total-wins;
+  const winRate=total?Math.round(wins/total*1000)/10:0;
   document.getElementById('analysisStatsGrid').innerHTML = `
     <div class="stat"><div>🏸</div><div class="value">${total}</div><div class="label">總對戰</div></div>
     <div class="stat"><div>✓</div><div class="value">${wins}</div><div class="label">勝場</div></div>
     <div class="stat"><div>✕</div><div class="value">${losses}</div><div class="label">負場</div></div>
     <div class="stat"><div>🔥</div><div class="value">${winRate}%</div><div class="label">勝率</div></div>`;
 
-  const scoped=analysisMatchesForRange();
-  const scopedMatches=[...scoped.list].sort((a,b)=>a.date===b.date?(a.matchOrder??0)-(b.matchOrder??0)||(a.gameNo||1)-(b.gameNo||1):a.date.localeCompare(b.date));
-  document.getElementById('recentStatusTitle').textContent=scoped.label;
-
   if(scopedMatches.length){
-    const scopedWins=scopedMatches.filter(m=>m.win).length;
-    const scopedRate=Math.round(scopedWins/scopedMatches.length*1000)/10;
-    const days=new Set(scopedMatches.map(m=>m.date)).size;
-    document.getElementById('recentFormBox').innerHTML=`<div class="insight" style="padding:0 0 10px;border:0"><span class="subtitle">${days} 個對戰日 · ${scopedMatches.length} 場 · ${scopedWins} 勝 ${scopedMatches.length-scopedWins} 負 · 勝率 ${scopedRate}%</span></div>`;
+    // 最新對戰日本身就是單一天，不再顯示「1 個對戰日」。
+    if(analysisRange==='latest'){
+      document.getElementById('recentFormBox').innerHTML =
+        `<div class="insight" style="padding:0 0 10px;border:0"><span class="subtitle">${total} 場 · ${wins} 勝 ${losses} 負 · 勝率 ${winRate}%</span></div>`;
+    }else{
+      const days=new Set(scopedMatches.map(m=>m.date)).size;
+      document.getElementById('recentFormBox').innerHTML =
+        `<div class="insight" style="padding:0 0 10px;border:0"><span class="subtitle">${days} 個對戰日 · ${total} 場 · ${wins} 勝 ${losses} 負 · 勝率 ${winRate}%</span></div>`;
+    }
   }else{
     document.getElementById('recentFormBox').innerHTML='<div class="subtitle">這個期間沒有對戰紀錄</div>';
   }
 
-  // 類型戰況使用全部歷史紀錄；只要該類型有紀錄就固定顯示，
-  // 不受「最新對戰日 / 本月 / 今年」篩選影響。
-  const allSingles=matches.filter(m=>m.type==='單打');
-  const allDoubles=matches.filter(m=>m.type==='雙打');
+  // 單打 / 男雙 / 女雙 / 混雙戰況也依目前日期範圍篩選。
+  const singleList=scopedMatches.filter(m=>m.type==='單打');
+  const doubleList=scopedMatches.filter(m=>m.type==='雙打');
   const barRow=(label,v,count)=>`<div class="bar-row"><div class="bar-head"><span>${label}（${count} 場）</span><span>${v===null?'尚無資料':v+'%'}</span></div><div class="bar-track"><div class="bar-fill" style="width:${v||0}%"></div></div></div>`;
   let typeHtml='';
-  if(allSingles.length) typeHtml+=barRow('單打',winRateOf(allSingles),allSingles.length);
+  if(singleList.length) typeHtml+=barRow('單打',winRateOf(singleList),singleList.length);
   ['男雙','女雙','混雙'].forEach(t=>{
-    const list=allDoubles.filter(m=>m.doublesSubtype===t);
+    const list=doubleList.filter(m=>m.doublesSubtype===t);
     if(list.length) typeHtml+=barRow(t,winRateOf(list),list.length);
   });
-  document.getElementById('analysisBars').innerHTML=typeHtml || '<div class="subtitle">尚無分類戰況資料</div>';
+  document.getElementById('analysisBars').innerHTML=typeHtml || '<div class="subtitle">這個期間尚無分類戰況資料</div>';
 
   renderInsightsByDay();
   renderAbilityChart();
