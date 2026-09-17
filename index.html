@@ -501,6 +501,10 @@ body{padding-bottom:env(safe-area-inset-bottom)}
   }
 }
 
+
+.rate-good{color:var(--green-dark)!important}
+.rate-bad{color:var(--red)!important}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -2075,16 +2079,21 @@ function renderAnalysis(){
   const scopedMatches=[...scoped.list].sort((a,b)=>a.date===b.date?(a.matchOrder??0)-(b.matchOrder??0)||(a.gameNo||1)-(b.gameNo||1):a.date.localeCompare(b.date));
   document.getElementById('recentStatusTitle').textContent=scoped.label;
 
-  // 上方總戰績也跟著「最新對戰日 / 本月 / 今年」切換。
+  // 最上方四個指標永遠顯示全部歷史紀錄。
+  const totalAll=matches.length;
+  const winsAll=matches.filter(m=>m.win).length;
+  const lossesAll=totalAll-winsAll;
+  const winRateAll=totalAll?Math.round(winsAll/totalAll*1000)/10:0;
+  document.getElementById('analysisStatsGrid').innerHTML = `
+    <div class="stat"><div>🏸</div><div class="value">${totalAll}</div><div class="label">總對戰</div></div>
+    <div class="stat"><div>✓</div><div class="value">${winsAll}</div><div class="label">勝場</div></div>
+    <div class="stat"><div>✕</div><div class="value">${lossesAll}</div><div class="label">負場</div></div>
+    <div class="stat"><div>🔥</div><div class="value">${winRateAll}%</div><div class="label">勝率</div></div>`;
+
   const total=scopedMatches.length;
   const wins=scopedMatches.filter(m=>m.win).length;
   const losses=total-wins;
   const winRate=total?Math.round(wins/total*1000)/10:0;
-  document.getElementById('analysisStatsGrid').innerHTML = `
-    <div class="stat"><div>🏸</div><div class="value">${total}</div><div class="label">總對戰</div></div>
-    <div class="stat"><div>✓</div><div class="value">${wins}</div><div class="label">勝場</div></div>
-    <div class="stat"><div>✕</div><div class="value">${losses}</div><div class="label">負場</div></div>
-    <div class="stat"><div>🔥</div><div class="value">${winRate}%</div><div class="label">勝率</div></div>`;
 
   if(scopedMatches.length){
     // 最新對戰日本身就是單一天，不再顯示「1 個對戰日」。
@@ -2173,7 +2182,7 @@ function renderTeammateStats(){
   box.innerHTML=groups.length?groups.map(g=>{
     const display=g.friendObj?g.friendObj.name:g.name;
     const tag=g.friendObj?`@${g.friendObj.username||''} · 好友`:(g.id?'已連結帳號':'未連結');
-    return `<div class="analysis-person"><span><b>${display}</b><br><small class="subtitle">${tag} · ${g.total} 場 · ${g.wins} 勝 ${g.losses} 負</small></span><b>${g.rate}%</b></div>`;
+    return `<div class="analysis-person"><span><b>${display}</b><br><small class="subtitle">${tag} · ${g.total} 場 · ${g.wins} 勝 ${g.losses} 負</small></span><b class="${g.rate>=50?'rate-good':'rate-bad'}">${g.rate}%</b></div>`;
   }).join(''):`<div class="subtitle" style="padding:10px 0">目前尚無隊友分析資料</div>`;
 }
 function computeOpponentGroups(){
@@ -2216,7 +2225,7 @@ function renderOpponentStats(){
     const displayName = o.friendObj ? o.friendObj.name : o.name;
     const tag = o.friendObj ? `@${o.friendObj.username||''} · 好友` : (o.id ? '已連結帳號' : '未連結');
     const nameArg = JSON.stringify(o.name);
-    return `<div class="opp-row"><span><b>${displayName}</b><br><small class="subtitle">${tag} · ${o.total} 場 · 勝 ${o.wins} · 負 ${o.losses}</small></span><span style="display:flex;align-items:center;gap:10px"><b>${o.rate}%</b><button class="btn" onclick='openOpponentDetail(${o.id?`"${o.id}"`:'null'},${nameArg})'>查看</button></span></div>`;
+    return `<div class="opp-row"><span><b>${displayName}</b><br><small class="subtitle">${tag} · ${o.total} 場 · 勝 ${o.wins} · 負 ${o.losses}</small></span><span style="display:flex;align-items:center;gap:10px"><b class="${o.rate>=50?'rate-good':'rate-bad'}">${o.rate}%</b><button class="btn" onclick='openOpponentDetail(${o.id?`"${o.id}"`:'null'},${nameArg})'>查看</button></span></div>`;
   }).join('') : '<div class="subtitle" style="padding:10px 0">目前尚無對手分析資料</div>';
 }
 function openOpponentDetail(id, name){
