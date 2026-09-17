@@ -450,6 +450,17 @@ body{padding-bottom:env(safe-area-inset-bottom)}
   .match-order-controls{flex-direction:row}
 }
 
+
+#addMatchBtn{margin-top:8px}
+
+
+.ability-chart-wrap{overflow:visible!important}
+.ability-chart-wrap canvas,.ability-chart-wrap svg{max-width:100%!important}
+@media(max-width:768px){
+  .ability-chart-wrap{padding:4px 2px 8px!important}
+  .ability-chart-wrap canvas,.ability-chart-wrap svg{width:100%!important;height:auto!important;max-height:320px!important}
+}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -783,7 +794,7 @@ body{padding-bottom:env(safe-area-inset-bottom)}
     <div class="profile-section" style="padding-top:0">
       <h3>基本資料</h3>
       <div class="field"><label>顯示名稱</label><input class="input" id="profileDisplayNameInput" style="width:100%" maxlength="40" placeholder="輸入你的名字"></div>
-      <div class="field" style="margin-top:12px"><label>性別</label><select id="profileGender" style="width:100%"><option value="男">♂ 男生</option><option value="女">♀ 女生</option></select></div>
+      <div class="field" style="margin-top:12px"><label>性別</label><select id="profileGender" style="width:100%"><option value="男">男生</option><option value="女">女生</option></select></div>
       <div class="profile-row"><span class="subtitle">羽球人帳號</span><strong id="profileUsername">-</strong></div>
       <button class="btn primary" id="saveProfileBtn" style="margin-top:10px">儲存基本資料</button>
           </div>
@@ -791,7 +802,7 @@ body{padding-bottom:env(safe-area-inset-bottom)}
       <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px"><h3 style="margin:0">我的裝備</h3><button class="btn" id="toggleEquipFormBtn">＋ 新增裝備</button></div>
       <div id="equipList"></div>
       <div id="equipForm" style="display:none;margin-top:14px"><input type="hidden" id="eqEditId">
-        <div class="form-grid"><div class="field"><label>類型</label><select id="eqType" style="width:100%"><option>球拍</option><option>球鞋</option><option>其他</option></select></div><div class="field"><label>名稱/型號</label><input class="input" id="eqName" style="width:100%" placeholder="例如：Astrox 100ZZ"></div><div class="field"><label>品牌</label><input class="input" id="eqBrand" style="width:100%"></div><div class="field"><label>磅數／尺寸</label><input class="input" id="eqTension" style="width:100%" placeholder="24-26 磅 或 尺寸"></div><div class="field" id="eqStringTypeField"><label>線種</label><input class="input" id="eqStringType" style="width:100%" placeholder="例如：BG80"></div><div class="field" id="eqLastStringDateField"><label>上次穿線日期</label><input class="input" id="eqLastStringDate" type="date" style="width:100%"></div><div class="field"><label>購入日期</label><input class="input" id="eqDate" type="date" style="width:100%"></div><div class="field full"><label>備註</label><input class="input" id="eqNote" style="width:100%"></div></div>
+        <div class="form-grid"><div class="field"><label>類型</label><select id="eqType" style="width:100%"><option>球拍</option><option>球鞋</option><option>其他</option></select></div><div class="field"><label>型號</label><input class="input" id="eqName" style="width:100%" placeholder="例如：Astrox 100ZZ"></div><div class="field"><label>品牌</label><input class="input" id="eqBrand" style="width:100%"></div><div class="field" id="eqTensionField"><label id="eqTensionLabel">磅數</label><input class="input" id="eqTension" style="width:100%" placeholder="24-26 磅 或 尺寸"></div><div class="field" id="eqStringTypeField"><label>線種</label><input class="input" id="eqStringType" style="width:100%" placeholder="例如：BG80"></div><div class="field" id="eqLastStringDateField"><label>上次穿線日期</label><input class="input" id="eqLastStringDate" type="date" style="width:100%"></div><div class="field"><label>購入日期</label><input class="input" id="eqDate" type="date" style="width:100%"></div><div class="field full"><label>備註</label><input class="input" id="eqNote" style="width:100%"></div></div>
         <div style="display:flex;gap:9px;margin-top:10px"><button class="btn primary" id="addEquipBtn">儲存裝備</button><button class="btn" id="cancelEquipBtn">取消</button></div>
       </div>
     </div>
@@ -2034,7 +2045,7 @@ function renderTeammateStats(){
     const friendObj=g.id?friends.find(f=>f.id===g.id):null;
     const lastDate=g.matches.reduce((mx,m)=>m.date>mx?m.date:mx,'');
     return {...g,total,wins,losses:total-wins,rate,friendObj,lastDate};
-  }).filter(g=>matches.length>0 && g.total>=threshold).sort((a,b)=>b.lastDate.localeCompare(a.lastDate)||b.total-a.total);
+  }).filter(g=>matches.length>0 && g.total>=threshold).sort((a,b)=>b.total-a.total||b.lastDate.localeCompare(a.lastDate)).slice(0,10);
   const box=document.getElementById('teammateStatsList'); if(!box)return;
   box.innerHTML=groups.length?groups.map(g=>{
     const display=g.friendObj?g.friendObj.name:g.name;
@@ -2077,7 +2088,7 @@ function renderOpponentStats(){
     const friendObj = g.id ? friends.find(f=>f.id===g.id) : null;
     const lastDate=g.matches.reduce((mx,m)=>m.date>mx?m.date:mx,'');
     return {...g, total, wins, losses, rate, friendObj, lastDate};
-  }).filter(g=>matches.length>0 && g.total>=threshold).sort((a,b)=>b.lastDate.localeCompare(a.lastDate)||b.total-a.total);
+  }).filter(g=>matches.length>0 && g.total>=threshold).sort((a,b)=>b.total-a.total||b.lastDate.localeCompare(a.lastDate)).slice(0,10);
   const box = document.getElementById('opponentStatsList');
   box.innerHTML = groups.length ? groups.map(o=>{
     const displayName = o.friendObj ? o.friendObj.name : o.name;
@@ -2111,12 +2122,29 @@ function openOpponentDetail(id, name){
 function equipIcon(type){ return type==='球鞋' ? '👟' : type==='其他' ? '🎒' : '🏸'; }
 function updateEquipmentStringFields(){
   const type=document.getElementById('eqType').value;
-  const show=type==='球拍';
+  const showString=type==='球拍';
+  const tensionField=document.getElementById('eqTensionField');
+  const tensionLabel=document.getElementById('eqTensionLabel');
+  const tensionInput=document.getElementById('eqTension');
   const f1=document.getElementById('eqStringTypeField');
   const f2=document.getElementById('eqLastStringDateField');
-  if(f1) f1.style.display=show?'block':'none';
-  if(f2) f2.style.display=show?'block':'none';
-  if(!show){
+
+  if(f1) f1.style.display=showString?'block':'none';
+  if(f2) f2.style.display=showString?'block':'none';
+
+  if(type==='球拍'){
+    if(tensionField) tensionField.style.display='block';
+    if(tensionLabel) tensionLabel.textContent='磅數';
+    if(tensionInput) tensionInput.placeholder='例如：25 磅';
+  }else if(type==='球鞋'){
+    if(tensionField) tensionField.style.display='block';
+    if(tensionLabel) tensionLabel.textContent='鞋號';
+    if(tensionInput) tensionInput.placeholder='例如：US 7 / 24 cm';
+  }else{
+    if(tensionField) tensionField.style.display='none';
+  }
+
+  if(!showString){
     document.getElementById('eqStringType').value='';
     document.getElementById('eqLastStringDate').value='';
   }
@@ -2132,7 +2160,7 @@ function clearEquipForm(){
   document.getElementById('eqName').value=''; document.getElementById('eqBrand').value=''; document.getElementById('eqTension').value=''; document.getElementById('eqStringType').value=''; document.getElementById('eqLastStringDate').value=''; document.getElementById('eqDate').value=''; document.getElementById('eqNote').value='';
 }
 function editEquipment(id){const e=equipment.find(x=>x.id===id);if(!e)return;document.getElementById('eqEditId').value=id;document.getElementById('eqType').value=e.type||'球拍';updateEquipmentStringFields();document.getElementById('eqName').value=e.name||'';document.getElementById('eqBrand').value=e.brand||'';document.getElementById('eqTension').value=e.tension||'';document.getElementById('eqStringType').value=e.stringType||'';document.getElementById('eqLastStringDate').value=e.lastStringDate||'';document.getElementById('eqDate').value=e.purchaseDate||'';document.getElementById('eqNote').value=e.notes||'';document.getElementById('equipForm').style.display='block';document.getElementById('addEquipBtn').textContent='更新裝備';}
-async function createEquipment(){const id=document.getElementById('eqEditId').value;const name=document.getElementById('eqName').value.trim();if(!name)return toast('請輸入裝備名稱/型號');const type=document.getElementById('eqType').value;const brand=document.getElementById('eqBrand').value.trim();const tension=document.getElementById('eqTension').value.trim();const stringType=type==='球拍'?document.getElementById('eqStringType').value.trim():'';const lastStringDate=type==='球拍'?document.getElementById('eqLastStringDate').value:'';const purchaseDate=document.getElementById('eqDate').value;const notes=document.getElementById('eqNote').value.trim();const payload={name,type,brand_model:brand,string_tension:tension,string_type:stringType,last_string_date:lastStringDate||null,purchase_date:purchaseDate||null,notes,is_active:true,user_id:currentUser.id};let data,error;if(id){const r=await sb.from('equipment').update(payload).eq('id',id).eq('user_id',currentUser.id).select().single();data=r.data;error=r.error;}else{const r=await sb.from('equipment').insert(payload).select().single();data=r.data;error=r.error;}if(error)return toast((id?'更新':'新增')+'失敗：'+error.message);const item={id:data.id,name,type,brand,tension,stringType,lastStringDate,purchaseDate,notes,active:true};if(id){const idx=equipment.findIndex(e=>String(e.id)===String(id));if(idx>=0)equipment[idx]=item;}else equipment.push(item);clearEquipForm();document.getElementById('equipForm').style.display='none';document.getElementById('addEquipBtn').textContent='儲存裝備';renderEquipment();toast(id?'裝備已更新':'裝備已新增');}
+async function createEquipment(){const id=document.getElementById('eqEditId').value;const name=document.getElementById('eqName').value.trim();if(!name)return toast('請輸入裝備型號');const type=document.getElementById('eqType').value;const brand=document.getElementById('eqBrand').value.trim();const tension=document.getElementById('eqTension').value.trim();const stringType=type==='球拍'?document.getElementById('eqStringType').value.trim():'';const lastStringDate=type==='球拍'?document.getElementById('eqLastStringDate').value:'';const purchaseDate=document.getElementById('eqDate').value;const notes=document.getElementById('eqNote').value.trim();const payload={name,type,brand_model:brand,string_tension:tension,string_type:stringType,last_string_date:lastStringDate||null,purchase_date:purchaseDate||null,notes,is_active:true,user_id:currentUser.id};let data,error;if(id){const r=await sb.from('equipment').update(payload).eq('id',id).eq('user_id',currentUser.id).select().single();data=r.data;error=r.error;}else{const r=await sb.from('equipment').insert(payload).select().single();data=r.data;error=r.error;}if(error)return toast((id?'更新':'新增')+'失敗：'+error.message);const item={id:data.id,name,type,brand,tension,stringType,lastStringDate,purchaseDate,notes,active:true};if(id){const idx=equipment.findIndex(e=>String(e.id)===String(id));if(idx>=0)equipment[idx]=item;}else equipment.push(item);clearEquipForm();document.getElementById('equipForm').style.display='none';document.getElementById('addEquipBtn').textContent='儲存裝備';renderEquipment();toast(id?'裝備已更新':'裝備已新增');}
 async function deleteEquipment(id){
   if(!confirm('確定要刪除這個裝備嗎？')) return;
   const {error} = await sb.from('equipment').delete().eq('id',id).eq('user_id', currentUser.id);
@@ -2359,7 +2387,7 @@ async function openFriendProfile(friendId){
       <div class="session-box"><div class="subtitle">最大敵手</div><strong>${rival&&rival.name?rival.name:'—'}</strong>${rival&&rival.games?`<div class="subtitle">對戰 ${rival.games} 場</div>`:''}</div>
     </div>`;
 
-  const recent=(ov.recent||[]).slice(0,3);
+  const recent=(ov.recent||[]).slice(0,1);
   document.getElementById('friendRecentSessions').innerHTML = recent.length
     ? recent.map(r=>`<div class="record-item"><span><b>${r.date}</b><br><small>${r.type||''}</small></span><span class="badge ${r.win?'win':'loss'}">${r.win?'勝':'負'}</span></div>`).join('')
     : '<div class="subtitle">尚無打球紀錄</div>';
