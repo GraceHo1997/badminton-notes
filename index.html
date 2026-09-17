@@ -505,6 +505,156 @@ body{padding-bottom:env(safe-area-inset-bottom)}
 .rate-good{color:var(--green-dark)!important}
 .rate-bad{color:var(--red)!important}
 
+
+/* ================= v17 Typography hierarchy ================= */
+/*
+  Desktop: H1 30 / H2 22 / H3 17 / H4 14 / Body 14 / Secondary 12.5
+  Mobile:  H1 24 / H2 20 / H3 16 / H4 14 / Body 14 / Secondary 12
+*/
+:root{
+  --fs-page-title:30px;
+  --fs-content-title:22px;
+  --fs-section-title:17px;
+  --fs-subsection-title:14px;
+  --fs-body:14px;
+  --fs-secondary:12.5px;
+}
+
+/* Page-level titles: Calendar / Friends / Analysis / Notes */
+.page > .page-header h1,
+.page > .top .title h1,
+.friend-page > .page-header h1{
+  font-size:var(--fs-page-title)!important;
+  line-height:1.2!important;
+  font-weight:850!important;
+}
+
+/* Main title inside a page, e.g. 全部技巧 */
+#notesTitle{
+  font-size:var(--fs-content-title)!important;
+  line-height:1.3!important;
+  font-weight:850!important;
+}
+
+/* Card / section titles */
+.chart-panel > h3,
+.recommend > h3,
+.ability-head h3,
+.friend-section-head h3,
+.profile-section h3,
+.section h3{
+  font-size:var(--fs-section-title)!important;
+  line-height:1.35!important;
+  font-weight:800!important;
+}
+
+/* Smaller subsection headings */
+.recent-practice-wrap h4{
+  font-size:var(--fs-subsection-title)!important;
+  line-height:1.4!important;
+  font-weight:800!important;
+}
+
+/* Calendar detail hierarchy */
+.detail > .match-head-row .date,
+#recordDate{
+  font-size:var(--fs-content-title)!important;
+  line-height:1.3!important;
+}
+.detail > .label,
+.detail .match-head-row > .label{
+  font-size:13px!important;
+  line-height:1.4!important;
+}
+
+/* Skill cards */
+.skill-name{
+  font-size:16px!important;
+  line-height:1.35!important;
+}
+.skill-desc{
+  font-size:var(--fs-body)!important;
+  line-height:1.55!important;
+}
+
+/* Secondary information */
+.subtitle,
+#notesCount,
+.month-play-count,
+.friend-account-line,
+.skill-rating-label,
+.recent-practice-item,
+.equip-card .emeta{
+  line-height:1.5;
+}
+
+/* Modal and drawer titles: important, but below page H1 */
+.modal-head{
+  font-size:20px!important;
+  line-height:1.3!important;
+}
+.drawer-head h2,
+#detailTitle,
+#friendDrawerName{
+  font-size:24px!important;
+  line-height:1.25!important;
+}
+
+/* Keep analysis card headings consistent even when inline styles exist */
+#recentStatusTitle{
+  font-size:var(--fs-section-title)!important;
+  line-height:1.35!important;
+}
+
+/* Buttons should not compete with headings */
+.btn,
+.match-type,
+.match-subtype{
+  font-size:14px;
+}
+
+@media(max-width:768px){
+  :root{
+    --fs-page-title:24px;
+    --fs-content-title:20px;
+    --fs-section-title:16px;
+    --fs-subsection-title:14px;
+    --fs-body:14px;
+    --fs-secondary:12px;
+  }
+
+  /* Override older .top .title h1 / page-header rules consistently */
+  .page > .page-header h1,
+  .page > .top .title h1,
+  .friend-page > .page-header h1{
+    font-size:24px!important;
+  }
+
+  #notesTitle{font-size:20px!important}
+
+  .chart-panel > h3,
+  .recommend > h3,
+  .ability-head h3,
+  .friend-section-head h3,
+  .profile-section h3,
+  .section h3,
+  #recentStatusTitle{
+    font-size:16px!important;
+  }
+
+  .modal-head{font-size:18px!important}
+  .drawer-head h2,
+  #detailTitle,
+  #friendDrawerName{
+    font-size:21px!important;
+  }
+
+  .detail > .match-head-row .date,
+  #recordDate{
+    font-size:20px!important;
+  }
+}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
