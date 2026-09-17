@@ -2344,7 +2344,7 @@ async function savePrivacy(){
   const {error} = await sb.from('profiles').update({privacy}).eq('id', currentUser.id);
   if(error){ toast('儲存失敗：'+error.message); return; }
   myProfile.privacy = privacy;
-  toast('隱私設定已儲存');
+  toast('隱私設定已儲存'); 
 }
 
 /* ================= Export (manual backup) ================= */
