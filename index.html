@@ -660,6 +660,7 @@ body{padding-bottom:env(safe-area-inset-bottom)}
 .match-type,.match-subtype{font-size:14px!important;font-weight:800!important;line-height:1.2!important;padding:10px 14px!important}
 @media(max-width:768px){.match-type,.match-subtype{font-size:14px!important;padding:10px 14px!important}}
 
+#languageToggle{padding:7px 9px;font-size:12px;white-space:nowrap;flex:none} html[lang="en"] .nav-btn{font-size:10px;line-height:1.2} html[lang="en"] .nav-btn span:last-child{text-align:center} html[lang="en"] .analysis-range-btn{white-space:normal!important} html[lang="en"] .brand{font-size:16px!important}
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -704,7 +705,7 @@ body{padding-bottom:env(safe-area-inset-bottom)}
       <div class="brand">羽球人</div>
       <div style="display:flex;align-items:center;gap:10px">
         <button class="notification-btn" id="notificationBtn" title="通知">🔔<span class="notification-badge" id="notificationBadge" style="display:none">0</span></button>
-        <div class="user-mini" id="userMenuBtn" style="cursor:pointer" title="開啟個人資訊"><div class="avatar" id="userAvatar">G</div><span id="userNameTxt">Grace</span><span class="profile-trigger-label">個人資訊</span><span class="profile-trigger-chevron">›</span></div>
+        <button class="btn" id="languageToggle" type="button" aria-label="Language">EN</button><div class="user-mini" id="userMenuBtn" style="cursor:pointer" title="開啟個人資訊"><div class="avatar" id="userAvatar">G</div><span id="userNameTxt">Grace</span><span class="profile-trigger-label">個人資訊</span><span class="profile-trigger-chevron">›</span></div>
       </div>
     </header>
     <div class="container">
@@ -958,7 +959,7 @@ body{padding-bottom:env(safe-area-inset-bottom)}
 <div class="modal" id="onboardingModal" style="width:min(560px,92vw);z-index:90">
   <div class="modal-head" style="display:flex;justify-content:space-between;align-items:center"><div>歡迎加入羽球人 🏸</div><span class="onboarding-progress" id="onboardingProgress">1 / 2</span></div>
   <div class="modal-body">
-    <div class="onboarding-step active" id="onboardingStep1">
+    <div class="onboarding-step active" id="onboardingStep1"><div class="field" style="margin-bottom:14px"><label>Language / 語言</label><select id="onboardingLanguage" style="width:100%"><option value="zh">繁體中文</option><option value="en">English</option></select></div>
       <div class="field"><label>顯示名稱</label><input class="input" id="onboardingName" style="width:100%" maxlength="40" placeholder="例如：Grace"></div>
       <div class="field" style="margin-top:14px"><label>性別</label><div class="match-type-toggle"><button type="button" class="match-type onboarding-gender" data-gender="男">男生</button><button type="button" class="match-type onboarding-gender" data-gender="女">女生</button></div></div>
     </div>
@@ -1301,6 +1302,7 @@ function onSignedOut(){
 async function onSignedIn(user){
   if(appInitialized) return; appInitialized=true;
   currentUser=user;
+  restoreLanguage();
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('appRoot').style.display='grid';
   const email=user.email||'';
@@ -2888,5 +2890,19 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 
+
+<script>
+const LANG_DICT = {"羽球人": "Badminton Notes", "打球日曆": "Calendar", "好友": "Friends", "戰績分析": "Match Analysis", "羽球筆記": "Skill Notes", "全部技巧": "All Skills", "技巧分類": "Categories", "全部難度": "All Levels", "初階": "Beginner", "中階": "Intermediate", "進階": "Advanced", "基礎動作": "Fundamentals", "步伐與移動": "Footwork", "發球與接發球": "Serve & Return", "前場技巧": "Net Play", "中場技巧": "Midcourt", "後場技巧": "Rear Court", "防守技巧": "Defense", "雙打站位與戰術": "Doubles Tactics", "個人資訊": "Profile", "通知": "Notifications", "登出": "Sign Out", "顯示名稱": "Display Name", "性別": "Gender", "男生": "Male", "女生": "Female", "下一步": "Next", "上一步": "Back", "完成設定": "Finish", "歡迎加入羽球人": "Welcome to Badminton Notes", "先自評你的大分類能力": "Rate your skills", "今日打球": "Session", "練習技巧": "Practice Skills", "對戰": "Matches", "新增打球紀錄": "Log Session", "編輯打球紀錄": "Edit Session", "新增對戰紀錄": "Add Match", "編輯對戰紀錄": "Edit Match", "新增對戰": "Add Match", "當天尚無打球紀錄": "No session recorded", "當天尚無練習紀錄": "No practice recorded", "當天尚無對戰紀錄": "No matches recorded", "有打球": "Session", "有對戰": "Match", "地點": "Location", "開始時間": "Start Time", "結束時間": "End Time", "總時長": "Duration", "心情": "Mood", "身體狀況": "Physical Condition", "受傷狀況": "Injury", "備註": "Notes", "備註（選填）": "Notes (optional)", "取消": "Cancel", "儲存打球紀錄": "Save Session", "儲存紀錄": "Save Match", "儲存修改": "Save Changes", "儲存": "Save", "編輯": "Edit", "刪除": "Delete", "對戰類型": "Match Type", "單打": "Singles", "雙打": "Doubles", "男雙": "Men’s Doubles", "女雙": "Women’s Doubles", "混雙": "Mixed Doubles", "隊伍資訊": "Players", "我方": "Our Side", "對手": "Opponent", "對戰結果": "Results", "勝": "Win", "敗": "Loss", "負": "Loss", "勝利": "Win", "落敗": "Loss", "新增一場對戰": "Add Game", "未知": "Unknown", "最新對戰日": "Latest Match Day", "本月": "This Month", "今年": "This Year", "總對戰": "Total Games", "勝場": "Wins", "負場": "Losses", "勝率": "Win Rate", "系統觀察": "Insights", "個人能力圖": "Skill Profile", "最近練習技巧": "Recent Practice", "對手分析": "Opponent Analysis", "隊友分析": "Partner Analysis", "查看": "View", "我的好友": "My Friends", "加入好友": "Add Friends", "好友邀請": "Friend Requests", "已送出的邀請": "Sent Requests", "等待對方接受": "Awaiting Acceptance", "目前沒有邀請": "No requests", "曾經一起打過的人": "Past Players", "搜尋": "Search", "我的帳號": "My Account", "複製帳號": "Copy Username", "接受": "Accept", "忽略": "Ignore", "基本資料": "Basic Information", "我的裝備": "My Equipment", "新增裝備": "Add Equipment", "類型": "Type", "球拍": "Racket", "球鞋": "Shoes", "其他": "Other", "品牌": "Brand", "型號": "Model", "磅數": "Tension", "鞋號": "Shoe Size", "線種": "String Type", "上次穿線日期": "Last Restring Date", "購入日期": "Purchase Date", "儲存裝備": "Save Equipment", "儲存基本資料": "Save Profile", "好友搜尋與隱私": "Privacy", "允許其他使用者搜尋到我的帳號": "Allow others to find my account", "允許搜尋": "Searchable", "不顯示在好友搜尋結果": "Hidden from search", "我的打球/對戰紀錄": "My Session / Match Records", "好友可見": "Friends Only", "僅自己": "Only Me", "儲存隱私設定": "Save Privacy", "技巧解釋": "Technique", "常見錯誤": "Common Mistakes", "我的筆記": "My Notes", "我的程度": "My Rating", "新增技巧": "Add Skill", "技巧名稱": "Skill Name", "難度": "Level", "大分類": "Category", "刪除技巧": "Delete Skill", "尚未填寫筆記": "No notes yet", "偷後場": "Flick Serve", "正手握拍": "Forehand Grip", "反手拇指握拍": "Backhand Thumb Grip", "握拍切換": "Grip Change", "反手短發球": "Backhand Short Serve", "正手殺球": "Forehand Smash", "最近對戰": "Recent Matches", "最近一起打球": "Last Played Together", "戰績摘要": "Match Summary", "最佳隊友 / 最大敵手": "Best Partner / Main Rival", "與我的對戰紀錄": "Head to Head", "刪除好友": "Remove Friend", "連結過去的對戰名字": "Link Past Player Names", "沒有新通知": "No new notifications", "加入我的紀錄": "Add to My Records", "使用 Google 帳號登入": "Sign in with Google", "載入中...": "Loading...", "這個期間沒有對戰紀錄": "No matches in this period", "這個期間尚無分類戰況資料": "No match types in this period", "尚無練習技巧紀錄": "No practice yet", "目前尚無對手分析資料": "No opponent data", "目前尚無隊友分析資料": "No partner data", "請輸入顯示名稱": "Enter your display name", "請選擇性別": "Select your gender", "請先完成所有大分類自評": "Rate all skill categories first", "基本資料已設定": "Profile saved", "確定要登出嗎？": "Sign out?", "搜尋羽球筆記裡技巧…": "Search skills…", "搜尋帳號或名字…": "Search username or name…", "搜尋技巧名稱或內容…": "Search skills…", "輸入你的名字": "Enter your name"};
+let uiLanguage=localStorage.getItem('badminton_language')||'zh';
+const originals=new WeakMap(); const attrOriginals=new WeakMap();
+function languageKey(){return 'badminton_language_'+(currentUser?.id||'guest');}
+function restoreLanguage(){uiLanguage=localStorage.getItem(languageKey())||localStorage.getItem('badminton_language')||'zh';applyLanguage();}
+function setLanguage(v){uiLanguage=v;localStorage.setItem('badminton_language',v);localStorage.setItem(languageKey(),v);applyLanguage();}
+function translateUI(raw){if(uiLanguage!=='en')return raw;let t=raw.trim();if(LANG_DICT[t])return raw.replace(t,LANG_DICT[t]);let prefix=t.match(/^(\+|＋|🔗|💡|👤|🤝|🏸)\s*(.+)$/u);if(prefix&&LANG_DICT[prefix[2]])return prefix[1]+' '+LANG_DICT[prefix[2]];return raw.replace(/這個月打球 (\d+) 次/g,'$1 sessions this month').replace(/共 (\d+) 個技巧/g,'$1 skills').replace(/第 (\d+) 場/g,'Game $1').replace(/(\d+) 場/g,'$1 games').replace(/(\d+) 勝/g,'$1 W').replace(/(\d+) 負/g,'$1 L').replace(/勝率 (?=\d)/g,'Win rate ').replace(/(\d+) 個對戰日/g,'$1 match days');}
+let translating=false;
+const langObserver=new MutationObserver(()=>applyLanguage());
+function applyLanguage(){if(translating)return;translating=true;langObserver.disconnect();document.documentElement.lang=uiLanguage==='en'?'en':'zh-Hant';const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let node;while(node=walker.nextNode()){const parent=node.parentElement;if(!parent||parent.closest('script,style,textarea,input,#notesDisplay,#detailDesc,#detailMistakes,.match-note,#userNameTxt,#userAvatar,.self-player,#friendDrawerName,#oppModalName'))continue;const prev=originals.get(node);const raw=prev&&node.data===prev.rendered?prev.raw:node.data;const rendered=translateUI(raw);if(parent.tagName==='OPTION'&&!parent.hasAttribute('value'))parent.value=raw.trim();if(node.data!==rendered)node.data=rendered;originals.set(node,{raw,rendered});}document.querySelectorAll('[placeholder],[title]').forEach(el=>{let map=attrOriginals.get(el)||{};for(const a of ['placeholder','title'])if(el.hasAttribute(a)){let val=el.getAttribute(a),old=map[a];let raw=old&&old.rendered===val?old.raw:val;let rendered=translateUI(raw);if(val!==rendered)el.setAttribute(a,rendered);map[a]={raw,rendered};}attrOriginals.set(el,map);});const b=document.getElementById('languageToggle');if(b)b.textContent=uiLanguage==='en'?'中文':'EN';const sel=document.getElementById('onboardingLanguage');if(sel)sel.value=uiLanguage;langObserver.observe(document.body,{subtree:true,childList:true,characterData:true});translating=false;}
+document.getElementById('languageToggle').onclick=()=>setLanguage(uiLanguage==='en'?'zh':'en');document.getElementById('onboardingLanguage').onchange=e=>setLanguage(e.target.value);applyLanguage();
+</script>
 </body>
 </html>
